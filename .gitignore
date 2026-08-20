@@ -10,6 +10,7 @@ node_modules/
 # Local QA and browser artifacts (kept on disk, not in repository history)
 output/
 qa/
+.playwright-cli/
 
 # Regenerable/raw production batches
 production/guofeng-work/

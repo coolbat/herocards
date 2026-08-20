@@ -92,11 +92,30 @@ test('legacy artwork calibration is exact at control points and rejects unsuppor
 test('active atlas asset is generated from the same declared projection', () => {
   assert.equal(AtlasModel.asset.src, 'assets/atlas/map-projected.svg');
   assert.equal(AtlasModel.asset.projectionId, AtlasModel.projection.id);
+  assert.equal(AtlasModel.asset.skinSrc, 'assets/atlas/map-skin-qianli-v1.png');
 
   const svg = fs.readFileSync(new URL('../assets/atlas/map-projected.svg', import.meta.url), 'utf8');
   assert.match(svg, /viewBox="0 0 2400 1600"/);
   assert.match(svg, /data-projection="web-mercator-eurasia-indian-ocean-v1"/);
+  assert.match(svg, /data-skin="qianli-qinglu-v1"/);
+  assert.match(svg, /data-source-href="map-skin-qianli-v1.png"/);
+  assert.match(svg, /href="data:image\/png;base64,/);
+  assert.match(svg, /clip-path="url\(#land-clip\)"/);
+  assert.match(svg, /id="china-mainland-outline"/);
+  assert.match(svg, /data-boundary-source="natural-earth-admin-0-110m"/);
   assert.match(svg, /Natural Earth/);
+});
+
+test('China mainland outline comes from the projected administrative dataset', () => {
+  const countries = JSON.parse(fs.readFileSync(
+    new URL('../assets/atlas/sources/ne_110m_admin_0_countries.geojson', import.meta.url),
+    'utf8'
+  ));
+  const china = countries.features.find((feature) => feature.properties.ISO_A3 === 'CHN');
+
+  assert.ok(china, 'Natural Earth should contain the China feature');
+  assert.equal(china.geometry.type, 'MultiPolygon');
+  assert.deepEqual(china.bbox, [73.675379, 18.197701, 135.026311, 53.4588]);
 });
 
 test('camera zooms local routes closer than cross-region routes and keeps pan overflow', () => {

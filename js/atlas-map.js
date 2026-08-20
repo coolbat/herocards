@@ -328,7 +328,7 @@
 
     var credit = document.createElement('div');
     credit.className = 'am-credit';
-    credit.textContent = '地理轮廓：Natural Earth';
+    credit.textContent = '地理轮廓：Natural Earth · 青绿山水皮肤：AI';
     viewport.appendChild(credit);
     container.appendChild(viewport);
 
