@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Atlas calibration · 旧图控制点</title>
+<style>
+  *{box-sizing:border-box}body{margin:0;background:#102e37;color:#f4e5bd;font-family:system-ui,sans-serif}
+  main{max-width:1180px;margin:0 auto;padding:18px}.head{display:flex;gap:14px;align-items:end;flex-wrap:wrap;margin-bottom:14px}
+  h1{margin:0;font-size:20px}.hint{margin:5px 0 0;color:#cbbd98;font-size:12px}.controls{margin-left:auto;display:flex;gap:8px;align-items:center}
+  select,button{height:36px;border:1px solid #c7a95c;border-radius:6px;background:#183f47;color:#f6e6b9;padding:0 10px}
+  .grid{display:grid;grid-template-columns:minmax(0,1fr) 330px;gap:16px}.stage{position:relative;aspect-ratio:3/2;overflow:hidden;border:1px solid #d1b56b;border-radius:8px;background:#071e24;cursor:crosshair}
+  .stage img{position:absolute;inset:0;width:100%;height:100%;display:block}.point{position:absolute;transform:translate(-50%,-50%);width:14px;height:14px;border:2px solid #fff5d5;border-radius:50%;background:#b13b2e;box-shadow:0 0 0 3px rgba(177,59,46,.4)}
+  .point::after{content:attr(data-label);position:absolute;left:15px;top:-7px;white-space:nowrap;padding:2px 5px;border-radius:4px;background:rgba(7,30,36,.85);font-size:10px;color:#fff1c8}
+  .point.active{background:#f4ca5a;box-shadow:0 0 0 5px rgba(244,202,90,.35)}
+  aside{padding:14px;border:1px solid #6e755c;border-radius:8px;background:#173740}.stats{font-size:12px;line-height:1.7;color:#d8cba9}
+  textarea{width:100%;height:390px;margin-top:10px;padding:10px;border:1px solid #65705b;border-radius:6px;background:#0b252c;color:#dcebdc;font:11px/1.5 ui-monospace,monospace;resize:vertical}
+  @media(max-width:760px){main{padding:10px}.grid{grid-template-columns:1fr}.controls{margin-left:0}.point::after{display:none}textarea{height:240px}}
+</style>
+</head>
+<body>
+<main>
+  <div class="head">
+    <div><h1>旧 2.5D 图控制点校准</h1><p class="hint">选择地点后点击底图；这里只校准旧图，正式地图使用真实投影 SVG。</p></div>
+    <div class="controls"><select id="pointSelect"></select><button id="resetBtn" type="button">重置</button><button id="copyBtn" type="button">复制 JSON</button></div>
+  </div>
+  <div class="grid">
+    <div class="stage" id="stage"><img src="../assets/atlas/map.webp" alt="旧 2.5D 地图"></div>
+    <aside><div class="stats" id="stats"></div><textarea id="output" spellcheck="false"></textarea></aside>
+  </div>
+</main>
+<script src="../js/atlas-data.js"></script>
+<script>
+(function(){
+  'use strict';
+  var original=window.ATLAS_MODEL.legacyCalibration;
+  var working=JSON.parse(JSON.stringify(original));
+  var stage=document.getElementById('stage');
+  var select=document.getElementById('pointSelect');
+  var output=document.getElementById('output');
+  var stats=document.getElementById('stats');
+
+  Object.keys(working.controlPoints).forEach(function(id){
+    var control=working.controlPoints[id];
+    var place=window.ATLAS_MODEL.places[control.placeId];
+    var option=document.createElement('option'); option.value=id; option.textContent=place.label+' · '+id; select.appendChild(option);
+  });
+
+  function render(){
+    stage.querySelectorAll('.point').forEach(function(node){node.remove();});
+    Object.keys(working.controlPoints).forEach(function(id){
+      var control=working.controlPoints[id];
+      var place=window.ATLAS_MODEL.places[control.placeId];
+      var point=document.createElement('span');
+      point.className='point'+(select.value===id?' active':'');
+      point.dataset.label=place.label;
+      point.style.left=(control.x*100)+'%'; point.style.top=(control.y*100)+'%';
+      point.addEventListener('click',function(event){event.stopPropagation();select.value=id;render();});
+      stage.appendChild(point);
+    });
+    output.value=JSON.stringify(working,null,2);
+    stats.textContent='控制点 '+Object.keys(working.controlPoints).length+' 个；三角网 '+working.triangles.length+' 个。网格外地点会返回 outside-calibration，不再外推伪坐标。';
+  }
+
+  stage.addEventListener('click',function(event){
+    var rect=stage.getBoundingClientRect();
+    var point=working.controlPoints[select.value];
+    point.x=Math.max(0,Math.min(1,(event.clientX-rect.left)/rect.width));
+    point.y=Math.max(0,Math.min(1,(event.clientY-rect.top)/rect.height));
+    render();
+  });
+  select.addEventListener('change',render);
+  document.getElementById('resetBtn').addEventListener('click',function(){working=JSON.parse(JSON.stringify(original));render();});
+  document.getElementById('copyBtn').addEventListener('click',function(){navigator.clipboard.writeText(output.value);});
+  render();
+})();
+</script>
+</body>
+</html>

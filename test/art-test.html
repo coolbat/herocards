@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- 让 assets/portraits 等相对路径与主站首页（站点根）解析一致 -->
+<base href="../">
+<title>CardArt 自测 · 艾泽拉斯英雄志</title>
+<!-- 与主站一致的字体，确保离屏 canvas 文字渲染与生产环境相同 -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Noto+Serif+SC:wght@400;600;700&family=Jost:wght@400;500;600&family=Noto+Sans+SC:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root { --gold: #c8a55a; --ink: #0b0f1c; }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; padding: 32px 24px 64px;
+    background: #0b0f1c;
+    color: #d8cfae;
+    font-family: 'Jost', 'Noto Sans SC', sans-serif;
+  }
+  h1 {
+    font-family: 'Cinzel', 'Noto Serif SC', serif;
+    font-weight: 600; font-size: 22px; letter-spacing: .12em;
+    color: var(--gold); margin: 0 0 6px;
+  }
+  p.note { margin: 0 0 24px; font-size: 13px; color: #8a8fa3; }
+  h2 {
+    font-family: 'Noto Serif SC', serif; font-size: 17px; font-weight: 600;
+    color: #e6d9ac; margin: 36px 0 12px;
+    border-left: 3px solid var(--gold); padding-left: 10px;
+  }
+  h2 small { font-weight: 400; color: #8a8fa3; font-size: 12px; margin-left: 8px; }
+  .row { display: flex; flex-wrap: wrap; gap: 14px; align-items: flex-start; }
+  figure { margin: 0; }
+  figure canvas {
+    display: block; width: 158px; height: auto;
+    background: #111; border: 1px solid #2a2f45;
+  }
+  figure.mini canvas { width: 150px; }
+  figcaption {
+    margin-top: 6px; font-size: 11px; letter-spacing: .08em;
+    color: #9aa0b8; text-align: center;
+  }
+  pre#log {
+    margin: 28px 0 0; padding: 14px 16px; font-size: 12px; line-height: 1.7;
+    background: #10152a; border: 1px solid #2a2f45; color: #9fd0a0;
+    white-space: pre-wrap;
+  }
+</style>
+</head>
+<body>
+
+<h1>CARD ART · 绘师自测台</h1>
+<p class="note">js/card-art.js —— 每张英雄卡输出 diffuse / height / rough / normal 四张 664×1024 贴图；本页并排目检。rough 应呈「金暗墨亮」（暗=光滑），height 应呈「金亮墨暗」（亮=凸起）。</p>
+
+<h2>联盟 · 传说 <small>安度因 · 牧师 / lion / legendary</small></h2>
+<div class="row" id="rowA"></div>
+
+<h2>部落 · 史诗 <small>萨尔 · 萨满 / storm / epic</small></h2>
+<div class="row" id="rowB"></div>
+
+<h2>中立 · 稀有 <small>布莱恩 · 猎人 / bow / rare</small></h2>
+<div class="row" id="rowC"></div>
+
+<h2>卡背 <small>paintBack() 四贴图</small></h2>
+<div class="row" id="rowBack"></div>
+
+<h2>缩略卡 <small>paintMini：166×256 与 300×464（app.js 实际调用尺寸）</small></h2>
+<div class="row" id="rowMini"></div>
+
+<h2>异常与降级 <small>接口防御</small></h2>
+<div class="row" id="rowGuard"></div>
+
+<h2>肖像接入对照 <small>真实英雄吉安娜（拱形肖像窗） vs 无图英雄（sigil 徽记降级）</small></h2>
+<div class="row" id="rowPortrait"></div>
+<div class="row" id="rowPortraitMini" style="margin-top:14px"></div>
+
+<pre id="log">日志加载中……</pre>
+
+<script src="../js/card-art.js"></script>
+<script>
+(function () {
+  'use strict';
+
+  var logEl = document.getElementById('log');
+  var lines = [];
+  function log(s) { lines.push(s); logEl.textContent = lines.join('\n'); }
+
+  /* ---------- 三个假英雄：联盟 / 部落 / 中立 × 传说 / 史诗 / 稀有 ---------- */
+  var HERO_A = {
+    id: 'test-anduin',
+    name:  { zh: '安度因·乌瑞恩', en: 'Anduin Wrynn' },
+    title: { zh: '暴风城国王', en: 'King of Stormwind' },
+    faction: 'alliance', class: 'priest',
+    race: { zh: '人类', en: 'Human' },
+    rarity: 'legendary', sigil: 'lion',
+    quote: '和平必须经由理解抵达。',
+    lore: '自测用假数据。',
+    stats: { might: 6, magic: 9, resolve: 10 }
+  };
+  var HERO_B = {
+    id: 'test-thrall',
+    name:  { zh: '萨尔', en: 'Thrall' },
+    title: { zh: '部落大酋长', en: 'Warchief of the Horde' },
+    faction: 'horde', class: 'shaman',
+    race: { zh: '兽人', en: 'Orc' },
+    rarity: 'epic', sigil: 'storm',
+    quote: '元素指引着我。',
+    lore: '自测用假数据。',
+    stats: { might: 8, magic: 9, resolve: 8 }
+  };
+  var HERO_C = {
+    id: 'test-brann',
+    name:  { zh: '布莱恩·铜须', en: 'Brann Bronzebeard' },
+    title: { zh: '探险者协会创始人', en: 'Founder of the Explorers\' League' },
+    faction: 'neutral', class: 'hunter',
+    race: { zh: '矮人', en: 'Dwarf' },
+    rarity: 'rare', sigil: 'bow',
+    quote: '答案就在下一个挖掘场。',
+    lore: '自测用假数据。',
+    stats: { might: 7, magic: 3, resolve: 9 }
+  };
+
+  /* ---------- 肖像接入对照：真实英雄（有肖像）与无图英雄（降级） ---------- */
+  var HERO_REAL = {
+    id: 'jaina-proudmoore',
+    name:  { zh: '吉安娜·普罗德摩尔', en: 'Jaina Proudmoore' },
+    title: { zh: '海军统帅', en: 'Lord Admiral of Kul Tiras' },
+    faction: 'alliance', class: 'mage',
+    race: { zh: '人类', en: 'Human' },
+    rarity: 'legendary', sigil: 'tide',
+    quote: '我仍相信和平，哪怕它一次次沉入大海。',
+    lore: '肖像接入自测（assets/portraits/jaina-proudmoore.png）。',
+    stats: { might: 4, magic: 10, resolve: 8 }
+  };
+  var HERO_NOIMG = {
+    id: 'test-no-portrait',
+    name:  { zh: '无名游侠', en: 'Nameless Ranger' },
+    title: { zh: '肖像缺失示例', en: 'No Portrait' },
+    faction: 'neutral', class: 'hunter',
+    race: { zh: '矮人', en: 'Dwarf' },
+    rarity: 'epic', sigil: 'bow',
+    quote: '', lore: '无图降级自测。',
+    stats: { might: 6, magic: 4, resolve: 7 }
+  };
+
+  /* ---------- 工具 ---------- */
+  function put(mount, canvas, caption, cls) {
+    var fig = document.createElement('figure');
+    if (cls) fig.className = cls;
+    canvas.style.width = '';           // 交由 CSS 控制展示尺寸
+    fig.appendChild(canvas);
+    var cap = document.createElement('figcaption');
+    cap.textContent = caption;
+    fig.appendChild(cap);
+    mount.appendChild(fig);
+  }
+
+  function showFaceSet(mount, hero, tag) {
+    var t0 = performance.now();
+    var set = window.CardArt.paintFace(hero);
+    var t1 = performance.now();
+    put(mount, set.diffuse, tag + ' · diffuse');
+    put(mount, set.height, tag + ' · height');
+    put(mount, set.rough,  tag + ' · rough');
+    put(mount, set.normal, tag + ' · normal');
+    log(tag + ' paintFace 首次绘制：' + (t1 - t0).toFixed(1) + ' ms');
+    var t2 = performance.now();
+    window.CardArt.paintFace(hero);    // 缓存命中
+    var t3 = performance.now();
+    log(tag + ' paintFace 缓存命中：' + (t3 - t2).toFixed(2) + ' ms');
+    // 尺寸断言
+    ['diffuse', 'height', 'rough', 'normal'].forEach(function (k) {
+      var c = set[k];
+      if (!c || c.width !== 664 || c.height !== 1024) {
+        log('!! ' + tag + ' ' + k + ' 尺寸异常：' + (c && c.width) + '×' + (c && c.height));
+      }
+    });
+  }
+
+  function run() {
+    if (!window.CardArt) { log('!! window.CardArt 缺失'); return; }
+    log('CardArt 契约：W=' + window.CardArt.W + ' H=' + window.CardArt.H);
+    log('WOW_CLASS_INFO 全局：' + (window.WOW_CLASS_INFO ? '存在（用全局表）' : '缺失（回退内置表）'));
+    log('WOW_RARITY_INFO 全局：' + (window.WOW_RARITY_INFO ? '存在（用全局表）' : '缺失（回退内置表）'));
+    log('字体：' + (document.fonts && document.fonts.check ? (
+      'Cinzel=' + document.fonts.check('600 30px Cinzel') +
+      ' NotoSerifSC=' + document.fonts.check('700 30px "Noto Serif SC"') +
+      ' Jost=' + document.fonts.check('500 18px Jost')) : 'unknown'));
+
+    showFaceSet(document.getElementById('rowA'), HERO_A, '联盟·传说');
+    showFaceSet(document.getElementById('rowB'), HERO_B, '部落·史诗');
+    showFaceSet(document.getElementById('rowC'), HERO_C, '中立·稀有');
+
+    var tb0 = performance.now();
+    var back = window.CardArt.paintBack();
+    var tb1 = performance.now();
+    var mB = document.getElementById('rowBack');
+    put(mB, back.diffuse, '卡背 · diffuse');
+    put(mB, back.height, '卡背 · height');
+    put(mB, back.rough,  '卡背 · rough');
+    put(mB, back.normal, '卡背 · normal');
+    log('卡背 paintBack 首次绘制：' + (tb1 - tb0).toFixed(1) + ' ms');
+
+    var mM = document.getElementById('rowMini');
+    put(mM, window.CardArt.paintMini(HERO_A, 166, 256), 'mini 166×256 · 安度因', 'mini');
+    put(mM, window.CardArt.paintMini(HERO_B, 300, 464), 'mini 300×464 · 萨尔', 'mini');
+    put(mM, window.CardArt.paintMini(HERO_C, 300, 464), 'mini 300×464 · 布莱恩', 'mini');
+    log('paintMini ×3 完成');
+
+    /* ---------- 防御性自测 ---------- */
+    var mG = document.getElementById('rowGuard');
+    try {
+      window.CardArt.paintFace(null);
+      log('!! paintFace(null) 未抛错（不符合预期）');
+    } catch (e) {
+      log('paintFace(null) 按预期抛错：' + e.message);
+    }
+    try {
+      // 字段大量缺失的残破 hero：应优雅降级不抛错
+      var broken = { id: 'test-broken' };
+      put(mG, window.CardArt.paintMini(broken, 166, 256), '残缺 hero 降级 mini', 'mini');
+      log('残缺 hero（仅 id）降级绘制成功');
+    } catch (e2) {
+      log('!! 残缺 hero 降级失败：' + e2.message);
+    }
+    try {
+      // 未知 sigil / 未知职业 / 未知稀有度：应回退默认
+      var weird = {
+        id: 'test-weird', name: { zh: '测试者', en: 'TESTER' },
+        title: { zh: '边界行者' }, faction: 'nowhere',
+        class: 'monk', race: { zh: '熊猫人' },
+        rarity: 'mythic', sigil: 'dragon', stats: { might: 999 }
+      };
+      put(mG, window.CardArt.paintMini(weird, 166, 256), '非法枚举回退 mini', 'mini');
+      log('非法枚举（monk/mythic/dragon/nowhere）回退绘制成功');
+    } catch (e3) {
+      log('!! 非法枚举回退失败：' + e3.message);
+    }
+    log('—— 基础自测完成，开始肖像接入自测 ——');
+
+    /* ---------- 肖像接入对照：preloadPortraits → 肖像窗 / 降级徽记 ---------- */
+    if (typeof window.CardArt.preloadPortraits !== 'function') {
+      log('!! CardArt.preloadPortraits 缺失，跳过肖像自测');
+      log('—— 自测完成 ——');
+      return;
+    }
+    var tp0 = performance.now();
+    window.CardArt.preloadPortraits([HERO_REAL, HERO_NOIMG]).then(function () {
+      var tp1 = performance.now();
+      log('preloadPortraits 完成（' + (tp1 - tp0).toFixed(0) + ' ms，Promise 未 reject ✓）');
+      var realHas = typeof window.CardArt.hasPortrait === 'function' && window.CardArt.hasPortrait(HERO_REAL);
+      var noimgHas = typeof window.CardArt.hasPortrait === 'function' && window.CardArt.hasPortrait(HERO_NOIMG);
+      log('jaina-proudmoore 肖像：' + (realHas ? '已加载（走拱形肖像窗）' : '未找到（请检查 assets/portraits/jaina-proudmoore.png）'));
+      log('test-no-portrait 肖像：' + (noimgHas ? '意外加载（!）' : '无图（预期，走 sigil 徽记降级）'));
+
+      var mP = document.getElementById('rowPortrait');
+      if (realHas) {
+        showFaceSet(mP, HERO_REAL, '吉安娜·肖像窗');
+      } else {
+        log('!! 吉安娜肖像缺失，肖像窗四贴图跳过');
+      }
+      showFaceSet(mP, HERO_NOIMG, '无图·降级徽记');
+
+      var mM2 = document.getElementById('rowPortraitMini');
+      put(mM2, window.CardArt.paintMini(HERO_REAL, 300, 464), 'mini · 吉安娜（肖像窗）', 'mini');
+      put(mM2, window.CardArt.paintMini(HERO_NOIMG, 300, 464), 'mini · 无图（徽记降级）', 'mini');
+      log('肖像对照 paintMini ×2 完成');
+      log('—— 自测完成 ——');
+    }, function (err) {
+      log('!! preloadPortraits 发生 reject（违反契约）：' + (err && err.message));
+    });
+  }
+
+  /* 等字体就绪再绘制（canvas 文字依赖已加载字体）；超时兜底直接画 */
+  var done = false;
+  function once() { if (!done) { done = true; run(); } }
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(once);
+    setTimeout(once, 2500);
+  } else {
+    window.addEventListener('load', once);
+    setTimeout(once, 2500);
+  }
+})();
+</script>
+</body>
+</html>

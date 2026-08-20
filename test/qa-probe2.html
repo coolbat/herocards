@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<base href="../">
+<link rel="stylesheet" href="css/style.css?v=2">
+</head>
+<body>
+<div class="app-shell" id="shell">
+<header class="site-header" id="hdr">
+  <div class="brand" id="brand">
+    <span class="brand-plaque">华夏人物图鉴</span>
+    <span class="brand-sub">二十四先贤 · 每日一晤</span>
+  </div>
+  <div class="collect-seal" id="seal"><span class="cs-label">已集</span><span class="cs-count">0/24</span></div>
+</header>
+</div>
+<pre id="out">…</pre>
+<script>
+function R(id){ var e=document.getElementById(id); var r=e.getBoundingClientRect(); return {x:Math.round(r.x),w:Math.round(r.width)}; }
+document.getElementById('out').textContent = JSON.stringify({
+  innerWidth: window.innerWidth,
+  shell: R('shell'), hdr: R('hdr'), brand: R('brand'), seal: R('seal')
+});
+</script>
+</body>
+</html>

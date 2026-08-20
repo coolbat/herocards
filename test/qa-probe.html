@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<base href="../">
+<link rel="stylesheet" href="css/style.css?v=2">
+</head>
+<body>
+<div class="app-shell">
+<header class="site-header">
+  <div class="brand">
+    <span class="brand-plaque">华夏人物图鉴</span>
+    <span class="brand-sub">二十四先贤 · 每日一晤</span>
+  </div>
+  <div class="collect-seal" id="collectBadge" title="收藏进度" aria-live="polite">
+    <span class="cs-label">已集</span>
+    <span class="cs-count" id="collectCount">0/24</span>
+  </div>
+</header>
+</div>
+<pre id="out">…</pre>
+<script>
+var el = document.getElementById('collectBadge');
+var r = el.getBoundingClientRect();
+var cs = getComputedStyle(el);
+document.getElementById('out').textContent = JSON.stringify({
+  rect: { x: r.x, y: r.y, w: r.width, h: r.height },
+  display: cs.display, bg: cs.backgroundImage.slice(0, 60),
+  color: cs.color, minW: cs.minWidth, padding: cs.padding
+}, null, 1);
+</script>
+</body>
+</html>

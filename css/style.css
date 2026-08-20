@@ -1,0 +1,838 @@
+/* ============================================================================
+   华夏人物图鉴 — 全站样式（v2 宣纸国风 · 移动端优先 · 小红书小工具）
+   ----------------------------------------------------------------------------
+   配色：宣纸米白底 + 墨色文字 + 朱砂主色 + 黛蓝匾额 + 泥金线条（与掐丝珐琅
+   卡面同族）。字体：Ma Shan Zheng 本地子集（匾额/标题）+ 系统宋体（正文）
+   + 崇羲篆体（印章点缀）。旧版魔兽皮备份：css/style.wow-legacy.css。
+   ========================================================================== */
+
+:root {
+  --paper: #F5EFE2;
+  --paper-lift: #FBF7EC;
+  --paper-dim: #EDE5D2;
+  --ink: #2B2A24;
+  --ink-dim: #6E6656;
+  --cinnabar: #B03A2E;
+  --cinnabar-deep: #963022;
+  --dai: #2E4A6B;
+  --dai-deep: #223854;
+  --gold: #B08D3E;
+  --gold-dim: rgba(176, 141, 62, 0.45);
+  --line: rgba(43, 42, 36, 0.14);
+  --serif: 'Ma Shan Zheng', 'Songti SC', 'STSong', serif;
+  --body: 'Songti SC', 'STSong', 'SimSun', serif;
+  --sans: 'PingFang SC', 'Microsoft YaHei', 'Noto Sans SC', sans-serif;
+  --tabbar-h: 60px;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: auto; }
+
+body {
+  background: #DCD3BE;
+  color: var(--ink);
+  font-family: var(--body);
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}
+
+a { color: inherit; text-decoration: none; }
+button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; }
+button:focus-visible { outline: 2px solid var(--cinnabar); outline-offset: 2px; }
+
+svg { display: block; }
+
+/* hidden 属性优先级兜底：CSS display 规则不得盖过 hidden（弹层/分享条/舞台切换依赖） */
+[hidden] { display: none !important; }
+
+/* 应用壳：桌面端居中 480 栏（小工具即手机形态），宣纸纹理底 */
+.app-shell {
+  position: relative;
+  max-width: 480px;
+  margin: 0 auto;
+  min-height: 100vh;
+  background:
+    radial-gradient(ellipse 90% 60% at 20% 0%, rgba(176, 141, 62, 0.06), transparent 60%),
+    radial-gradient(ellipse 70% 50% at 85% 90%, rgba(46, 74, 107, 0.05), transparent 65%),
+    repeating-linear-gradient(97deg, rgba(120, 100, 60, 0.018) 0 2px, transparent 2px 5px),
+    var(--paper);
+  box-shadow: 0 0 60px rgba(43, 42, 36, 0.18);
+  padding-bottom: calc(var(--tabbar-h) + env(safe-area-inset-bottom, 0px));
+}
+
+/* ---------------------------------------------------------------- 页头 */
+
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 14px 18px 12px;
+  background: rgba(245, 239, 226, 0.92);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--gold-dim);
+}
+
+.brand { display: flex; flex-direction: column; gap: 5px; }
+
+/* 直边匾额：黛蓝漆底 + 泥金描边 + 毛笔金字（与卡面匾额同款） */
+.brand-plaque {
+  display: inline-block;
+  font-family: var(--serif);
+  font-size: 21px;
+  letter-spacing: 0.14em;
+  padding: 5px 16px 6px;
+  color: #E8D49A;
+  background: linear-gradient(180deg, var(--dai) 0%, var(--dai-deep) 100%);
+  border: 1.5px solid var(--gold);
+  box-shadow: inset 0 0 0 3px rgba(232, 212, 154, 0.12), 0 2px 8px rgba(34, 56, 84, 0.35);
+}
+
+.brand-sub {
+  font-family: var(--sans);
+  font-size: 11px;
+  letter-spacing: 0.28em;
+  color: var(--ink-dim);
+}
+
+/* 进度朱印：白文方印样式 */
+.collect-seal {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-width: 52px;
+  padding: 6px 9px;
+  color: #F3E9CF;
+  background: linear-gradient(160deg, #C04536 0%, var(--cinnabar) 55%, var(--cinnabar-deep) 100%);
+  border-radius: 7px;
+  border: 1px solid rgba(60, 10, 8, 0.55);
+  box-shadow: 0 2px 6px rgba(150, 48, 34, 0.35);
+}
+
+.cs-label { font-size: 10px; letter-spacing: 0.3em; padding-left: 0.3em; opacity: 0.85; }
+.cs-count { font-family: var(--sans); font-size: 13px; font-weight: 600; letter-spacing: 0.04em; }
+
+/* ---------------------------------------------------------------- Tab 面板 */
+
+.tab-panel { display: none; padding: 22px 18px 30px; }
+.tab-panel.is-active { display: block; }
+
+/* ------------------------------------------------------------ 签筒舞台 */
+
+.tube-stage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 26px;
+}
+
+.tube-wrap { position: relative; width: 190px; }
+
+.tube-svg { width: 100%; height: auto; }
+.tube-svg .stick { fill: #C9A55C; stroke: #8F7339; stroke-width: 1; }
+.tube-svg .stick-dim { fill: #B39354; }
+.tube-svg .tube-body { fill: #7A5230; stroke: #5E3E22; stroke-width: 2; }
+.tube-svg .tube-rim { fill: #8F6339; stroke: #5E3E22; stroke-width: 2; }
+.tube-svg .tube-band { fill: var(--gold); opacity: 0.85; }
+.tube-svg .tube-leiwen path { stroke: #5E3E22; stroke-width: 1.4; }
+.tube-svg .tube-seal { fill: var(--cinnabar); }
+.tube-svg .tube-seal-char {
+  font-family: 'Chong Xi Small Seal', 'Ma Shan Zheng', serif;
+  font-size: 13px;
+  fill: #F3E9CF;
+}
+
+/* 摇签仪式：is-shaking 由 app.js 在请卡时挂上，摇三下 */
+.tube-wrap.is-shaking .tube-svg {
+  animation: tube-shake 0.9s ease-in-out;
+  transform-origin: 50% 92%;
+}
+
+@keyframes tube-shake {
+  0%, 100% { transform: rotate(0deg); }
+  12% { transform: rotate(-7deg); }
+  28% { transform: rotate(6deg); }
+  44% { transform: rotate(-5deg); }
+  60% { transform: rotate(4deg); }
+  76% { transform: rotate(-2deg); }
+}
+
+/* 摇出的签：默认藏在筒顶，is-fallen 落下 */
+.tube-fallen-stick {
+  position: absolute;
+  left: 50%;
+  top: -6px;
+  width: 30px;
+  height: 92px;
+  transform: translate(-50%, -30px);
+  opacity: 0;
+  border-radius: 4px;
+  background: linear-gradient(180deg, #D9B96E, #C9A55C);
+  border: 1px solid #8F7339;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding-bottom: 8px;
+  pointer-events: none;
+}
+
+.tube-fallen-stick .fs-text {
+  font-family: var(--serif);
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  color: #5E3E22;
+  writing-mode: vertical-rl;
+}
+
+.tube-fallen-stick.is-fallen {
+  animation: stick-fall 0.55s cubic-bezier(0.3, 1.4, 0.5, 1) forwards;
+}
+
+@keyframes stick-fall {
+  from { opacity: 0; transform: translate(-50%, -46px); }
+  to { opacity: 1; transform: translate(-50%, 26px); }
+}
+
+.tube-hint {
+  margin-top: 26px;
+  font-family: var(--serif);
+  font-size: 19px;
+  letter-spacing: 0.12em;
+  color: var(--ink);
+}
+
+/* 朱砂印形主按钮 */
+.seal-btn {
+  margin-top: 18px;
+  padding: 13px 34px;
+  color: #F3E9CF;
+  background: linear-gradient(160deg, #C04536 0%, var(--cinnabar) 55%, var(--cinnabar-deep) 100%);
+  border: 1px solid rgba(60, 10, 8, 0.55);
+  border-radius: 10px;
+  box-shadow: 0 4px 14px rgba(150, 48, 34, 0.35), inset 0 0 0 3px rgba(243, 233, 207, 0.14);
+  transition: transform 160ms ease, box-shadow 160ms ease;
+}
+
+.seal-btn:active { transform: scale(0.96); }
+
+.seal-btn-text {
+  font-family: var(--serif);
+  font-size: 21px;
+  letter-spacing: 0.22em;
+  padding-left: 0.22em;
+}
+
+.tube-note {
+  margin-top: 20px;
+  font-family: var(--sans);
+  font-size: 11.5px;
+  letter-spacing: 0.16em;
+  color: var(--ink-dim);
+}
+
+/* ------------------------------------------------------------ 卡牌舞台 */
+
+.card-stage {
+  position: relative;
+  width: min(78vw, 340px);
+  margin: 0 auto;
+}
+
+/* card-mover 承载抽卡入场位移/旋转/缩放与翻面透视，使灭点随卡牌一同移动 */
+.card-mover {
+  position: relative;
+  perspective: 1400px;
+  will-change: transform;
+}
+
+/* 动态阴影：app.js 用 transform 驱动，与指针主光源反向滑动 */
+.card-shadow {
+  position: absolute;
+  inset: 3.5% 4.5%;
+  border-radius: 28px;
+  background: rgba(30, 26, 16, 0.5);
+  filter: blur(26px);
+  transform: translate3d(0, 22px, 0);
+  will-change: transform, opacity;
+  pointer-events: none;
+}
+
+.card-tilt {
+  position: relative;
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+.card-obj {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 664 / 1024;   /* 与 CardArt.W / CardArt.H 契约一致 */
+  filter: drop-shadow(0 5px 12px rgba(43, 42, 36, 0.35));
+  backface-visibility: hidden;
+}
+
+/* 卡背：与正面共面，预旋转 180°，翻面时显露 */
+.card-back {
+  position: absolute;
+  inset: 0;
+  transform: rotateY(180deg);
+  filter: drop-shadow(0 5px 12px rgba(43, 42, 36, 0.35));
+  backface-visibility: hidden;
+}
+
+.card-obj canvas,
+.card-back canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* WebGL 光照层就绪后隐藏 DOM 静态卡面 */
+.card-obj.is-webgl .card-face,
+.card-back.is-webgl .card-face { visibility: hidden; }
+
+/* 静态降级卡面（无 WebGL 时） */
+.card-face {
+  position: absolute;
+  inset: 0;
+  border-radius: 4.5% / 3%;
+  overflow: hidden;
+  background: linear-gradient(175deg, #1C2B42 0%, #12203A 48%, #0D1830 100%);
+  border: 1px solid var(--gold-dim);
+  box-shadow: inset 0 0 0 5px #101B30, inset 0 0 0 6px var(--gold-dim);
+}
+
+/* 静态卡背（降级层）：黛蓝底 + 朱砂「群英」印 */
+.card-face-back {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background:
+    radial-gradient(ellipse 100% 80% at 50% 42%, rgba(176, 141, 62, 0.12), transparent 60%),
+    linear-gradient(175deg, #1C2B42 0%, #12203A 55%, #0D1830 100%);
+}
+
+.cb-seal {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 34%;
+  aspect-ratio: 1;
+  font-family: 'Chong Xi Small Seal', 'Ma Shan Zheng', serif;
+  font-size: clamp(22px, 6vw, 34px);
+  color: #F3E9CF;
+  background: linear-gradient(160deg, #C04536, var(--cinnabar-deep));
+  border-radius: 10%;
+  border: 1px solid rgba(60, 10, 8, 0.55);
+}
+
+/* 旧卡飞出克隆：fixed 覆盖在卡牌原位置，由 app.js 飞向页面左上 */
+.card-fly {
+  position: fixed;
+  z-index: 80;
+  perspective: 1400px;
+  pointer-events: none;
+}
+
+.card-fly-inner {
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+.fly-face {
+  position: absolute;
+  inset: 0;
+  filter: drop-shadow(0 5px 12px rgba(43, 42, 36, 0.35));
+  backface-visibility: hidden;
+}
+
+.fly-face.fly-back { transform: rotateY(180deg); }
+
+.fly-face canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+
+/* ------------------------------------------------------------- 题款区 */
+
+.card-quote {
+  margin: 30px auto 0;
+  max-width: 30ch;
+  font-family: var(--serif);
+  font-size: 20px;
+  letter-spacing: 0.08em;
+  line-height: 1.6;
+  color: var(--ink);
+  text-align: center;
+}
+
+.card-quote em { font-style: normal; }
+
+.qmark { color: var(--cinnabar); font-size: 1.15em; line-height: 0; padding-inline: 0.06em; }
+
+.draw-streak {
+  margin-top: 22px;
+  text-align: center;
+  font-family: var(--sans);
+  font-size: 12.5px;
+  letter-spacing: 0.18em;
+  color: var(--ink-dim);
+}
+
+/* ------------------------------------------------------------- 分享条 */
+
+.share-bar {
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+  margin-top: 22px;
+}
+
+.share-btn {
+  padding: 10px 22px;
+  font-family: var(--serif);
+  font-size: 16px;
+  letter-spacing: 0.14em;
+  border-radius: 9px;
+  border: 1.5px solid var(--cinnabar);
+  transition: transform 160ms ease, background 160ms ease;
+}
+
+.share-btn:active { transform: scale(0.96); }
+
+.share-note {
+  color: #F3E9CF;
+  background: linear-gradient(160deg, #C04536, var(--cinnabar-deep));
+  box-shadow: 0 3px 10px rgba(150, 48, 34, 0.3);
+}
+
+.share-save {
+  color: var(--cinnabar);
+  background: rgba(176, 58, 46, 0.06);
+}
+
+/* ------------------------------------------------------------- 图鉴 */
+
+.collection-head { position: relative; padding-top: 6px; }
+
+/* 竖排 eyebrow 点缀 */
+.eyebrow-vert {
+  position: absolute;
+  top: 4px;
+  right: 0;
+  writing-mode: vertical-rl;
+  font-family: var(--serif);
+  font-size: 15px;
+  letter-spacing: 0.5em;
+  color: var(--gold);
+  border-left: 1px solid var(--gold-dim);
+  padding-left: 8px;
+  height: 96px;
+}
+
+.collection-title {
+  font-family: var(--serif);
+  font-size: 30px;
+  letter-spacing: 0.14em;
+  color: var(--ink);
+}
+
+.collection-sub {
+  margin-top: 8px;
+  font-size: 13.5px;
+  letter-spacing: 0.06em;
+  color: var(--ink-dim);
+}
+
+.class-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.chip {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--sans);
+  font-size: 13.5px;
+  letter-spacing: 0.08em;
+  color: var(--ink-dim);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 8px 16px;
+  background: var(--paper-lift);
+  transition: border-color 160ms ease, color 160ms ease, background 160ms ease;
+}
+
+.chip .chip-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--dot, var(--gold));
+  flex: none;
+}
+
+.chip.is-active {
+  color: #F3E9CF;
+  border-color: var(--cinnabar);
+  background: var(--cinnabar);
+}
+
+.chip.is-active .chip-dot { background: #F3E9CF; }
+
+/* 进度条 */
+.progress { margin-top: 24px; }
+
+.progress-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  font-family: var(--sans);
+  font-size: 12.5px;
+  letter-spacing: 0.12em;
+  color: var(--ink-dim);
+  margin-bottom: 9px;
+}
+
+.progress-pct { color: var(--cinnabar); font-weight: 600; }
+
+.progress-track {
+  height: 6px;
+  border-radius: 999px;
+  background: rgba(43, 42, 36, 0.1);
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  width: 0%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--cinnabar-deep), var(--cinnabar) 60%, #D0645A);
+  transition: width 700ms cubic-bezier(0.22, 0.8, 0.3, 1);
+}
+
+/* 卡牌网格 */
+.dex-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.dex-card {
+  position: relative;
+  aspect-ratio: 664 / 1024;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid var(--gold-dim);
+  background: var(--dai-deep);
+  transition: transform 200ms ease, box-shadow 200ms ease, border-color 200ms ease;
+}
+
+.dex-card canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.dex-card.owned:active { transform: scale(0.97); }
+
+@media (hover: hover) {
+  .dex-card.owned:hover {
+    transform: translateY(-4px);
+    border-color: var(--gold);
+    box-shadow: 0 12px 26px rgba(43, 42, 36, 0.28);
+  }
+}
+
+/* 已收集卡底部名字条 */
+.dex-caption {
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 20px 8px 8px;
+  background: linear-gradient(to top, rgba(13, 24, 48, 0.92), transparent);
+  font-family: var(--sans);
+  font-size: 11.5px;
+  letter-spacing: 0.08em;
+  color: #F3E9CF;
+  pointer-events: none;
+}
+
+.dex-caption .chip-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--dot, var(--gold));
+  flex: none;
+}
+
+/* 未收集：宣纸底 + 水墨剪影 */
+.dex-card.locked {
+  border-style: dashed;
+  border-color: rgba(43, 42, 36, 0.18);
+  background: var(--paper-dim);
+}
+
+.dex-locked {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  background:
+    radial-gradient(ellipse 90% 70% at 50% 40%, rgba(43, 42, 36, 0.05), transparent 65%),
+    var(--paper-dim);
+}
+
+.dex-locked svg {
+  width: 38%;
+  color: var(--ink);
+  opacity: 0.18;
+}
+
+.dex-q {
+  font-family: var(--serif);
+  font-size: 14px;
+  letter-spacing: 0.3em;
+  color: var(--ink-dim);
+  opacity: 0.75;
+  padding-left: 0.3em; /* 视觉居中补偿字距 */
+}
+
+.dex-empty {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 44px 0;
+  color: var(--ink-dim);
+  font-size: 14px;
+  letter-spacing: 0.1em;
+}
+
+/* ------------------------------------------------------------ 全屏视图（详情 / 地图） */
+
+.view-panel {
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background:
+    radial-gradient(ellipse 90% 50% at 50% 0%, rgba(176, 141, 62, 0.07), transparent 60%),
+    var(--paper);
+  overflow: hidden;
+  animation: view-in 260ms ease-out;
+}
+
+.view-panel[hidden] { display: none; }
+
+@keyframes view-in {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.view-back {
+  position: absolute;
+  top: calc(10px + env(safe-area-inset-top, 0px));
+  left: 12px;
+  z-index: 5;
+  padding: 7px 14px;
+  font-family: var(--serif);
+  font-size: 15px;
+  letter-spacing: 0.1em;
+  color: var(--ink);
+  background: rgba(251, 247, 236, 0.88);
+  border: 1px solid var(--gold-dim);
+  border-radius: 999px;
+  box-shadow: 0 2px 8px rgba(43, 42, 36, 0.14);
+}
+
+/* 人物详情页 */
+#panel-hero {
+  justify-content: center;
+  padding: calc(44px + env(safe-area-inset-top, 0px)) 0 calc(20px + env(safe-area-inset-bottom, 0px));
+}
+
+.hero-stage { width: min(72vw, 320px); }
+
+#panel-hero .card-quote { margin-top: 20px; font-size: 18px; }
+
+.hero-actions {
+  margin-top: 18px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.share-bar-hero { margin-top: 12px; }
+
+.share-bar-hero .share-btn {
+  padding: 8px 16px;
+  font-size: 13px;
+  opacity: 0.92;
+}
+
+/* 行旅地图页 */
+.view-panel-map { background: #1E2E3A; }
+
+.map-head {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 6;
+  display: flex;
+  align-items: center;
+  padding: calc(10px + env(safe-area-inset-top, 0px)) 12px 10px;
+  pointer-events: none;   /* 头部条不挡地图拖动，按钮自身恢复交互 */
+}
+
+.map-head .view-back { position: static; pointer-events: auto; }
+
+.map-title {
+  margin-left: 12px;
+  font-family: var(--serif);
+  font-size: 17px;
+  letter-spacing: 0.2em;
+  color: #F3E9CF;
+  text-shadow: 0 1px 4px rgba(10, 14, 18, 0.6);
+}
+
+.atlas-mount { position: absolute; inset: 0; }
+
+/* ------------------------------------------------------------ 底部 Tab */
+
+.tab-bar {
+  position: fixed;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 0;
+  z-index: 30;
+  width: min(100%, 480px);
+  height: calc(var(--tabbar-h) + env(safe-area-inset-bottom, 0px));
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+  display: flex;
+  background: var(--paper-lift);
+  border-top: 1px solid var(--gold-dim);
+  box-shadow: 0 -4px 20px rgba(43, 42, 36, 0.1);
+}
+
+.tab-btn {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  font-family: var(--serif);
+  font-size: 13px;
+  letter-spacing: 0.2em;
+  padding-left: 0.2em;
+  color: var(--ink-dim);
+  transition: color 160ms ease;
+}
+
+.tab-btn svg { width: 21px; height: 21px; }
+
+.tab-btn.is-active { color: var(--cinnabar); }
+
+.tab-btn.is-active::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  width: 34px;
+  height: 2.5px;
+  background: var(--cinnabar);
+}
+
+.tab-btn { position: relative; }
+
+/* ---------------------------------------------------------------- toast */
+
+.toast {
+  position: fixed;
+  left: 50%;
+  bottom: calc(var(--tabbar-h) + env(safe-area-inset-bottom, 0px) + 18px);
+  z-index: 120;
+  transform: translate(-50%, 16px);
+  opacity: 0;
+  pointer-events: none;
+  font-family: var(--sans);
+  font-size: 13.5px;
+  letter-spacing: 0.1em;
+  color: var(--paper);
+  background: rgba(43, 42, 36, 0.94);
+  border: 1px solid var(--gold);
+  border-radius: 10px;
+  padding: 12px 22px;
+  box-shadow: 0 14px 34px rgba(43, 42, 36, 0.4);
+  transition: opacity 220ms ease, transform 220ms ease;
+  white-space: nowrap;
+}
+
+.toast.show {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+
+/* ---------------------------------------------------- 肖像预载 loading 态 */
+
+.card-stage.is-loading-portraits .card-mover {
+  animation: portrait-loading-pulse 1.6s ease-in-out infinite;
+}
+
+@keyframes portrait-loading-pulse {
+  0%, 100% { opacity: 0.55; filter: saturate(0.7); }
+  50% { opacity: 0.95; filter: saturate(1); }
+}
+
+.card-stage.is-loading-portraits ~ .card-quote {
+  position: relative;
+  overflow: hidden;
+}
+
+.card-stage.is-loading-portraits ~ .card-quote::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(100deg, transparent 30%, rgba(176, 141, 62, 0.16) 50%, transparent 70%);
+  animation: portrait-loading-sheen 1.8s linear infinite;
+  pointer-events: none;
+}
+
+@keyframes portrait-loading-sheen {
+  from { transform: translateX(-100%); }
+  to { transform: translateX(100%); }
+}
+
+/* -------------------------------------------------- 减少动态偏好降级 */
+
+@media (prefers-reduced-motion: reduce) {
+  .card-tilt,
+  .card-mover { transform: none !important; }
+  .dex-card,
+  .seal-btn,
+  .share-btn,
+  .progress-fill,
+  .toast { transition: none; }
+  .tube-wrap.is-shaking .tube-svg,
+  .tube-fallen-stick.is-fallen { animation: none; }
+  .tube-fallen-stick.is-fallen { opacity: 1; transform: translate(-50%, 26px); }
+  .card-stage.is-loading-portraits .card-mover { animation: none; opacity: 0.8; }
+  .card-stage.is-loading-portraits ~ .card-quote::after { animation: none; }
+}

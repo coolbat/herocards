@@ -1,0 +1,856 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- 让 assets/portraits 等相对路径与主站首页（站点根）解析一致 -->
+<base href="../">
+<title>全幅场景卡面 · 方案A 对照 — 艾泽拉斯英雄志</title>
+<!-- 与主站一致的字体，确保离屏 canvas 文字渲染与生产环境相同 -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Noto+Serif+SC:wght@400;600;700&family=Jost:wght@400;500;600&family=Noto+Sans+SC:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root { --gold: #c8a55a; --ink: #0b0f1c; }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; padding: 32px 24px 64px;
+    background: #0b0f1c;
+    color: #d8cfae;
+    font-family: 'Jost', 'Noto Sans SC', sans-serif;
+  }
+  h1 {
+    font-family: 'Cinzel', 'Noto Serif SC', serif;
+    font-weight: 600; font-size: 22px; letter-spacing: .12em;
+    color: var(--gold); margin: 0 0 6px;
+  }
+  p.note { margin: 0 0 24px; font-size: 13px; color: #8a8fa3; max-width: 1100px; line-height: 1.7; }
+  h2 {
+    font-family: 'Noto Serif SC', serif; font-size: 17px; font-weight: 600;
+    color: #e6d9ac; margin: 36px 0 12px;
+    border-left: 3px solid var(--gold); padding-left: 10px;
+  }
+  h2 small { font-weight: 400; color: #8a8fa3; font-size: 12px; margin-left: 8px; }
+  .compare { display: flex; gap: 28px; align-items: flex-start; flex-wrap: wrap; }
+  .big canvas { display: block; width: 300px; height: auto; background: #111; border: 1px solid #2a2f45; }
+  .maps { display: flex; flex-direction: column; gap: 10px; }
+  .row { display: flex; flex-wrap: wrap; gap: 14px; align-items: flex-start; }
+  figure { margin: 0; }
+  figure canvas {
+    display: block; width: 158px; height: auto;
+    background: #111; border: 1px solid #2a2f45;
+  }
+  figcaption {
+    margin-top: 6px; font-size: 11px; letter-spacing: .08em;
+    color: #9aa0b8; text-align: center;
+  }
+  .glstage { display: flex; gap: 28px; align-items: flex-start; flex-wrap: wrap; }
+  .glcell { display: flex; flex-direction: column; gap: 6px; }
+  .glcap { font-size: 11px; letter-spacing: .08em; color: #9aa0b8; text-align: center; }
+  canvas.glcard {
+    display: block; width: 300px; height: 463px;
+    background: #05070d; border: 1px solid #2a2f45; cursor: crosshair;
+  }
+  .glhint { max-width: 360px; font-size: 13px; line-height: 1.8; color: #8a8fa3; }
+  .glhint b { color: #d8cfae; font-weight: 500; }
+  pre#log {
+    margin: 28px 0 0; padding: 14px 16px; font-size: 12px; line-height: 1.7;
+    background: #10152a; border: 1px solid #2a2f45; color: #9fd0a0;
+    white-space: pre-wrap;
+  }
+</style>
+</head>
+<body>
+
+<h1>FULL-ART · 方案A 对照试验</h1>
+<p class="note">希尔瓦娜斯·风行者（legendary / hunter / horde，数据取自 js/heroes-data.js）。CardArt.paintFaceFull(hero, artImage, opts)：全幅插画 cover 铺满 1329×2048（v5 起 4K 高分辨率路线＝逻辑 664×1024 坐标系 ×2 物理输出，装饰层仍在逻辑坐标作画；源图底部裁 8% 去左下水印），描金边框 / 名牌 / 绶带 / 属性印 / 角标以半透明底压在画上；height / rough 从插画像素派生——opts.mode='auto' 时按放宽金域覆盖率自动判定：油画版（金箔→凸起低粗糙，其余→浅浮雕哑光）或金线蚀刻版（放宽金域+1px 膨胀掩膜，金线 220–250 高凸起 / 12–40 纯金箔，蓝底低平 / 哑光 200–225）。</p>
+
+<h2>半身像版 <small>assets/portraits/full/sylvanas-bust.png</small></h2>
+<div class="compare" id="rowBust"></div>
+
+<h2>全身像版 <small>assets/portraits/full/sylvanas-full.png</small></h2>
+<div class="compare" id="rowFull"></div>
+
+<h2>全身像 · 金线蚀刻 v1 版 <small>assets/portraits/full/sylvanas-full-goldline.png</small></h2>
+<div class="compare" id="rowGold"></div>
+
+<h2>全身像 · linocut v2 版 <small>assets/portraits/full/sylvanas-full-v2.png</small></h2>
+<div class="compare" id="rowV2"></div>
+
+<h2>WebGL 实光预览 · 金线双版对照 <small>与主站相同的光照 shader（GLSL 原文内联），在卡面上移动鼠标查看金线流光</small></h2>
+<div class="glstage">
+  <div class="glcell"><canvas id="glPreviewV1" class="glcard"></canvas><span class="glcap">v1 · 金线蚀刻</span></div>
+  <div class="glcell"><canvas id="glPreviewV2" class="glcard"></canvas><span class="glcap">v2 · linocut</span></div>
+  <p class="glhint"><b>检验点：</b>① 鼠标移到卡面左上 / 右下时，金线应随主光源整卡流光（rough 12–40 强高光）；② 深蓝底保持沉稳哑光（rough 200–225）；③ 边框 / 连珠 / 宝石作为叠加层始终有金箔高光；④ 名牌文字压在画上清晰可读；⑤ 双版并排对比流光密度与线条气质差异。</p>
+</div>
+
+<h2>碎闪治理 · relief 三方对照 <small>A＝v2+旧 goldline 管线（碎闪现状）；B＝v2+新 relief 管线（隔离验证管线）；C＝v3+新 relief 管线（管线+新图源）</small></h2>
+<div class="compare" id="rowA"></div>
+<div class="compare" id="rowB" style="margin-top:22px"></div>
+<div class="compare" id="rowC" style="margin-top:22px"></div>
+
+<h2>WebGL 实光预览 · 碎闪三方对照 <small>同一光源下 A 应碎闪、B/C 应只剩主体轮廓的柔和明暗</small></h2>
+<div class="glstage">
+  <div class="glcell"><canvas id="glA" class="glcard"></canvas><span class="glcap">A · v2 旧 goldline（碎闪对照）</span></div>
+  <div class="glcell"><canvas id="glB" class="glcard"></canvas><span class="glcap">B · v2 新 relief</span></div>
+  <div class="glcell"><canvas id="glC" class="glcard"></canvas><span class="glcap">C · v3 新 relief</span></div>
+  <p class="glhint"><b>检验点：</b>① A 组灯光下细线根根起棱、碎闪密集（现状病灶）；② B/C 组高度图只剩宏观体块——人物整体隆起、背景下沉，灯光随体块大面积柔和推移，无细线碎闪；③ 金属区（低通金域）仍有镜面高光但不碎；④ 数值验收（height 梯度 p50 / rough 中间档占比 / normal 偏离）见页内日志，逐组打印。</p>
+</div>
+
+<h2>AI 语义化贴图三方对照（v4） <small>D1＝v4+纯 relief（Sobel 法线，对照组）；D2＝v4+AI 法线+relief 高度；D3＝v4+AI 法线+AI 高度（全语义化画芯）；D4＝v4+AI 高度（Sobel 法线，推荐组合验证）</small></h2>
+<div class="compare" id="rowD1"></div>
+<div class="compare" id="rowD2" style="margin-top:22px"></div>
+<div class="compare" id="rowD3" style="margin-top:22px"></div>
+<div class="compare" id="rowD4" style="margin-top:22px"></div>
+
+<h2>WebGL 实光预览 · AI 贴图三方对照 <small>重点：人物体积感 vs 构图漂移造成的光晕/错位</small></h2>
+<div class="glstage">
+  <div class="glcell"><canvas id="glD1" class="glcard"></canvas><span class="glcap">D1 · 纯 relief（对照）</span></div>
+  <div class="glcell"><canvas id="glD2" class="glcard"></canvas><span class="glcap">D2 · AI 法线</span></div>
+  <div class="glcell"><canvas id="glD3" class="glcard"></canvas><span class="glcap">D3 · AI 法线 + AI 高度</span></div>
+  <div class="glcell"><canvas id="glD4" class="glcard"></canvas><span class="glcap">D4 · AI 高度（Sobel 法线）</span></div>
+  <p class="glhint"><b>检验点：</b>① D2/D3 人物是否呈现接近参考站的圆雕体积感（胸甲 / 披风褶皱的立体受光）；② AI 贴图与 diffuse 的生成漂移是否在轮廓处产生可见光晕 / 明暗错位；③ 月亮 / 背景是否出现异常倾斜面（AI 法线 nz 均值偏低，留意月亮观感）；④ 边框 / 名牌 / 属性印叠加层棱线三组应一致；⑤ D4＝AI 高度+Sobel 法线：语义圆雕 + 光照约定可控，是否两全。</p>
+</div>
+
+<h2>4K 高分辨率路线（v5） <small>E1＝v5 源图+纯 relief，物理 1329×2048 输出（assets/portraits/full/sylvanas-full-v5.png）</small></h2>
+<div class="compare" id="rowE1"></div>
+
+<h2>WebGL 实光预览 · v5 4K <small>1329×2048 四贴图直传 GPU，验证 NPOT 高分辨率下光照与视差</small></h2>
+<div class="glstage">
+  <div class="glcell"><canvas id="glE1" class="glcard"></canvas><span class="glcap">E1 · v5 4K 纯 relief</span></div>
+  <p class="glhint"><b>检验点：</b>① 1329×2048 NPOT 贴图上传与 mipmap 无报错；② 人物宏观体块受光柔和、无碎闪；③ 边框 / 连珠 / 宝石叠加层棱线锐利度应与 664 口径观感一致（2× 补偿后）；④ 视差幅度不过冲。</p>
+</div>
+
+<h2>100% 放大对比 · v5 原生 vs v4 旧输出 <small>左格＝v4@664 模拟旧输出（1329 渲完降采样回 664，再平滑放大 2×，即旧产线真实观感）；右格＝v5@1329 原生物理像素 1:1；同源区域对齐</small></h2>
+<div class="compare" id="rowZoom"></div>
+
+<h2>v5.1 烫金刻线 + AI 高度融合 <small>F1＝v5+金线层（无 AI）；F2＝v5+金线层+AI 高度融合（＝主站现行管线，externalMaps.fuseHeight）</small></h2>
+<div class="compare" id="rowF1"></div>
+<div class="compare" id="rowF2" style="margin-top:22px"></div>
+
+<h2>WebGL 实光预览 · v5.1 <small>重点：金线是否随光整条亮起、人物从背景浮出的浮雕层次</small></h2>
+<div class="glstage">
+  <div class="glcell"><canvas id="glF1" class="glcard"></canvas><span class="glcap">F1 · v5.1 金线（无 AI）</span></div>
+  <div class="glcell"><canvas id="glF2" class="glcard"></canvas><span class="glcap">F2 · v5.1 金线 + AI 高度</span></div>
+  <p class="glhint"><b>检验点：</b>① 鼠标扫过时月亮金环 / 人物轮廓 / 铠甲分割线应整条金属亮起（脊状 height + 低 rough）；② F2 人物相对背景应有更强「浮出」层次（AI 高度融合）；③ 金线密度克制、无碎线；④ 边框 / 名牌叠加层工艺与 E1 一致。</p>
+</div>
+
+<h2>v5.1 金线 100% 放大 <small>左格＝F1（无 AI）降采样对照；右格＝F2 原生 1:1；同区对齐看金线边缘质量与 AI 融合差异</small></h2>
+<div class="compare" id="rowZoom51"></div>
+
+<h2>国风样板卡 · 李白「举杯邀月」 <small>G1＝libai-full+金线（无 AI）；G2＝libai-full+金线+AI 高度（＝量产目标管线）；工笔重彩绢本源图 3040×4560</small></h2>
+<div class="compare" id="rowG1"></div>
+<div class="compare" id="rowG2" style="margin-top:22px"></div>
+
+<h2 id="g-gl">WebGL 实光预览 · 李白 <small>重点：月环 / 人物轮廓 / 衣袍金线随光整条亮起；场景元素（楼阁 / 灯笼 / 牡丹 / 石桌 / 城墙佛塔 / 栏杆水面）零碎金</small></h2>
+<div class="glstage">
+  <div class="glcell"><canvas id="glG1" class="glcard"></canvas><span class="glcap">G1 · 李白 金线（无 AI）</span></div>
+  <div class="glcell"><canvas id="glG2" class="glcard"></canvas><span class="glcap">G2 · 李白 金线 + AI 高度</span></div>
+  <div class="glcell"><canvas id="glG3" class="glcard" data-light="0.12,0.82"></canvas><span class="glcap">G2 · 光扫左上（固定光位）</span></div>
+  <p class="glhint"><b>检验点：</b>① 烫金骨架只属于 人物+月环+酒爵酒壶；② 楼阁 / 牡丹 / 栏杆等场景元素无金线或稀疏点缀；③ 月环单环贴缘、人物处让位；④ G2 人物相对背景有「浮出」层次。</p>
+</div>
+
+<h2>李白金线 100% 放大 <small>左格＝G1（无 AI）降采样对照；右格＝G2 原生 1:1；同区对齐看金脊边缘质量与禁区碎金</small></h2>
+<div class="compare" id="rowZoomG"></div>
+
+<pre id="log">日志加载中……</pre>
+
+<script src="js/heroes-data.js"></script>
+<script src="js/card-art.js"></script>
+<script>
+(function () {
+  'use strict';
+
+  var logEl = document.getElementById('log');
+  var lines = [];
+  function log(s) { lines.push(s); logEl.textContent = lines.join('\n'); }
+
+  var HERO = null;
+  (window.WOW_HEROES || []).forEach(function (h) {
+    if (h.id === 'sylvanas-windrunner') HERO = h;
+  });
+
+  function put(mount, canvas, caption, cls) {
+    var fig = document.createElement('figure');
+    if (cls) fig.className = cls;
+    fig.appendChild(canvas);
+    var cap = document.createElement('figcaption');
+    cap.textContent = caption;
+    fig.appendChild(cap);
+    mount.appendChild(fig);
+  }
+
+  function loadImage(src) {
+    return new Promise(function (resolve, reject) {
+      var img = new Image();
+      img.onload = function () { resolve(img); };
+      img.onerror = function () { reject(new Error('加载失败：' + src)); };
+      img.src = src;
+    });
+  }
+
+  /* 水印对照实验：把插画以「不裁」与「裁 8%」两种方式各画一遍裸图（无叠加层），
+     量底部水印带（卡面逻辑 x0–110, y975–1020，按物理分辨率等比放大）的最大亮度。
+     不裁时应见亮字水印（>>120）；裁 8% 后水印带被弃除，应为暗色画面（<90）。 */
+  function rawBottomLum(img, cropFrac) {
+    var CW = window.CardArt.W, CH = window.CardArt.H;
+    var c = document.createElement('canvas');
+    c.width = CW; c.height = CH;
+    var x = c.getContext('2d');
+    var iw = img.naturalWidth, ih = img.naturalHeight;
+    var srcH = Math.round(ih * (1 - cropFrac));
+    var s = Math.max(CW / iw, CH / srcH);
+    x.drawImage(img, 0, 0, iw, srcH, (CW - iw * s) / 2, (CH - srcH * s) / 2, iw * s, srcH * s);
+    var d = x.getImageData(0, Math.round(975 * CH / 1024), Math.round(110 * CW / 664), Math.round(45 * CH / 1024)).data;
+    var m = 0;
+    for (var i = 0; i < d.length; i += 4) {
+      var l = (d[i] * 299 + d[i + 1] * 587 + d[i + 2] * 114) / 1000;
+      if (l > m) m = l;
+    }
+    return Math.round(m);
+  }
+
+  function renderVersion(mount, img, tag, opts, hero) {
+    var t0 = performance.now();
+    var set = window.CardArt.paintFaceFull(hero || HERO, img, opts);
+    var t1 = performance.now();
+    var wrap = document.createElement('div');
+    wrap.className = 'big';
+    mount.appendChild(wrap);
+    put(wrap, set.diffuse, tag + ' · diffuse（成卡）');
+    var maps = document.createElement('div');
+    maps.className = 'maps';
+    mount.appendChild(maps);
+    var row = document.createElement('div');
+    row.className = 'row';
+    maps.appendChild(row);
+    put(row, set.height, tag + ' · height');
+    put(row, set.rough, tag + ' · rough');
+    put(row, set.normal, tag + ' · normal');
+    ['diffuse', 'height', 'rough', 'normal'].forEach(function (k) {
+      var c = set[k];
+      if (!c || c.width !== window.CardArt.W || c.height !== window.CardArt.H) {
+        log('!! ' + tag + ' ' + k + ' 尺寸异常：' + (c && c.width) + '×' + (c && c.height) +
+          '（预期 ' + window.CardArt.W + '×' + window.CardArt.H + '）');
+      }
+    });
+    log(tag + ' paintFaceFull：' + (t1 - t0).toFixed(1) + ' ms；模式=' + set.artMode +
+        '；金域覆盖=' + (set.goldCover * 100).toFixed(1) + '%' +
+        (set.goldLines ? '；金线 种子=' + set.goldLines.seeds + ' 连通域=' + set.goldLines.comps +
+          ' 耗时=' + set.goldLines.ms + 'ms' +
+          (set.goldLines.moon ? ' 月亮r=' + Math.round(set.goldLines.moon.r) + 'px' : ' 月亮未检出') : '') +
+        '；水印对照：不裁=' +
+        rawBottomLum(img, 0) + '（应见亮字）/ 裁8%=' + rawBottomLum(img, 0.08) + '（应无亮字）');
+    return set;
+  }
+
+  /* ============================================================
+   * 数值验收（碎闪治理 · 对齐参考站实测基准）
+   *   height 梯度 p50 目标 1.5–4（参考站 p50≈1.6–2.1，p99≈64–77）
+   *   rough 中间档(80–170)占比 目标 ≥45%（参考站 55–80%）
+   *   normal 偏离 活跃像素(dev≥6)均值 目标 22–40（参考站 27–32）
+   * 采样步进 2px，分位走直方图。
+   * ========================================================== */
+  function mapStats(set, tag) {
+    var w = window.CardArt.W, h = window.CardArt.H, x, y, p, i;
+    /* 内圈边距随分辨率等比：664 口径 48px → 1329 口径 96px */
+    var mg = Math.round(48 * (w / 664));
+    var hd = set.height.getContext('2d').getImageData(0, 0, w, h).data;
+    var rd = set.rough.getContext('2d').getImageData(0, 0, w, h).data;
+    var nd = set.normal.getContext('2d').getImageData(0, 0, w, h).data;
+
+    function pct(hist, tot, q) {
+      var t = q * tot, acc = 0;
+      for (var k = 0; k < hist.length; k++) { acc += hist[k]; if (acc >= t) return k; }
+      return hist.length - 1;
+    }
+
+    /* height 梯度：Sobel 幅值（与 heightToNormal 同核）。
+       统计内圈（664 口径外缩 48px，随分辨率等比放大）——外框 / 角饰等叠加层是设计好的锐边，
+       参考站 p50/p99 基准为纯画芯口径，内圈才可对照。
+       直方图 ¼ 精度：2× 分辨率下梯度约为 664 口径的一半，整数舍入会丢失 p50 分辨力。 */
+    var gh = new Int32Array(8192), gn = 0;
+    for (y = mg + 1; y < h - mg - 1; y += 2) {
+      for (x = mg + 1; x < w - mg - 1; x += 2) {
+        i = (y * w + x) * 4;
+        var tl = hd[i - w * 4 - 4], t = hd[i - w * 4], tr = hd[i - w * 4 + 4];
+        var l = hd[i - 4], r = hd[i + 4];
+        var bl = hd[i + w * 4 - 4], b = hd[i + w * 4], br = hd[i + w * 4 + 4];
+        var gx = (tr + 2 * r + br) - (tl + 2 * l + bl);
+        var gy = (bl + 2 * b + br) - (tl + 2 * t + tr);
+        var m = Math.round(Math.sqrt(gx * gx + gy * gy) * 4);
+        gh[m > 8191 ? 8191 : m]++; gn++;
+      }
+    }
+    var hP50 = pct(gh, gn, 0.5) / 4, hP99 = pct(gh, gn, 0.99) / 4;
+
+    /* rough 中间档占比 */
+    var mid = 0, n = w * h;
+    for (p = 0; p < n; p++) {
+      var rv = rd[p * 4];
+      if (rv >= 80 && rv <= 170) mid++;
+    }
+    var midPct = mid / n * 100;
+
+    /* normal 偏离：dev = |r-128| + |g-128|。只统计画芯像素——
+       叠加层（height≥170）做 1px 膨胀后剔除（Sobel 核影响半径恰为 1px，
+       连抗锯齿过渡沿一并排除），剩下的才是画芯自己的棱。 */
+    var ov = new Uint8Array(w * h);
+    for (p = 0; p < w * h; p++) ov[p] = hd[p * 4] >= 170 ? 1 : 0;
+    var ovD = new Uint8Array(w * h);
+    for (y = 1; y < h - 1; y++) {
+      for (x = 1; x < w - 1; x++) {
+        i = y * w + x;
+        if (ov[i] | ov[i - 1] | ov[i + 1] | ov[i - w] | ov[i + w] |
+            ov[i - w - 1] | ov[i - w + 1] | ov[i + w - 1] | ov[i + w + 1]) ovD[i] = 1;
+      }
+    }
+    var dHist = new Int32Array(512), dSum = 0, dAct = 0, dActSum = 0, dn = 0;
+    var b1 = 0, b2 = 0, b3 = 0, b4 = 0;              // dev 分布桶：6–20 / 20–40 / 40–80 / 80+
+    for (y = mg; y < h - mg; y += 2) {
+      for (x = mg; x < w - mg; x += 2) {
+        i = (y * w + x) * 4;
+        if (ovD[y * w + x]) continue;
+        var dev = Math.abs(nd[i] - 128) + Math.abs(nd[i + 1] - 128);
+        dHist[dev > 511 ? 511 : dev]++; dn++;
+        dSum += dev;
+        if (dev >= 6) {
+          dAct++; dActSum += dev;
+          if (dev < 20) b1++; else if (dev < 40) b2++; else if (dev < 80) b3++; else b4++;
+        }
+      }
+    }
+    var dMean = dSum / dn, dActMean = dAct ? dActSum / dAct : 0, dP99 = pct(dHist, dn, 0.99);
+
+    function mark(ok) { return ok ? '✓' : '✗'; }
+    return tag + ' 数值验收：height梯度 p50=' + hP50 + mark(hP50 >= 1.5 && hP50 <= 4) +
+      '（目标1.5–4）/ p99=' + hP99 + '（参考64–77）；' +
+      'rough中间档=' + midPct.toFixed(1) + '%' + mark(midPct >= 45) + '（目标≥45%）；' +
+      'normal偏离 活跃均值=' + dActMean.toFixed(1) + mark(dActMean >= 22 && dActMean <= 40) +
+      '（目标22–40）/ 全卡均值=' + dMean.toFixed(1) + ' / p99=' + dP99 +
+      '；dev分布[6–20:' + b1 + ' 20–40:' + b2 + ' 40–80:' + b3 + ' 80+:' + b4 + ']';
+  }
+
+  /* ============================================================
+   * WebGL 实光预览 —— GLSL 与光照参数原文移植自 js/app.js
+   * （试验页允许重复代码；NPOT 664×1024 贴图在 WebGL2 可生成 mipmap）
+   * ========================================================== */
+
+  var VERT = `#version 300 es
+  in vec2 aPos;
+  out vec2 vUv;
+  void main() {
+    vUv = aPos * 0.5 + 0.5;
+    gl_Position = vec4(aPos, 0.0, 1.0);
+  }`;
+
+  var FRAG = `#version 300 es
+  precision highp float;
+  in vec2 vUv;
+  out vec4 frag;
+
+  uniform sampler2D uDiffuse;
+  uniform sampler2D uNormal;
+  uniform sampler2D uRough;
+  uniform sampler2D uHeight;
+
+  uniform vec2  uMouse;       // 指针在 canvas UV 中的位置（y 向上）
+  uniform float uHasMouse;
+  uniform float uParallax;
+  uniform float uLightZ;
+  uniform float uNormalStr;
+  uniform float uSpecStr;
+  uniform float uDiffuseAmt;
+  uniform float uAmbientAmt;
+  uniform vec3  uLightColor;
+  uniform vec3  uAmbientColor;
+  uniform float uMotion;
+
+  void main() {
+    vec2 uv = vUv;
+
+    // 高度视差：凸起像素随指针反向漂移
+    float h0 = texture(uHeight, uv).r;
+    if (uMotion > 0.5 && uHasMouse > 0.5) {
+      vec2 viewOff = (uMouse - vec2(0.5)) * 2.0;
+      uv = clamp(uv - viewOff * (h0 * uParallax), 0.001, 0.999);
+    }
+
+    vec4 diff = texture(uDiffuse, uv);
+    float a = diff.a;
+    if (a < 0.004) { frag = vec4(0.0); return; }
+
+    vec3 albedo = diff.rgb;
+    float rough = texture(uRough, uv).r;
+    float h = texture(uHeight, uv).r;
+
+    vec3 nRaw = texture(uNormal, uv).xyz * 2.0 - 1.0;
+    nRaw.xy *= uNormalStr;
+    vec3 N = normalize(vec3(nRaw.xy, max(nRaw.z, 0.08)));
+
+    vec3 V = vec3(0.0, 0.0, 1.0);
+    float ambRelief = 0.74 + 0.26 * max(N.z, 0.0);
+    vec3 col = albedo * uAmbientColor * uAmbientAmt * ambRelief;
+
+    // 跟随指针的奥术暖金主光源
+    vec2 lightUv = (uHasMouse > 0.5) ? uMouse : vec2(0.44, 0.66);
+    vec3 L = normalize(vec3(lightUv.x - uv.x, lightUv.y - uv.y, uLightZ));
+    float ndl = max(dot(N, L), 0.0);
+    float wrap = ndl * 0.8 + 0.2;
+    col += albedo * uLightColor * (wrap * uDiffuseAmt);
+
+    // 粗糙度塑形的高光：烧金线稿吃光，哑光墨色保持安静
+    vec3 H = normalize(L + V);
+    float shininess = mix(52.0, 6.0, clamp(rough, 0.0, 1.0));
+    float spec = pow(max(dot(N, H), 0.0), shininess);
+    spec *= (1.0 - rough * 0.85) * uSpecStr;
+    spec *= 0.82 + 0.34 * h;
+    col += uLightColor * spec;
+
+    // 主光从侧面掠射时的微弱暖色轮廓光
+    float rim = pow(1.0 - max(dot(N, V), 0.0), 2.4);
+    float side = 1.0 - abs(L.z);
+    col += uLightColor * rim * side * 0.1 * (1.0 - rough * 0.5);
+
+    col = clamp(col, 0.0, 1.0);
+    frag = vec4(col * a, a);
+  }`;
+
+  function startGLPreview(canvas, set, tag) {
+    var gl = canvas.getContext('webgl2', {
+      alpha: true, antialias: false, premultipliedAlpha: true, preserveDrawingBuffer: true
+    });
+    if (!gl) { log('!! WebGL2 不可用，实光预览跳过'); return; }
+
+    function compile(type, src) {
+      var s = gl.createShader(type);
+      gl.shaderSource(s, src);
+      gl.compileShader(s);
+      if (!gl.getShaderParameter(s, gl.COMPILE_STATUS)) {
+        log('!! shader 编译失败：' + gl.getShaderInfoLog(s));
+        return null;
+      }
+      return s;
+    }
+    var vs = compile(gl.VERTEX_SHADER, VERT);
+    var fs = compile(gl.FRAGMENT_SHADER, FRAG);
+    if (!vs || !fs) return;
+    var prog = gl.createProgram();
+    gl.attachShader(prog, vs);
+    gl.attachShader(prog, fs);
+    gl.linkProgram(prog);
+    if (!gl.getProgramParameter(prog, gl.LINK_STATUS)) {
+      log('!! 光照链接失败：' + gl.getProgramInfoLog(prog));
+      return;
+    }
+    gl.useProgram(prog);
+
+    var vao = gl.createVertexArray();
+    gl.bindVertexArray(vao);
+    var buf = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 3, -1, -1, 3]), gl.STATIC_DRAW);
+    var aPos = gl.getAttribLocation(prog, 'aPos');
+    gl.enableVertexAttribArray(aPos);
+    gl.vertexAttribPointer(aPos, 2, gl.FLOAT, false, 0, 0);
+
+    var U = {};
+    ['uDiffuse', 'uNormal', 'uRough', 'uHeight',
+     'uMouse', 'uHasMouse', 'uParallax', 'uLightZ', 'uNormalStr',
+     'uSpecStr', 'uDiffuseAmt', 'uAmbientAmt', 'uLightColor', 'uAmbientColor',
+     'uMotion'].forEach(function (name) { U[name] = gl.getUniformLocation(prog, name); });
+
+    gl.uniform1i(U.uDiffuse, 0);
+    gl.uniform1i(U.uNormal, 1);
+    gl.uniform1i(U.uRough, 2);
+    gl.uniform1i(U.uHeight, 3);
+
+    // 与主站一致：奥术暖金主光 + 冷蓝环境光
+    gl.uniform3f(U.uLightColor, 1.0, 0.90, 0.72);
+    gl.uniform3f(U.uAmbientColor, 0.70, 0.79, 0.94);
+    gl.uniform1f(U.uAmbientAmt, 0.56);
+    gl.uniform1f(U.uDiffuseAmt, 0.62);
+    gl.uniform1f(U.uSpecStr, 0.34);
+    gl.uniform1f(U.uNormalStr, 1.35);
+    gl.uniform1f(U.uLightZ, 0.5);
+    gl.uniform1f(U.uParallax, 0.0034);
+    gl.uniform1f(U.uMotion, 1.0);
+    gl.uniform1f(U.uHasMouse, 0.0);
+    gl.uniform2f(U.uMouse, 0.44, 0.66);
+
+    function makeTex(unit, internalFormat, format) {
+      var t = gl.createTexture();
+      gl.activeTexture(gl.TEXTURE0 + unit);
+      gl.bindTexture(gl.TEXTURE_2D, t);
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR_MIPMAP_LINEAR);
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+      var px = internalFormat === gl.RGBA ? new Uint8Array([0, 0, 0, 0]) : new Uint8Array([128, 128, 255]);
+      gl.texImage2D(gl.TEXTURE_2D, 0, internalFormat, 1, 1, 0, format, gl.UNSIGNED_BYTE, px);
+      return t;
+    }
+    var texDiffuse = makeTex(0, gl.RGBA, gl.RGBA);
+    var texNormal = makeTex(1, gl.RGB, gl.RGB);
+    var texRough = makeTex(2, gl.RGB, gl.RGB);
+    var texHeight = makeTex(3, gl.RGB, gl.RGB);
+
+    function upload(tex, unit, image, internalFormat, format) {
+      gl.activeTexture(gl.TEXTURE0 + unit);
+      gl.bindTexture(gl.TEXTURE_2D, tex);
+      gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, 1);
+      gl.texImage2D(gl.TEXTURE_2D, 0, internalFormat, format, gl.UNSIGNED_BYTE, image);
+      gl.generateMipmap(gl.TEXTURE_2D);
+    }
+    upload(texDiffuse, 0, set.diffuse, gl.RGBA, gl.RGBA);
+    upload(texNormal, 1, set.normal, gl.RGB, gl.RGB);
+    upload(texRough, 2, set.rough, gl.RGB, gl.RGB);
+    upload(texHeight, 3, set.height, gl.RGB, gl.RGB);
+
+    gl.enable(gl.BLEND);
+    gl.blendFunc(gl.ONE, gl.ONE_MINUS_SRC_ALPHA);
+    gl.clearColor(0, 0, 0, 0);
+
+    var mouse = { x: 0.44, y: 0.66 };
+    var hasMouse = false;
+    var needsDraw = true;
+
+    /* 无头验收支持：canvas data-light="x,y" 固定光位（逻辑 0–1，y 向上），
+       供 headless 截图「光扫左上」等待定光位，不影响交互预览。 */
+    if (canvas.dataset && canvas.dataset.light) {
+      var lm = canvas.dataset.light.split(',');
+      mouse.x = parseFloat(lm[0]);
+      mouse.y = parseFloat(lm[1]);
+      hasMouse = true;
+    }
+
+    function resize() {
+      var w0 = canvas.offsetWidth, h0 = canvas.offsetHeight;
+      if (w0 < 2 || h0 < 2) return;
+      var dpr = Math.min(window.devicePixelRatio || 1, 2);
+      var w = Math.max(1, Math.round(w0 * dpr));
+      var h = Math.max(1, Math.round(h0 * dpr));
+      if (canvas.width !== w || canvas.height !== h) {
+        canvas.width = w; canvas.height = h;
+        needsDraw = true;
+      }
+    }
+
+    function draw() {
+      resize();
+      gl.viewport(0, 0, canvas.width, canvas.height);
+      gl.clear(gl.COLOR_BUFFER_BIT);
+      gl.uniform2f(U.uMouse, mouse.x, mouse.y);
+      gl.uniform1f(U.uHasMouse, hasMouse ? 1.0 : 0.0);
+      gl.activeTexture(gl.TEXTURE0); gl.bindTexture(gl.TEXTURE_2D, texDiffuse);
+      gl.activeTexture(gl.TEXTURE1); gl.bindTexture(gl.TEXTURE_2D, texNormal);
+      gl.activeTexture(gl.TEXTURE2); gl.bindTexture(gl.TEXTURE_2D, texRough);
+      gl.activeTexture(gl.TEXTURE3); gl.bindTexture(gl.TEXTURE_2D, texHeight);
+      gl.bindVertexArray(vao);
+      gl.drawArrays(gl.TRIANGLES, 0, 3);
+    }
+
+    function frame() {
+      if (needsDraw) { needsDraw = false; draw(); }
+      requestAnimationFrame(frame);
+    }
+    resize();
+    requestAnimationFrame(frame);
+
+    canvas.addEventListener('mousemove', function (e) {
+      var r = canvas.getBoundingClientRect();
+      if (r.width < 1 || r.height < 1) return;
+      mouse.x = Math.min(1.4, Math.max(-0.4, (e.clientX - r.left) / r.width));
+      mouse.y = Math.min(1.4, Math.max(-0.4, 1.0 - (e.clientY - r.top) / r.height));
+      hasMouse = true;
+      needsDraw = true;
+    });
+    canvas.addEventListener('mouseleave', function () {
+      hasMouse = false;
+      needsDraw = true;
+    });
+    window.addEventListener('resize', function () { needsDraw = true; resize(); });
+    log('WebGL 实光预览已启动（' + tag + ' 四贴图上传完成）');
+  }
+
+  /* ============================================================
+   * 100% 放大对比板（v5 4K 路线验收）
+   * 每特征一块 744×394 画布：标题条 34px + 左右各 360×360 格。
+   *   左格：v4sim（1329 渲完降采样回 664×1024，模拟旧输出）裁 180×180
+   *         逻辑区平滑放大 2× —— 即旧产线用户的真实观感；
+   *   右格：v5 原生 1329×2048 裁同源物理区（180×SC px）1:1 显示。
+   * 区域坐标为 664 逻辑坐标系（v4/v5 构图不同，各自目检对齐）。
+   * ========================================================== */
+  function zoomBoard(mount, title, v4sim, v5native, r4, r5) {
+    var SC2 = window.CardArt.W / 664;
+    var cv = document.createElement('canvas');
+    cv.width = 744; cv.height = 394;
+    cv.style.cssText = 'display:block;width:744px;height:394px;background:#0b0f1c;border:1px solid #2a2f45;';
+    var x = cv.getContext('2d');
+    x.fillStyle = '#0b0f1c'; x.fillRect(0, 0, 744, 394);
+    /* 标题条 */
+    x.fillStyle = '#e6d9ac';
+    x.font = '600 13px Jost, "Noto Sans SC", sans-serif';
+    x.textBaseline = 'alphabetic';
+    x.fillText(title, 10, 15);
+    x.fillStyle = '#8a8fa3';
+    x.font = '10px Jost, "Noto Sans SC", sans-serif';
+    x.fillText('左 v4@664 模拟旧输出（1329 降采样）平滑放大 2× ｜ 右 v5@1329 原生物理像素 1:1', 10, 29);
+    /* 左格：v4 模拟旧输出，180 逻辑区 → 360px（2× 平滑放大） */
+    x.imageSmoothingEnabled = true;
+    x.imageSmoothingQuality = 'high';
+    x.drawImage(v4sim, r4.x, r4.y, 180, 180, 2, 34, 360, 360);
+    /* 右格：v5 原生，180 逻辑区 ×SC 物理 px → 360px（≈1:1） */
+    var s5 = Math.round(180 * SC2);
+    x.imageSmoothingEnabled = false;
+    x.drawImage(v5native,
+      Math.round(r5.x * SC2), Math.round(r5.y * SC2), s5, s5,
+      382, 34, 360, 360);
+    x.imageSmoothingEnabled = true;
+    /* 格框与分隔 */
+    x.strokeStyle = '#2a2f45'; x.lineWidth = 1;
+    x.strokeRect(1.5, 33.5, 361, 361);
+    x.strokeRect(381.5, 33.5, 361, 361);
+    var fig = document.createElement('figure');
+    fig.appendChild(cv);
+    var cap = document.createElement('figcaption');
+    cap.textContent = title + '：v4(' + r4.x + ',' + r4.y + ') vs v5(' + r5.x + ',' + r5.y + ') · 180 逻辑区';
+    fig.appendChild(cap);
+    mount.appendChild(fig);
+  }
+
+  function run() {
+    if (!window.CardArt || typeof window.CardArt.paintFaceFull !== 'function') {
+      log('!! CardArt.paintFaceFull 缺失');
+      return;
+    }
+    if (!HERO) { log('!! WOW_HEROES 中未找到 sylvanas-windrunner'); return; }
+    log('英雄：' + HERO.name.zh + ' · ' + HERO.rarity + ' / ' + HERO.class + ' / ' + HERO.faction +
+        ' · stats ' + HERO.stats.might + '/' + HERO.stats.magic + '/' + HERO.stats.resolve);
+    log('字体：' + (document.fonts && document.fonts.check ? (
+      'Cinzel=' + document.fonts.check('600 30px Cinzel') +
+      ' NotoSerifSC=' + document.fonts.check('700 30px "Noto Serif SC"')) : 'unknown'));
+
+    Promise.all([
+      loadImage('assets/portraits/full/sylvanas-bust.png'),
+      loadImage('assets/portraits/full/sylvanas-full.png'),
+      loadImage('assets/portraits/full/sylvanas-full-goldline.png'),
+      loadImage('assets/portraits/full/sylvanas-full-v2.png'),
+      loadImage('assets/portraits/full/sylvanas-full-v3.png'),
+      loadImage('assets/portraits/full/sylvanas-full-v4.png'),
+      loadImage('assets/portraits/full/sylvanas-v4-ainormal.png'),
+      loadImage('assets/portraits/full/sylvanas-v4-aiheight.png'),
+      loadImage('assets/portraits/full/sylvanas-full-v5.png'),
+      loadImage('assets/portraits/full/sylvanas-v5-aiheight.png'),
+      loadImage('assets/portraits/full/sylvanas-full-v6.png'),
+      loadImage('assets/portraits/full/sylvanas-v6-aiheight.png'),
+      loadImage('assets/portraits/full/sylvanas-full-v7.png'),
+      loadImage('assets/portraits/full/sylvanas-v7-aiheight.png'),
+      loadImage('assets/portraits/full/libai-full.png'),
+      loadImage('assets/portraits/full/libai-aiheight-v2.png')
+    ]).then(function (imgs) {
+      log('十六张插画/贴图加载完成（' + imgs.map(function (m) { return m.naturalWidth + '×' + m.naturalHeight; }).join(' / ') + '）');
+      renderVersion(document.getElementById('rowBust'), imgs[0], '半身像版', { mode: 'auto' });
+      renderVersion(document.getElementById('rowFull'), imgs[1], '全身像版', { mode: 'auto' });
+      var goldSet = renderVersion(document.getElementById('rowGold'), imgs[2], '金线蚀刻v1版', { mode: 'auto' });
+      var v2Set = renderVersion(document.getElementById('rowV2'), imgs[3], 'linocut v2版', { mode: 'auto' });
+      startGLPreview(document.getElementById('glPreviewV1'), goldSet, 'v1 金线蚀刻版');
+      startGLPreview(document.getElementById('glPreviewV2'), v2Set, 'v2 linocut 版');
+
+      /* 碎闪治理 · 三方对照 */
+      var setA = renderVersion(document.getElementById('rowA'), imgs[3], 'A·v2旧goldline', { mode: 'goldline' });
+      var setB = renderVersion(document.getElementById('rowB'), imgs[3], 'B·v2新relief', { mode: 'relief' });
+      var setC = renderVersion(document.getElementById('rowC'), imgs[4], 'C·v3新relief', { mode: 'relief' });
+      startGLPreview(document.getElementById('glA'), setA, 'A v2·旧goldline');
+      startGLPreview(document.getElementById('glB'), setB, 'B v2·新relief');
+      startGLPreview(document.getElementById('glC'), setC, 'C v3·新relief');
+      log('—— 数值验收（对齐参考站基准：p50≈1.6–2.1 / 中间档55–80% / 偏离27–32）——');
+      log(mapStats(setA, 'A·v2旧goldline'));
+      log(mapStats(setB, 'B·v2新relief'));
+      log(mapStats(setC, 'C·v3新relief'));
+
+      /* AI 语义化贴图 · 三方对照（v4） */
+      var setD1 = renderVersion(document.getElementById('rowD1'), imgs[5], 'D1·v4纯relief', { mode: 'relief' });
+      var setD2 = renderVersion(document.getElementById('rowD2'), imgs[5], 'D2·v4+AI法线',
+        { mode: 'relief', externalMaps: { normal: imgs[6] } });
+      var setD3 = renderVersion(document.getElementById('rowD3'), imgs[5], 'D3·v4+AI法线+AI高度',
+        { mode: 'relief', externalMaps: { normal: imgs[6], height: imgs[7] } });
+      var setD4 = renderVersion(document.getElementById('rowD4'), imgs[5], 'D4·v4+AI高度(Sobel法线)',
+        { mode: 'relief', externalMaps: { height: imgs[7] } });
+      startGLPreview(document.getElementById('glD1'), setD1, 'D1 v4·纯relief');
+      startGLPreview(document.getElementById('glD2'), setD2, 'D2 v4·AI法线');
+      startGLPreview(document.getElementById('glD3'), setD3, 'D3 v4·AI法线+AI高度');
+      startGLPreview(document.getElementById('glD4'), setD4, 'D4 v4·AI高度(Sobel法线)');
+      log(mapStats(setD1, 'D1·v4纯relief'));
+      log(mapStats(setD2, 'D2·v4+AI法线'));
+      log(mapStats(setD3, 'D3·v4+AI法线+AI高度'));
+      log(mapStats(setD4, 'D4·v4+AI高度(Sobel法线)'));
+
+      /* 4K 高分辨率路线（v5）：1329×2048 物理输出 + 纯 relief（v5.1 前基线，金线关） */
+      var setE1 = renderVersion(document.getElementById('rowE1'), imgs[8], 'E1·v5-4K-relief',
+        { mode: 'relief', goldLines: false });
+      startGLPreview(document.getElementById('glE1'), setE1, 'E1 v5·4K');
+      log('—— v5 4K 数值验收（1329 物理口径：梯度约为 664 的一半，p50 贴目标下限属预期；normal 强度已 ×2 补偿）——');
+      log(mapStats(setE1, 'E1·v5-4K'));
+
+      /* 100% 放大对比：v4 模拟旧输出（D1 的 1329 渲染降采样回 664）vs v5 原生 */
+      var v4sim = document.createElement('canvas');
+      v4sim.width = 664; v4sim.height = 1024;
+      var simX = v4sim.getContext('2d');
+      simX.imageSmoothingEnabled = true;
+      simX.imageSmoothingQuality = 'high';
+      simX.drawImage(setD1.diffuse, 0, 0, 664, 1024);
+      var rowZoom = document.getElementById('rowZoom');
+      zoomBoard(rowZoom, '脸部发丝', v4sim, setE1.diffuse, { x: 242, y: 238 }, { x: 264, y: 130 });
+      zoomBoard(rowZoom, '铠甲边缘', v4sim, setE1.diffuse, { x: 242, y: 401 }, { x: 287, y: 340 });
+      zoomBoard(rowZoom, '弓', v4sim, setE1.diffuse, { x: 388, y: 545 }, { x: 480, y: 515 });
+      log('100% 放大对比已生成：v4@664 模拟旧输出（1329 降采样）vs v5@1329 原生');
+
+      /* v5 diffuse webp 导出（quality 92，禁 512 缩档；POST 给本地临时服务落盘 qa/v5-card-full.webp） */
+      setE1.diffuse.toBlob(function (blob) {
+        if (!blob) { log('!! E1 diffuse toBlob 失败'); return; }
+        fetch('/save/v5-card-full', { method: 'POST', body: blob }).then(function (r) {
+          log('E1 diffuse webp 已导出：' + blob.size + ' bytes（q92，HTTP ' + r.status + '）');
+        }).catch(function (e) {
+          log('!! webp POST 失败：' + e.message);
+        });
+      }, 'image/webp', 0.92);
+
+      /* v7：具体场景版（教堂玫瑰窗 / 栅栏 / 墓碑群 / 灯笼 / 水洼 / 乌鸦 / 2 幽灵）
+       *   走 v5.2 金线终版管线。F1 无 AI / F2 金线+AI高度（＝主站目标管线） */
+      var setF1 = renderVersion(document.getElementById('rowF1'), imgs[12], 'F1·v7金线', { mode: 'relief' });
+      var setF2 = renderVersion(document.getElementById('rowF2'), imgs[12], 'F2·v7金线+AI高度',
+        { mode: 'relief', externalMaps: { height: imgs[13], fuseHeight: true } });
+      startGLPreview(document.getElementById('glF1'), setF1, 'F1 v7·金线');
+      startGLPreview(document.getElementById('glF2'), setF2, 'F2 v7·金线+AI高度');
+      log('—— v7 数值验收（金线脊位于 height≥170 叠加层域，不污染画芯统计）——');
+      log(mapStats(setF1, 'F1·v7金线'));
+      log(mapStats(setF2, 'F2·v7金线+AI高度'));
+
+      /* 金线 100% 放大：F1（无 AI）降采样对照 vs F2 原生，同区对齐（v7 构图坐标） */
+      var f1sim = document.createElement('canvas');
+      f1sim.width = 664; f1sim.height = 1024;
+      var f1x = f1sim.getContext('2d');
+      f1x.imageSmoothingEnabled = true;
+      f1x.imageSmoothingQuality = 'high';
+      f1x.drawImage(setF1.diffuse, 0, 0, 664, 1024);
+      var rowZ51 = document.getElementById('rowZoom51');
+      zoomBoard(rowZ51, '头部+月亮光环', f1sim, setF2.diffuse, { x: 332, y: 200 }, { x: 332, y: 200 });
+      zoomBoard(rowZ51, '教堂玫瑰窗', f1sim, setF2.diffuse, { x: 490, y: 330 }, { x: 490, y: 330 });
+      zoomBoard(rowZ51, '灯笼+栅栏', f1sim, setF2.diffuse, { x: 540, y: 700 }, { x: 540, y: 700 });
+      zoomBoard(rowZ51, '左幽灵+十字架墓碑', f1sim, setF2.diffuse, { x: 90, y: 480 }, { x: 90, y: 480 });
+      log('v7 金线 100% 放大对比已生成（F1 无AI 降采样 vs F2 原生）');
+
+      /* F2 diffuse webp 导出（＝主站目标管线成卡，q92） */
+      setF2.diffuse.toBlob(function (blob2) {
+        if (!blob2) { log('!! F2 diffuse toBlob 失败'); return; }
+        fetch('/save/v71-card-full', { method: 'POST', body: blob2 }).then(function (r) {
+          log('F2 diffuse webp 已导出：' + blob2.size + ' bytes（q92，HTTP ' + r.status + '）');
+        }).catch(function (e) {
+          log('!! v71 webp POST 失败：' + e.message);
+        });
+      }, 'image/webp', 0.92);
+
+      /* G 组：国风样板卡 · 李白「举杯邀月」（工笔重彩绢本）
+       *   G1 无 AI / G2 金线+AI高度（＝量产目标管线）。
+       *   skipZones 走 opts.goldLineParams 整体替换（不动希尔瓦娜斯全局定稿区）。 */
+      var LIBAI = {
+        id: 'libai',
+        name:  { zh: '李白', en: 'Li Bai' },
+        title: { zh: '诗仙', en: 'The Immortal Poet' },
+        faction: 'horde',
+        class: 'hunter',
+        race:  { zh: '唐 · 诗人', en: 'Tang Poet' },
+        rarity: 'legendary',
+        sigil: 'shadow',
+        quote: '举杯邀明月，对影成三人。',
+        lore: '唐代浪漫主义诗人，斗酒诗百篇，长安市上酒家眠。',
+        stats: { might: 6, magic: 9, resolve: 8 }
+      };
+      /* 李白弱线禁区（逻辑 664×1024 椭圆）：头部 + 场景元素（楼阁/灯笼/牡丹/
+         石桌酒坛/城墙佛塔/底部栏杆水面）。人物+月环+酒爵酒壶不在禁区内。 */
+      var LIBAI_ZONES = [
+        { x: 405, y: 330, rx: 80,  ry: 100 },  // 头部：幞头/面容/头巾飘带
+        { x: 75,  y: 220, rx: 95,  ry: 210 },  // 酒肆楼阁（含左侧灯笼）
+        { x: 185, y: 360, rx: 40,  ry: 60 },   // 右侧红灯笼
+        { x: 75,  y: 620, rx: 95,  ry: 140 },  // 牡丹花树
+        { x: 150, y: 730, rx: 125, ry: 100 },  // 石桌 + 酒坛（酒字）+ 果盘
+        { x: 555, y: 420, rx: 115, ry: 120 },  // 远景城墙 + 佛塔
+        { x: 332, y: 960, rx: 340, ry: 90 }    // 底部石栏杆 + 水面月影
+      ];
+      var LIBAI_GL = { skipZones: LIBAI_ZONES, moonHint: { x: 357, y: 272, r: 140 } };
+      var setG1 = renderVersion(document.getElementById('rowG1'), imgs[14], 'G1·李白金线',
+        { mode: 'relief', goldLineParams: LIBAI_GL }, LIBAI);
+      var setG2 = renderVersion(document.getElementById('rowG2'), imgs[14], 'G2·李白金线+AI高度',
+        { mode: 'relief', externalMaps: { height: imgs[15], fuseHeight: true }, goldLineParams: LIBAI_GL }, LIBAI);
+      startGLPreview(document.getElementById('glG1'), setG1, 'G1 李白·金线');
+      startGLPreview(document.getElementById('glG2'), setG2, 'G2 李白·金线+AI高度');
+      startGLPreview(document.getElementById('glG3'), setG2, 'G2 李白·光扫左上');
+      log('—— 李白样板卡数值验收 ——');
+      log(mapStats(setG1, 'G1·李白金线'));
+      log(mapStats(setG2, 'G2·李白金线+AI高度'));
+
+      /* G2 diffuse webp 导出（＝国风样板卡成卡，q92）。
+         用 toDataURL 同步编码 + atob 转二进制：toBlob 的异步编码在 headless
+         virtual-time 下会被各 GL 预览的 rAF 瞬间耗尽预算，回调永远等不到。 */
+      try {
+        var du = setG2.diffuse.toDataURL('image/webp', 0.92);
+        var bin = atob(du.split(',')[1]);
+        var u8 = new Uint8Array(bin.length);
+        for (var bi = 0; bi < bin.length; bi++) u8[bi] = bin.charCodeAt(bi);
+        fetch('/save/libai-card-full', { method: 'POST', body: u8 }).then(function (r) {
+          log('G2 diffuse webp 已导出：' + u8.length + ' bytes（q92，HTTP ' + r.status + '）');
+        }).catch(function (e) {
+          log('!! libai webp POST 失败：' + e.message);
+        });
+      } catch (e3) {
+        log('!! G2 webp 编码失败：' + e3.message);
+      }
+
+      /* 李白金线 100% 放大：G1（无 AI）降采样对照 vs G2 原生，同区对齐 */
+      var g1sim = document.createElement('canvas');
+      g1sim.width = 664; g1sim.height = 1024;
+      var g1x = g1sim.getContext('2d');
+      g1x.imageSmoothingEnabled = true;
+      g1x.imageSmoothingQuality = 'high';
+      g1x.drawImage(setG1.diffuse, 0, 0, 664, 1024);
+      var rowZG = document.getElementById('rowZoomG');
+      zoomBoard(rowZG, '头部+月环', g1sim, setG2.diffuse, { x: 390, y: 300 }, { x: 390, y: 300 });
+      zoomBoard(rowZG, '酒爵+月缘', g1sim, setG2.diffuse, { x: 270, y: 250 }, { x: 270, y: 250 });
+      zoomBoard(rowZG, '楼阁+灯笼(禁区)', g1sim, setG2.diffuse, { x: 100, y: 220 }, { x: 100, y: 220 });
+      zoomBoard(rowZG, '栏杆+水面月影', g1sim, setG2.diffuse, { x: 480, y: 900 }, { x: 480, y: 900 });
+      log('李白金线 100% 放大对比已生成（G1 无AI 降采样 vs G2 原生）');
+
+      /* 防御性自测 */
+      try {
+        window.CardArt.paintFaceFull(HERO, null);
+        log('!! paintFaceFull(hero, null) 未抛错（不符合预期）');
+      } catch (e) {
+        log('paintFaceFull(hero, null) 按预期抛错：' + e.message);
+      }
+      try {
+        var forced = window.CardArt.paintFaceFull(HERO, imgs[2], { mode: 'painting' });
+        log('显式 mode:painting 强制生效（artMode=' + forced.artMode + '，应 painting）');
+      } catch (e2) {
+        log('!! 显式 mode 调用失败：' + e2.message);
+      }
+      log('—— 对照渲染完成 ——');
+    }).catch(function (err) {
+      log('!! ' + err.message);
+    });
+  }
+
+  /* 等字体就绪再绘制；超时兜底直接画 */
+  var done = false;
+  function once() { if (!done) { done = true; run(); } }
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(once);
+    setTimeout(once, 2500);
+  } else {
+    window.addEventListener('load', once);
+    setTimeout(once, 2500);
+  }
+})();
+</script>
+</body>
+</html>

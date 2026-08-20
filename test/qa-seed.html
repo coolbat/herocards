@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head><meta charset="UTF-8"><title>QA seed</title></head>
+<body>
+<script>
+/* QA 专用：预置每日请卡/收藏状态后跳主站。用法：
+   test/qa-seed.html?drawn=libai&to=index.html  或  to=index.html%23hero=libai */
+var p = new URLSearchParams(location.search);
+if (p.get('drawn')) {
+  var d = new Date();
+  var ds = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate();
+  localStorage.setItem('guofeng-daily', JSON.stringify({ date: ds, drawnId: p.get('drawn'), streak: 3, lastDate: ds }));
+  localStorage.setItem('guofeng-collection', JSON.stringify([p.get('drawn')]));
+}
+if (p.get('clear') === '1') {
+  localStorage.removeItem('guofeng-daily');
+  localStorage.removeItem('guofeng-collection');
+}
+location.replace('/' + (p.get('to') || 'index.html'));
+</script>
+</body>
+</html>

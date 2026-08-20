@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<base href="../">
+<title>卡背 QC · 国风 vs 魔兽</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@400;500&display=swap" rel="stylesheet">
+<style>@font-face { font-family: 'Ma Shan Zheng'; src: url('assets/fonts/MaShanZheng-subset.woff2') format('woff2'); font-weight: 400; font-display: swap; }</style>
+<style>@font-face { font-family: 'Chong Xi Small Seal'; src: url('assets/fonts/chongxi_seal.otf') format('opentype'); font-weight: 400; font-display: swap; }</style>
+<style>
+  body { margin:0; padding:20px; background:#0b0f1c; color:#d8cfae; font-family:'Noto Sans SC',sans-serif; }
+  .row { display:flex; gap:24px; align-items:flex-start; }
+  .cell { display:flex; flex-direction:column; gap:6px; }
+  .cap { font-size:12px; color:#9aa0b8; text-align:center; }
+  canvas.back { display:block; width:332px; background:#05070d; border:1px solid #2a2f45; }
+  pre#log { font-size:12px; color:#9fd0a0; white-space:pre-wrap; }
+</style>
+</head>
+<body>
+<div class="row" id="row"></div>
+<pre id="log">……</pre>
+<script src="js/card-art.js"></script>
+<script>
+(function () {
+  'use strict';
+  var logEl = document.getElementById('log');
+  var lines = [];
+  function log(s) { lines.push(s); logEl.textContent = lines.join('\n'); }
+
+  function addBack(set, cap) {
+    var cell = document.createElement('div');
+    cell.className = 'cell';
+    set.diffuse.className = 'back';
+    cell.appendChild(set.diffuse);
+    var capEl = document.createElement('span');
+    capEl.className = 'cap';
+    capEl.textContent = cap;
+    cell.appendChild(capEl);
+    document.getElementById('row').appendChild(cell);
+  }
+
+  function run() {
+    try {
+      var t0 = performance.now();
+      var gf = window.CardArt.paintBack('guofeng');
+      log('国风卡背渲染 ' + (performance.now() - t0).toFixed(0) + 'ms（' +
+          gf.diffuse.width + '×' + gf.diffuse.height + '）');
+      addBack(gf, 'paintBack(\'guofeng\')');
+
+      var t1 = performance.now();
+      var wow = window.CardArt.paintBack();
+      log('魔兽卡背渲染 ' + (performance.now() - t1).toFixed(0) + 'ms（无参，回归检查）');
+      addBack(wow, 'paintBack() 无参 · 魔兽');
+
+      var again = window.CardArt.paintBack('guofeng');
+      log('缓存命中：' + (again === gf ? 'OK（同一引用）' : '!! 未命中'));
+    } catch (e) { log('!! ' + (e && e.message)); }
+  }
+
+  var done = false;
+  function once() { if (!done) { done = true; run(); } }
+  /* 显式触发字体加载（21MB 小篆整字体 + 毛笔子集），fonts.ready 可能不含未用字体 */
+  if (document.fonts && document.fonts.load) {
+    Promise.all([
+      document.fonts.load('30px "Chong Xi Small Seal"', '群英'),
+      document.fonts.load('30px "Ma Shan Zheng"', '华夏人物图鉴')
+    ]).then(once, once);
+    setTimeout(once, 6000);
+  } else { window.addEventListener('load', once); setTimeout(once, 6000); }
+})();
+</script>
+</body>
+</html>

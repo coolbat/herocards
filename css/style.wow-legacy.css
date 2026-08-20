@@ -1,0 +1,982 @@
+/* ============================================================================
+   艾泽拉斯英雄志 · HEROES OF AZEROTH — 全站样式
+   ----------------------------------------------------------------------------
+   结构移植自参考站 Tarot Sanctuary，配色替换为魔兽世界基调：
+   暗夜蓝黑底 + 烧金线稿 + 奥术蓝 accent；阵营三色：联盟蓝 / 部落红 / 中立金。
+   字体栈：Cinzel + Noto Serif SC（标题）/ Noto Serif SC（正文）/
+           Jost + Noto Sans SC（标签）。
+   ========================================================================== */
+
+:root {
+  --bg: #0a0d14;
+  --bg-lift: #10141d;
+  --panel: #0e1219;
+  --panel-border: #262b38;
+  --line: rgba(236, 227, 207, 0.14);
+  --cream: #ece3cf;
+  --cream-dim: #c7bda8;
+  --muted: #918a78;
+  --arcane: #69ccf0;          /* 主 accent（原参考站 coral 位） */
+  --arcane-deep: #3fa9d6;
+  --gold: #c8a55a;
+  --alliance: #4a8fdd;
+  --horde: #c41f3b;
+  --neutral: #c8a55a;
+  --serif: 'Cinzel', 'Noto Serif SC', serif;
+  --body: 'Noto Serif SC', serif;
+  --sans: 'Jost', 'Noto Sans SC', sans-serif;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: auto; }
+
+body {
+  background: var(--bg);
+  color: var(--cream);
+  font-family: var(--body);
+  min-height: 100vh;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+a { color: inherit; text-decoration: none; }
+button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; }
+
+svg { display: block; }
+
+/* ---------------------------------------------------------------- 页头 */
+
+.site-header {
+  position: relative;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  gap: 48px;
+  padding: 18px 44px;
+  border-bottom: 1px solid rgba(236, 227, 207, 0.08);
+  background: rgba(9, 12, 18, 0.72);
+  backdrop-filter: blur(6px);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  color: var(--gold);
+}
+
+.brand-mark { width: 30px; height: 30px; flex: none; }
+
+.brand-text { display: flex; flex-direction: column; gap: 2px; }
+
+.brand-name {
+  font-family: var(--serif);
+  font-weight: 600;
+  font-size: 18px;
+  letter-spacing: 0.3em;
+  color: var(--cream);
+  white-space: nowrap;
+}
+
+.brand-en {
+  font-family: var(--sans);
+  font-size: 9.5px;
+  font-weight: 500;
+  letter-spacing: 0.34em;
+  text-transform: uppercase;
+  color: var(--gold);
+  opacity: 0.85;
+  white-space: nowrap;
+}
+
+.nav {
+  display: flex;
+  gap: 38px;
+  margin-inline: auto;
+}
+
+.nav a {
+  position: relative;
+  font-family: var(--sans);
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.24em;
+  color: var(--cream-dim);
+  padding: 6px 2px;
+  transition: color 160ms ease;
+}
+
+.nav a:hover { color: var(--cream); }
+
+.nav a.active { color: var(--arcane); }
+
+.nav a.active::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -7px;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--arcane);
+  transform: translateX(-50%);
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+/* 收藏进度徽章 */
+.collect-badge {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--sans);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  color: var(--cream);
+  border: 1px solid rgba(200, 165, 90, 0.4);
+  border-radius: 10px;
+  padding: 10px 18px;
+  background: rgba(200, 165, 90, 0.06);
+}
+
+.collect-badge svg { width: 15px; height: 15px; color: var(--gold); }
+
+/* ------------------------------------------------------------------ hero */
+
+.hero {
+  position: relative;
+  /* 让抽出的卡牌可停泊在首屏之下而不撑大页面滚动；
+     横向不裁剪，避免面板阴影被切。 */
+  overflow-y: clip;
+  display: grid;
+  grid-template-columns: minmax(0, 1.08fr) minmax(0, 1fr);
+  gap: 40px;
+  align-items: start;
+  padding: 56px 64px 72px 44px;
+  min-height: calc(100vh - 75px);
+}
+
+/* 程序化暗夜背景：奥术蓝与暖金的极淡角光 + 中央暗角（纯渐变，无图片） */
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 62% 52% at 16% 28%, rgba(105, 204, 240, 0.06), transparent 70%),
+    radial-gradient(ellipse 56% 46% at 86% 78%, rgba(200, 165, 90, 0.05), transparent 70%),
+    radial-gradient(ellipse 92% 82% at 50% 50%, transparent 42%, rgba(4, 6, 10, 0.5) 100%);
+  pointer-events: none;
+}
+
+.hero-bg::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(to right, rgba(10, 13, 20, 0) 46%, rgba(10, 13, 20, 0.55) 82%, rgba(10, 13, 20, 0.72) 100%),
+    linear-gradient(to bottom, rgba(10, 13, 20, 0.5) 0%, rgba(10, 13, 20, 0) 22%, rgba(10, 13, 20, 0) 78%, rgba(10, 13, 20, 0.55) 100%);
+}
+
+.content-column { position: relative; z-index: 2; }
+
+/* 卡牌栏层级高于内容栏：新卡从页底飞入时从格言/面板上方掠过 */
+.card-column { position: relative; z-index: 3; }
+
+/* ------------------------------------------------------------- 卡牌侧 */
+
+.card-column {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 8px;
+}
+
+.card-stage {
+  position: relative;
+  width: clamp(320px, 31.5vw, 470px);
+}
+
+/* card-mover 承载抽卡入场位移/旋转/缩放与翻面透视，
+   使灭点随卡牌一同移动。 */
+.card-mover {
+  position: relative;
+  perspective: 1400px;
+  will-change: transform;
+}
+
+/* 动态阴影：卡牌背后的模糊暗块，由 app.js 仅用 transform 驱动，
+   与指针主光源反向滑动。 */
+.card-shadow {
+  position: absolute;
+  inset: 3.5% 4.5%;
+  border-radius: 28px;
+  background: rgba(2, 3, 6, 0.62);
+  filter: blur(26px);
+  transform: translate3d(0, 22px, 0);
+  will-change: transform, opacity;
+  pointer-events: none;
+}
+
+.card-tilt {
+  position: relative;
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+.card-obj {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 664 / 1024;   /* 与 CardArt.W / CardArt.H 契约一致 */
+  filter: drop-shadow(0 5px 12px rgba(0, 0, 0, 0.4));
+  backface-visibility: hidden;
+}
+
+/* 卡背：与正面共面，预旋转 180°，翻面时显露 */
+.card-back {
+  position: absolute;
+  inset: 0;
+  transform: rotateY(180deg);
+  filter: drop-shadow(0 5px 12px rgba(0, 0, 0, 0.4));
+  backface-visibility: hidden;
+}
+
+.card-obj canvas,
+.card-back canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* WebGL 光照层就绪后隐藏 DOM 静态卡面 */
+.card-obj.is-webgl .card-face,
+.card-back.is-webgl .card-face { visibility: hidden; }
+
+/* ------------------------------------------- 静态降级卡面（DOM 绘制） */
+
+.card-face {
+  position: absolute;
+  inset: 0;
+  border-radius: 4.5% / 3%;
+  overflow: hidden;
+  background:
+    radial-gradient(ellipse 120% 90% at 50% 0%, rgba(105, 204, 240, 0.08), transparent 55%),
+    linear-gradient(175deg, #141a26 0%, #0d1119 48%, #0a0d14 100%);
+  border: 1px solid rgba(200, 165, 90, 0.45);
+  box-shadow: inset 0 0 0 5px #0a0d14, inset 0 0 0 6px rgba(200, 165, 90, 0.28);
+}
+
+.cf-band {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 5px;
+  background: var(--band, var(--gold));
+}
+
+.cf-body {
+  position: absolute;
+  inset: 7% 8%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.cf-rarity {
+  font-family: var(--sans);
+  font-size: clamp(10px, 0.95vw, 13px);
+  font-weight: 500;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--rarity, var(--gold));
+}
+
+.cf-sigil {
+  width: 34%;
+  margin-top: 9%;
+  color: var(--gold);
+  opacity: 0.95;
+}
+
+.cf-name {
+  margin-top: auto;
+  font-family: var(--serif);
+  font-size: clamp(24px, 2.3vw, 34px);
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  color: #f2ead9;
+}
+
+.cf-title {
+  margin-top: 8px;
+  font-size: clamp(13px, 1.15vw, 16px);
+  color: var(--cream-dim);
+  letter-spacing: 0.08em;
+}
+
+.cf-meta {
+  margin-top: 14px;
+  padding-top: 12px;
+  width: 62%;
+  border-top: 1px solid rgba(200, 165, 90, 0.3);
+  font-family: var(--sans);
+  font-size: clamp(10px, 0.95vw, 13px);
+  letter-spacing: 0.22em;
+  color: var(--muted);
+}
+
+/* 静态卡背 */
+.card-face-back {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 7%;
+  background:
+    radial-gradient(ellipse 100% 80% at 50% 42%, rgba(200, 165, 90, 0.1), transparent 60%),
+    linear-gradient(175deg, #121826 0%, #0c1018 55%, #090c12 100%);
+}
+
+.cb-rose { width: 46%; color: var(--gold); opacity: 0.9; }
+
+.cb-word {
+  font-family: var(--sans);
+  font-size: clamp(9px, 0.85vw, 12px);
+  font-weight: 500;
+  letter-spacing: 0.4em;
+  color: var(--gold);
+  opacity: 0.75;
+}
+
+/* 旧卡飞出克隆：fixed 覆盖在卡牌原位置，由 app.js 飞向页面左上 */
+.card-fly {
+  position: fixed;
+  z-index: 80;
+  perspective: 1400px;
+  pointer-events: none;
+}
+
+.card-fly-inner {
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+.fly-face {
+  position: absolute;
+  inset: 0;
+  filter: drop-shadow(0 5px 12px rgba(0, 0, 0, 0.4));
+  backface-visibility: hidden;
+}
+
+.fly-face.fly-back { transform: rotateY(180deg); }
+
+.fly-face canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+
+/* ------------------------------------------------------------- 格言区 */
+
+.card-quote {
+  margin-top: 34px;
+  max-width: 30ch;
+  font-family: var(--serif);
+  font-size: clamp(19px, 1.7vw, 25px);
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  line-height: 1.5;
+  color: var(--cream);
+  text-align: center;
+}
+
+.card-quote em { font-style: normal; }
+
+.qmark {
+  color: var(--arcane);
+  font-size: 1.2em;
+  line-height: 0;
+  padding-inline: 0.08em;
+}
+
+.quote-ornament {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 20px;
+  color: var(--gold);
+}
+
+.quote-ornament svg { width: 11px; height: 11px; opacity: 0.9; }
+
+.orn-line {
+  width: 34px;
+  height: 1px;
+  background: linear-gradient(to right, transparent, rgba(200, 165, 90, 0.55));
+}
+
+.quote-ornament .orn-line:last-child {
+  background: linear-gradient(to left, transparent, rgba(200, 165, 90, 0.55));
+}
+
+/* ------------------------------------------------------------- 内容侧 */
+
+.content-column {
+  max-width: 620px;
+  padding-top: 26px;
+}
+
+.eyebrow {
+  font-family: var(--sans);
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
+.eyebrow-orn { color: var(--gold); letter-spacing: 0.05em; padding-left: 6px; }
+
+h1 {
+  margin-top: 22px;
+  font-family: var(--serif);
+  font-weight: 500;
+  font-size: clamp(40px, 4.4vw, 62px);
+  line-height: 1.14;
+  letter-spacing: 0.02em;
+  color: #f2ead9;
+}
+
+.sun-divider { margin-top: 26px; color: var(--gold); }
+.sun-divider svg { width: 24px; height: 24px; }
+
+.lede {
+  margin-top: 22px;
+  max-width: 46ch;
+  font-size: 18px;
+  line-height: 1.7;
+  color: var(--cream-dim);
+}
+
+.rule {
+  margin-top: 30px;
+  border: 0;
+  height: 1px;
+  background: var(--line);
+}
+
+.privacy-note {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  margin-top: 22px;
+  color: var(--cream-dim);
+}
+
+.privacy-note svg { width: 19px; height: 19px; margin-top: 3px; color: var(--muted); flex: none; }
+
+.privacy-note p { font-size: 15.5px; line-height: 1.55; }
+
+.privacy-note strong { color: var(--cream); font-weight: 500; }
+
+/* ------------------------------------------------------------ 召唤面板 */
+
+.reading-panel {
+  margin-top: 30px;
+  background: linear-gradient(180deg, rgba(19, 24, 34, 0.92), rgba(12, 15, 22, 0.92));
+  border: 1px solid var(--panel-border);
+  border-radius: 16px;
+  padding: 26px 26px 0;
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4);
+}
+
+.panel-label {
+  font-family: var(--sans);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
+.lbl-orn { letter-spacing: 0.05em; padding-right: 6px; }
+
+.action {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
+  text-align: left;
+  border-radius: 10px;
+  padding: 16px 20px;
+  margin-top: 16px;
+  transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease, background 180ms ease;
+}
+
+/* 主按钮：奥术蓝渐变（原参考站 coral 位），无纹理图 */
+.action-primary {
+  background:
+    radial-gradient(ellipse 120% 160% at 20% 0%, rgba(105, 204, 240, 0.28), transparent 60%),
+    linear-gradient(180deg, rgba(63, 169, 214, 0.34), rgba(31, 108, 148, 0.5));
+  box-shadow: 0 14px 30px rgba(63, 169, 214, 0.24);
+  color: #f0f8fd;
+}
+
+.action-primary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 18px 36px rgba(63, 169, 214, 0.34);
+}
+
+.action-secondary {
+  background: linear-gradient(180deg, rgba(236, 227, 207, 0.02), rgba(0, 0, 0, 0.12));
+  border: 1px solid rgba(236, 227, 207, 0.16);
+  color: var(--cream);
+}
+
+.action-secondary:hover {
+  border-color: rgba(236, 227, 207, 0.34);
+}
+
+.action-icon {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  flex: none;
+}
+
+.action-primary .action-icon { background: rgba(240, 248, 253, 0.14); }
+.action-secondary .action-icon { border: 1px solid rgba(236, 227, 207, 0.18); color: var(--cream-dim); }
+
+.action-icon svg { width: 20px; height: 20px; }
+
+.action-text { display: flex; flex-direction: column; gap: 3px; }
+
+.action-title {
+  font-family: var(--sans);
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+}
+
+.action-sub { font-size: 14.5px; opacity: 0.82; }
+
+.action-arrow { width: 20px; height: 20px; margin-left: auto; flex: none; opacity: 0.9; }
+
+.intention-label { margin-top: 26px; }
+
+.intentions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.chip {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  font-family: var(--sans);
+  font-size: 14px;
+  font-weight: 400;
+  letter-spacing: 0.06em;
+  color: var(--cream-dim);
+  border: 1px solid rgba(236, 227, 207, 0.16);
+  border-radius: 999px;
+  padding: 10px 20px;
+  transition: border-color 160ms ease, color 160ms ease, background 160ms ease;
+}
+
+.chip svg { width: 15px; height: 15px; color: var(--gold); }
+
+.chip:hover {
+  color: var(--cream);
+  border-color: rgba(236, 227, 207, 0.36);
+  background: rgba(236, 227, 207, 0.04);
+}
+
+/* 选中态：默认奥术蓝，阵营 chip 各有专属色 */
+.chip.is-active {
+  color: var(--cream);
+  border-color: rgba(105, 204, 240, 0.65);
+  background: rgba(105, 204, 240, 0.09);
+}
+
+.chip-alliance svg { color: var(--alliance); }
+.chip-alliance.is-active { border-color: rgba(74, 143, 221, 0.75); background: rgba(74, 143, 221, 0.1); }
+
+.chip-horde svg { color: #e4566d; }
+.chip-horde.is-active { border-color: rgba(196, 31, 59, 0.85); background: rgba(196, 31, 59, 0.12); }
+
+.chip-neutral svg { color: var(--neutral); }
+.chip-neutral.is-active { border-color: rgba(200, 165, 90, 0.75); background: rgba(200, 165, 90, 0.1); }
+
+.panel-foot {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 26px;
+  padding: 18px 2px 20px;
+  border-top: 1px solid rgba(236, 227, 207, 0.1);
+  color: var(--cream-dim);
+}
+
+.panel-foot > svg { width: 19px; height: 19px; color: var(--gold); flex: none; }
+
+.panel-foot p { font-size: 14.5px; }
+.panel-foot strong { color: var(--cream); font-weight: 500; }
+
+.learn-more {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-left: auto;
+  font-family: var(--sans);
+  font-size: 13.5px;
+  color: var(--cream);
+  white-space: nowrap;
+  transition: color 160ms ease;
+}
+
+.learn-more:hover { color: var(--arcane); }
+.learn-more svg { width: 16px; height: 16px; }
+
+/* ------------------------------------------------------ 暗月马戏团 chip */
+
+.moon-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 26px;
+  float: right;
+  font-family: var(--sans);
+  font-size: 14px;
+  color: var(--cream-dim);
+  background: rgba(13, 17, 24, 0.85);
+  border: 1px solid rgba(236, 227, 207, 0.14);
+  border-radius: 12px;
+  padding: 13px 20px;
+}
+
+.moon-chip svg { width: 16px; height: 16px; color: var(--cream-dim); }
+
+.moon-days {
+  font-size: 11.5px;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  color: var(--arcane);
+  border-left: 1px solid rgba(236, 227, 207, 0.14);
+  padding-left: 12px;
+}
+
+/* ------------------------------------------------------------ 收藏图鉴 */
+
+.collection {
+  position: relative;
+  padding: 88px 64px 104px;
+  background:
+    radial-gradient(ellipse 70% 40% at 50% 0%, rgba(200, 165, 90, 0.045), transparent 70%),
+    var(--bg-lift);
+  border-top: 1px solid rgba(236, 227, 207, 0.08);
+}
+
+.collection-head {
+  max-width: 1180px;
+  margin-inline: auto;
+}
+
+.collection-title {
+  margin-top: 18px;
+  font-family: var(--serif);
+  font-weight: 500;
+  font-size: clamp(30px, 3vw, 42px);
+  letter-spacing: 0.1em;
+  color: #f2ead9;
+}
+
+.collection-sub {
+  margin-top: 12px;
+  font-size: 16px;
+  color: var(--cream-dim);
+  letter-spacing: 0.04em;
+}
+
+.class-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 26px;
+}
+
+.class-chips .chip {
+  font-size: 13px;
+  padding: 8px 16px;
+}
+
+.class-chips .chip .chip-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--dot, var(--gold));
+  flex: none;
+}
+
+/* 进度条 */
+.progress { margin-top: 28px; max-width: 520px; }
+
+.progress-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  font-family: var(--sans);
+  font-size: 13px;
+  letter-spacing: 0.12em;
+  color: var(--cream-dim);
+  margin-bottom: 10px;
+}
+
+.progress-pct { color: var(--gold); font-weight: 600; }
+
+.progress-track {
+  height: 6px;
+  border-radius: 999px;
+  background: rgba(236, 227, 207, 0.08);
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  width: 0%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #8f7339, var(--gold) 60%, #e2c684);
+  box-shadow: 0 0 12px rgba(200, 165, 90, 0.35);
+  transition: width 700ms cubic-bezier(0.22, 0.8, 0.3, 1);
+}
+
+/* 卡牌网格 */
+.dex-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 18px;
+  max-width: 1180px;
+  margin: 36px auto 0;
+}
+
+.dex-card {
+  position: relative;
+  aspect-ratio: 664 / 1024;
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid rgba(236, 227, 207, 0.12);
+  background: var(--panel);
+  transition: transform 200ms ease, box-shadow 200ms ease, border-color 200ms ease;
+}
+
+.dex-card canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* 已收集：hover 上浮 + 金边发光 */
+.dex-card.owned { border-color: rgba(200, 165, 90, 0.3); }
+
+.dex-card.owned:hover {
+  transform: translateY(-6px);
+  border-color: rgba(200, 165, 90, 0.7);
+  box-shadow:
+    0 16px 34px rgba(0, 0, 0, 0.5),
+    0 0 0 1px rgba(200, 165, 90, 0.45),
+    0 0 26px rgba(200, 165, 90, 0.2);
+}
+
+/* 已收集卡底部名字条 */
+.dex-caption {
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 22px 10px 9px;
+  background: linear-gradient(to top, rgba(6, 8, 12, 0.92), transparent);
+  font-family: var(--sans);
+  font-size: 12.5px;
+  letter-spacing: 0.08em;
+  color: var(--cream);
+  pointer-events: none;
+}
+
+.dex-caption .chip-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--dot, var(--gold));
+  flex: none;
+}
+
+/* 未收集：卡背剪影 + ??? 灰化 */
+.dex-card.locked {
+  border-style: dashed;
+  border-color: rgba(236, 227, 207, 0.1);
+}
+
+.dex-locked {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  background:
+    radial-gradient(ellipse 90% 70% at 50% 40%, rgba(200, 165, 90, 0.05), transparent 65%),
+    linear-gradient(175deg, #10141d 0%, #0b0e15 100%);
+  filter: grayscale(1);
+}
+
+.dex-locked svg {
+  width: 38%;
+  color: var(--gold);
+  opacity: 0.28;
+}
+
+.dex-q {
+  font-family: var(--serif);
+  font-size: 15px;
+  letter-spacing: 0.34em;
+  color: var(--muted);
+  opacity: 0.8;
+  padding-left: 0.34em; /* 视觉居中补偿字距 */
+}
+
+/* 筛选后空态 */
+.dex-empty {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 48px 0;
+  color: var(--muted);
+  font-size: 15px;
+  letter-spacing: 0.1em;
+}
+
+/* ---------------------------------------------------------------- 页脚 */
+
+.site-footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  padding: 30px 24px 34px;
+  border-top: 1px solid rgba(236, 227, 207, 0.07);
+  background: var(--bg);
+}
+
+.site-footer p {
+  font-family: var(--sans);
+  font-size: 12px;
+  letter-spacing: 0.18em;
+  color: var(--muted);
+  text-align: center;
+}
+
+.foot-orn { color: var(--gold); opacity: 0.6; font-size: 11px; }
+
+/* ---------------------------------------------------------------- toast */
+
+.toast {
+  position: fixed;
+  left: 50%;
+  bottom: 34px;
+  z-index: 120;
+  transform: translate(-50%, 16px);
+  opacity: 0;
+  pointer-events: none;
+  font-family: var(--sans);
+  font-size: 14px;
+  letter-spacing: 0.1em;
+  color: var(--cream);
+  background: rgba(14, 18, 25, 0.94);
+  border: 1px solid rgba(200, 165, 90, 0.5);
+  border-radius: 12px;
+  padding: 13px 24px;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5);
+  transition: opacity 220ms ease, transform 220ms ease;
+}
+
+.toast.show {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+
+/* ---------------------------------------------------- 肖像预载 loading 态 */
+
+/* app.js 在 CardArt.preloadPortraits 期间给 .card-stage 加 .is-loading-portraits：
+   卡体轻微脉冲呼吸 + 格言区扫过一道奥术微光；预载就绪即移除。 */
+.card-stage.is-loading-portraits .card-mover {
+  animation: portrait-loading-pulse 1.6s ease-in-out infinite;
+}
+
+@keyframes portrait-loading-pulse {
+  0%, 100% { opacity: 0.55; filter: saturate(0.7); }
+  50% { opacity: 0.95; filter: saturate(1); }
+}
+
+.card-stage.is-loading-portraits ~ .card-quote {
+  position: relative;
+  overflow: hidden;
+}
+
+.card-stage.is-loading-portraits ~ .card-quote::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(100deg, transparent 30%, rgba(105, 204, 240, 0.14) 50%, transparent 70%);
+  animation: portrait-loading-sheen 1.8s linear infinite;
+  pointer-events: none;
+}
+
+@keyframes portrait-loading-sheen {
+  from { transform: translateX(-100%); }
+  to { transform: translateX(100%); }
+}
+
+/* ------------------------------------------------------------ 响应式 */
+
+@media (max-width: 1120px) {
+  .hero { grid-template-columns: 1fr; padding: 48px 32px; }
+  .card-column { order: 2; margin-top: 48px; }
+  .content-column { order: 1; max-width: 640px; margin-inline: auto; }
+  .nav { display: none; }
+  .collection { padding: 72px 32px 88px; }
+}
+
+@media (max-width: 620px) {
+  .site-header { padding: 14px 20px; gap: 16px; }
+  .brand-en { display: none; }
+  .collect-badge { padding: 8px 12px; font-size: 12px; }
+  .hero { padding: 36px 18px 56px; }
+  .card-stage { width: min(86vw, 420px); }
+  .collection { padding: 56px 18px 72px; }
+  .dex-grid { grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 12px; }
+  .moon-chip { float: none; }
+}
+
+/* -------------------------------------------------- 减少动态偏好降级 */
+
+@media (prefers-reduced-motion: reduce) {
+  .card-tilt,
+  .card-mover { transform: none !important; }
+  .dex-card,
+  .action,
+  .progress-fill,
+  .toast { transition: none; }
+  .card-stage.is-loading-portraits .card-mover { animation: none; opacity: 0.8; }
+  .card-stage.is-loading-portraits ~ .card-quote::after { animation: none; }
+}

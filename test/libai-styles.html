@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<base href="../">
+<title>李白 · 三风对比 QC（工笔重彩 / 水墨淡彩 / 敦煌壁画）</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Noto+Serif+SC:wght@400;600;700&family=Jost:wght@400;500;600&family=Noto+Sans+SC:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  body { margin:0; padding:20px; background:#0b0f1c; color:#d8cfae; font-family:'Jost','Noto Sans SC',sans-serif; }
+  h2 { font-family:'Noto Serif SC',serif; font-size:16px; color:#e6d9ac; margin:24px 0 10px; border-left:3px solid #c8a55a; padding-left:10px; }
+  .glstage { display:flex; gap:24px; align-items:flex-start; }
+  .glcell { display:flex; flex-direction:column; gap:6px; }
+  .glcap { font-size:12px; color:#9aa0b8; text-align:center; }
+  canvas.glcard { display:block; width:210px; height:324px; background:#05070d; border:1px solid #2a2f45; }
+  .still { display:block; width:210px; height:auto; background:#111; border:1px solid #2a2f45; }
+  .glstage { flex-wrap:wrap; }
+  pre#log { font-size:12px; color:#9fd0a0; white-space:pre-wrap; }
+</style>
+</head>
+<body>
+<h2>五风对比 · 实光（光扫左上固定光位）＋ 成卡静帧</h2>
+<div class="glstage">
+  <div class="glcell"><canvas id="glGongbi" class="glcard" data-light="0.12,0.82"></canvas><span class="glcap">工笔重彩（基准）</span></div>
+  <div class="glcell"><canvas id="glShuimo" class="glcard" data-light="0.12,0.82"></canvas><span class="glcap">水墨淡彩</span></div>
+  <div class="glcell"><canvas id="glDunhuang" class="glcard" data-light="0.12,0.82"></canvas><span class="glcap">敦煌壁画</span></div>
+  <div class="glcell"><canvas id="glQinglu" class="glcard" data-light="0.12,0.82"></canvas><span class="glcap">青绿金碧</span></div>
+  <div class="glcell"><canvas id="glFalang" class="glcard" data-light="0.12,0.82"></canvas><span class="glcap">掐丝珐琅</span></div>
+</div>
+<h2>成卡 diffuse（native 导出见 qa/*.webp）</h2>
+<div class="glstage" id="stills"></div>
+<pre id="log">……</pre>
+<script src="js/card-art.js"></script>
+<script>
+(function () {
+  'use strict';
+  var logEl = document.getElementById('log');
+  var lines = [];
+  function log(s) { lines.push(s); logEl.textContent = lines.join('\n'); }
+
+  var VERT = `#version 300 es
+  in vec2 aPos;
+  out vec2 vUv;
+  void main() {
+    vUv = aPos * 0.5 + 0.5;
+    gl_Position = vec4(aPos, 0.0, 1.0);
+  }`;
+
+  var FRAG = `#version 300 es
+  precision highp float;
+  in vec2 vUv;
+  out vec4 frag;
+
+  uniform sampler2D uDiffuse;
+  uniform sampler2D uNormal;
+  uniform sampler2D uRough;
+  uniform sampler2D uHeight;
+
+  uniform vec2  uMouse;       // 指针在 canvas UV 中的位置（y 向上）
+  uniform float uHasMouse;
+  uniform float uParallax;
+  uniform float uLightZ;
+  uniform float uNormalStr;
+  uniform float uSpecStr;
+  uniform float uDiffuseAmt;
+  uniform float uAmbientAmt;
+  uniform vec3  uLightColor;
+  uniform vec3  uAmbientColor;
+  uniform float uMotion;
+
+  void main() {
+    vec2 uv = vUv;
+
+    // 高度视差：凸起像素随指针反向漂移
+    float h0 = texture(uHeight, uv).r;
+    if (uMotion > 0.5 && uHasMouse > 0.5) {
+      vec2 viewOff = (uMouse - vec2(0.5)) * 2.0;
+      uv = clamp(uv - viewOff * (h0 * uParallax), 0.001, 0.999);
+    }
+
+    vec4 diff = texture(uDiffuse, uv);
+    float a = diff.a;
+    if (a < 0.004) { frag = vec4(0.0); return; }
+
+    vec3 albedo = diff.rgb;
+    float rough = texture(uRough, uv).r;
+    float h = texture(uHeight, uv).r;
+
+    vec3 nRaw = texture(uNormal, uv).xyz * 2.0 - 1.0;
+    nRaw.xy *= uNormalStr;
+    vec3 N = normalize(vec3(nRaw.xy, max(nRaw.z, 0.08)));
+
+    vec3 V = vec3(0.0, 0.0, 1.0);
+    float ambRelief = 0.74 + 0.26 * max(N.z, 0.0);
+    vec3 col = albedo * uAmbientColor * uAmbientAmt * ambRelief;
+
+    // 跟随指针的奥术暖金主光源
+    vec2 lightUv = (uHasMouse > 0.5) ? uMouse : vec2(0.44, 0.66);
+    vec3 L = normalize(vec3(lightUv.x - uv.x, lightUv.y - uv.y, uLightZ));
+    float ndl = max(dot(N, L), 0.0);
+    float wrap = ndl * 0.8 + 0.2;
+    col += albedo * uLightColor * (wrap * uDiffuseAmt);
+
+    // 粗糙度塑形的高光：烧金线稿吃光，哑光墨色保持安静
+    vec3 H = normalize(L + V);
+    float shininess = mix(52.0, 6.0, clamp(rough, 0.0, 1.0));
+    float spec = pow(max(dot(N, H), 0.0), shininess);
+    spec *= (1.0 - rough * 0.85) * uSpecStr;
+    spec *= 0.82 + 0.34 * h;
+    col += uLightColor * spec;
+
+    // 主光从侧面掠射时的微弱暖色轮廓光
+    float rim = pow(1.0 - max(dot(N, V), 0.0), 2.4);
+    float side = 1.0 - abs(L.z);
+    col += uLightColor * rim * side * 0.1 * (1.0 - rough * 0.5);
+
+    col = clamp(col, 0.0, 1.0);
+    frag = vec4(col * a, a);
+  }`;
+
+  function startGLPreview(canvas, set, tag) {
+    var gl = canvas.getContext('webgl2', {
+      alpha: true, antialias: false, premultipliedAlpha: true, preserveDrawingBuffer: true
+    });
+    if (!gl) { log('!! WebGL2 不可用，实光预览跳过'); return; }
+
+    function compile(type, src) {
+      var s = gl.createShader(type);
+      gl.shaderSource(s, src);
+      gl.compileShader(s);
+      if (!gl.getShaderParameter(s, gl.COMPILE_STATUS)) {
+        log('!! shader 编译失败：' + gl.getShaderInfoLog(s));
+        return null;
+      }
+      return s;
+    }
+    var vs = compile(gl.VERTEX_SHADER, VERT);
+    var fs = compile(gl.FRAGMENT_SHADER, FRAG);
+    if (!vs || !fs) return;
+    var prog = gl.createProgram();
+    gl.attachShader(prog, vs);
+    gl.attachShader(prog, fs);
+    gl.linkProgram(prog);
+    if (!gl.getProgramParameter(prog, gl.LINK_STATUS)) {
+      log('!! 光照链接失败：' + gl.getProgramInfoLog(prog));
+      return;
+    }
+    gl.useProgram(prog);
+
+    var vao = gl.createVertexArray();
+    gl.bindVertexArray(vao);
+    var buf = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 3, -1, -1, 3]), gl.STATIC_DRAW);
+    var aPos = gl.getAttribLocation(prog, 'aPos');
+    gl.enableVertexAttribArray(aPos);
+    gl.vertexAttribPointer(aPos, 2, gl.FLOAT, false, 0, 0);
+
+    var U = {};
+    ['uDiffuse', 'uNormal', 'uRough', 'uHeight',
+     'uMouse', 'uHasMouse', 'uParallax', 'uLightZ', 'uNormalStr',
+     'uSpecStr', 'uDiffuseAmt', 'uAmbientAmt', 'uLightColor', 'uAmbientColor',
+     'uMotion'].forEach(function (name) { U[name] = gl.getUniformLocation(prog, name); });
+
+    gl.uniform1i(U.uDiffuse, 0);
+    gl.uniform1i(U.uNormal, 1);
+    gl.uniform1i(U.uRough, 2);
+    gl.uniform1i(U.uHeight, 3);
+
+    // 与主站一致：奥术暖金主光 + 冷蓝环境光
+    gl.uniform3f(U.uLightColor, 1.0, 0.90, 0.72);
+    gl.uniform3f(U.uAmbientColor, 0.70, 0.79, 0.94);
+    gl.uniform1f(U.uAmbientAmt, 0.56);
+    gl.uniform1f(U.uDiffuseAmt, 0.62);
+    gl.uniform1f(U.uSpecStr, 0.34);
+    gl.uniform1f(U.uNormalStr, 1.35);
+    gl.uniform1f(U.uLightZ, 0.5);
+    gl.uniform1f(U.uParallax, 0.0034);
+    gl.uniform1f(U.uMotion, 1.0);
+    gl.uniform1f(U.uHasMouse, 0.0);
+    gl.uniform2f(U.uMouse, 0.44, 0.66);
+
+    function makeTex(unit, internalFormat, format) {
+      var t = gl.createTexture();
+      gl.activeTexture(gl.TEXTURE0 + unit);
+      gl.bindTexture(gl.TEXTURE_2D, t);
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR_MIPMAP_LINEAR);
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+      var px = internalFormat === gl.RGBA ? new Uint8Array([0, 0, 0, 0]) : new Uint8Array([128, 128, 255]);
+      gl.texImage2D(gl.TEXTURE_2D, 0, internalFormat, 1, 1, 0, format, gl.UNSIGNED_BYTE, px);
+      return t;
+    }
+    var texDiffuse = makeTex(0, gl.RGBA, gl.RGBA);
+    var texNormal = makeTex(1, gl.RGB, gl.RGB);
+    var texRough = makeTex(2, gl.RGB, gl.RGB);
+    var texHeight = makeTex(3, gl.RGB, gl.RGB);
+
+    function upload(tex, unit, image, internalFormat, format) {
+      gl.activeTexture(gl.TEXTURE0 + unit);
+      gl.bindTexture(gl.TEXTURE_2D, tex);
+      gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, 1);
+      gl.texImage2D(gl.TEXTURE_2D, 0, internalFormat, format, gl.UNSIGNED_BYTE, image);
+      gl.generateMipmap(gl.TEXTURE_2D);
+    }
+    upload(texDiffuse, 0, set.diffuse, gl.RGBA, gl.RGBA);
+    upload(texNormal, 1, set.normal, gl.RGB, gl.RGB);
+    upload(texRough, 2, set.rough, gl.RGB, gl.RGB);
+    upload(texHeight, 3, set.height, gl.RGB, gl.RGB);
+
+    gl.enable(gl.BLEND);
+    gl.blendFunc(gl.ONE, gl.ONE_MINUS_SRC_ALPHA);
+    gl.clearColor(0, 0, 0, 0);
+
+    var mouse = { x: 0.44, y: 0.66 };
+    var hasMouse = false;
+    var needsDraw = true;
+
+    /* 无头验收支持：canvas data-light="x,y" 固定光位（逻辑 0–1，y 向上），
+       供 headless 截图「光扫左上」等待定光位，不影响交互预览。 */
+    if (canvas.dataset && canvas.dataset.light) {
+      var lm = canvas.dataset.light.split(',');
+      mouse.x = parseFloat(lm[0]);
+      mouse.y = parseFloat(lm[1]);
+      hasMouse = true;
+    }
+
+    function resize() {
+      var w0 = canvas.offsetWidth, h0 = canvas.offsetHeight;
+      if (w0 < 2 || h0 < 2) return;
+      var dpr = Math.min(window.devicePixelRatio || 1, 2);
+      var w = Math.max(1, Math.round(w0 * dpr));
+      var h = Math.max(1, Math.round(h0 * dpr));
+      if (canvas.width !== w || canvas.height !== h) {
+        canvas.width = w; canvas.height = h;
+        needsDraw = true;
+      }
+    }
+
+    function draw() {
+      resize();
+      gl.viewport(0, 0, canvas.width, canvas.height);
+      gl.clear(gl.COLOR_BUFFER_BIT);
+      gl.uniform2f(U.uMouse, mouse.x, mouse.y);
+      gl.uniform1f(U.uHasMouse, hasMouse ? 1.0 : 0.0);
+      gl.activeTexture(gl.TEXTURE0); gl.bindTexture(gl.TEXTURE_2D, texDiffuse);
+      gl.activeTexture(gl.TEXTURE1); gl.bindTexture(gl.TEXTURE_2D, texNormal);
+      gl.activeTexture(gl.TEXTURE2); gl.bindTexture(gl.TEXTURE_2D, texRough);
+      gl.activeTexture(gl.TEXTURE3); gl.bindTexture(gl.TEXTURE_2D, texHeight);
+      gl.bindVertexArray(vao);
+      gl.drawArrays(gl.TRIANGLES, 0, 3);
+    }
+
+    function frame() {
+      if (needsDraw) { needsDraw = false; draw(); }
+      requestAnimationFrame(frame);
+    }
+    resize();
+    requestAnimationFrame(frame);
+
+    canvas.addEventListener('mousemove', function (e) {
+      var r = canvas.getBoundingClientRect();
+      if (r.width < 1 || r.height < 1) return;
+      mouse.x = Math.min(1.4, Math.max(-0.4, (e.clientX - r.left) / r.width));
+      mouse.y = Math.min(1.4, Math.max(-0.4, 1.0 - (e.clientY - r.top) / r.height));
+      hasMouse = true;
+      needsDraw = true;
+    });
+    canvas.addEventListener('mouseleave', function () {
+      hasMouse = false;
+      needsDraw = true;
+    });
+    window.addEventListener('resize', function () { needsDraw = true; resize(); });
+    log('WebGL 实光预览已启动（' + tag + ' 四贴图上传完成）');
+  }
+
+  var LIBAI = {
+    id: 'libai',
+    name:  { zh: '李白', en: 'Li Bai' },
+    title: { zh: '诗仙', en: 'The Immortal Poet' },
+    faction: 'neutral', class: 'mage',
+    race:  { zh: '唐 · 诗人', en: 'Tang Poet' },
+    rarity: 'legendary', sigil: 'moon',
+    quote: '举杯邀明月，对影成三人。',
+    lore: '唐代浪漫主义诗人。',
+    stats: { might: 6, magic: 9, resolve: 8 }
+  };
+  /* 三风共用场景禁区（构图一致）+ 各自追加 */
+  var BASE_ZONES = [
+    { x: 405, y: 330, rx: 80,  ry: 100 },  // 头部
+    { x: 75,  y: 220, rx: 95,  ry: 210 },  // 酒肆楼阁+左灯笼
+    { x: 185, y: 360, rx: 40,  ry: 60 },   // 右灯笼
+    { x: 75,  y: 620, rx: 95,  ry: 140 },  // 牡丹
+    { x: 150, y: 730, rx: 125, ry: 100 },  // 石桌酒坛果盘
+    { x: 555, y: 420, rx: 115, ry: 120 },  // 城墙佛塔
+    { x: 332, y: 960, rx: 340, ry: 90 }    // 底部栏杆水面
+  ];
+  var STYLES = [
+    { key: 'gongbi',   label: '工笔重彩', img: 'assets/portraits/full/libai-full.png',
+      hgt: 'assets/portraits/full/libai-aiheight-v2.png',
+      gl:  { skipZones: BASE_ZONES, moonHint: { x: 357, y: 272, r: 140 } } },
+    { key: 'shuimo',   label: '水墨淡彩', img: 'assets/portraits/full/libai-shuimo-full.png',
+      hgt: 'assets/portraits/full/libai-shuimo-aiheight.png',
+      gl:  { skipZones: BASE_ZONES, moonHint: { x: 294, y: 322, r: 120 } } },
+    { key: 'dunhuang', label: '敦煌壁画', img: 'assets/portraits/full/libai-dunhuang-full.png',
+      hgt: 'assets/portraits/full/libai-dunhuang-aiheight.png',
+      gl:  { skipZones: BASE_ZONES.concat([{ x: 530, y: 55, rx: 95, ry: 45 }]),  // 描金祥云
+             moonHint: { x: 299, y: 215, r: 135 } } },
+    { key: 'qinglü',   label: '青绿金碧', img: 'assets/portraits/full/libai-qinglü-full.png',
+      hgt: 'assets/portraits/full/libai-qinglü-aiheight.png',
+      gl:  { skipZones: BASE_ZONES, moonHint: { x: 336, y: 202, r: 183 } } },
+    { key: 'falang',   label: '掐丝珐琅', img: 'assets/portraits/full/libai-falang-full.png',
+      hgt: 'assets/portraits/full/libai-falang-aiheight.png',
+      gl:  { skipZones: BASE_ZONES, moonHint: { x: 326, y: 197, r: 171 } } }
+  ];
+
+  function loadImage(src) {
+    return new Promise(function (resolve, reject) {
+      var img = new Image();
+      img.onload = function () { resolve(img); };
+      img.onerror = function () { reject(new Error('加载失败：' + src)); };
+      img.src = src;
+    });
+  }
+
+  function exportWebp(canvas, name) {
+    try {
+      var du = canvas.toDataURL('image/webp', 0.92);
+      var bin = atob(du.split(',')[1]);
+      var u8 = new Uint8Array(bin.length);
+      for (var i = 0; i < bin.length; i++) u8[i] = bin.charCodeAt(i);
+      fetch('/save/' + name, { method: 'POST', body: u8 }).then(function (r) {
+        log(name + ' 已导出 ' + u8.length + 'B（HTTP ' + r.status + '）');
+      }).catch(function (e) { log('!! ' + name + ' POST 失败：' + e.message); });
+    } catch (e) { log('!! ' + name + ' 编码失败：' + e.message); }
+  }
+
+  function run() {
+    Promise.all(STYLES.map(function (s) {
+      return Promise.all([loadImage(s.img), loadImage(s.hgt)]);
+    })).then(function (allImgs) {
+      var stills = document.getElementById('stills');
+      STYLES.forEach(function (s, i) {
+        var t0 = performance.now();
+        var set = window.CardArt.paintFaceFull(LIBAI, allImgs[i][0], {
+          mode: 'relief',
+          externalMaps: { height: allImgs[i][1], fuseHeight: true },
+          goldLineParams: s.gl
+        });
+        log(s.label + '：' + (performance.now() - t0).toFixed(0) + 'ms；金线 种子=' + set.goldLines.seeds +
+            ' 连通域=' + set.goldLines.comps + (set.goldLines.moon ? ' 月亮r=' + Math.round(set.goldLines.moon.r) : ' 月亮未检出'));
+        var cap = { gongbi: 'glGongbi', shuimo: 'glShuimo', dunhuang: 'glDunhuang', qinglü: 'glQinglu', falang: 'glFalang' }[s.key];
+        startGLPreview(document.getElementById(cap), set, s.label);
+        /* 静帧（300px 宽展示） */
+        var cell = document.createElement('div');
+        cell.className = 'glcell';
+        var cv = document.createElement('canvas');
+        cv.width = 300; cv.height = Math.round(300 * 2048 / 1329);
+        cv.className = 'still';
+        cv.getContext('2d').drawImage(set.diffuse, 0, 0, cv.width, cv.height);
+        cell.appendChild(cv);
+        var capEl = document.createElement('span');
+        capEl.className = 'glcap'; capEl.textContent = s.label;
+        cell.appendChild(capEl);
+        stills.appendChild(cell);
+        exportWebp(set.diffuse, 'libai-' + s.key + '-card');
+      });
+      log('—— 三风渲染完成 ——');
+    }).catch(function (e) { log('!! ' + e.message); });
+  }
+  var done = false;
+  function once() { if (!done) { done = true; run(); } }
+  if (document.fonts && document.fonts.ready) { document.fonts.ready.then(once); setTimeout(once, 2500); }
+  else { window.addEventListener('load', once); setTimeout(once, 2500); }
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>生平行旅图 · 自测</title>
+<style>
+  body { margin:0; padding:16px 12px; background:#EDE4CC;
+         font-family:'PingFang SC',sans-serif; }
+  h2 { font-size:14px; color:#6B5A34; margin:22px 4px 10px;
+       letter-spacing:2px; }
+  h2:first-child { margin-top:4px; }
+</style>
+</head>
+<body>
+
+<h2>① 李白 · 初始态（全部收起）</h2>
+<div id="t1"></div>
+
+<h2>② 李白 · 预展开「长安」（第 3 站）</h2>
+<div id="t2"></div>
+
+<h2>③ 李白 · 预展开「当涂」（末站，印章在右/标签翻转）</h2>
+<div id="t3"></div>
+
+<h2>④ 无 stops 兜底卷轴（仅 lore）</h2>
+<div id="t4"></div>
+
+<h2>⑤ 空 hero 防御（应出兜底卷轴 + 缺省文案）</h2>
+<div id="t5"></div>
+
+<script src="../js/heroes-data.js"></script>
+<script src="../js/story-map.js"></script>
+<script>
+  (function () {
+    'use strict';
+    // 找到李白
+    var libai = null;
+    var heroes = window.WOW_HEROES || [];
+    for (var i = 0; i < heroes.length; i++) {
+      if (heroes[i].id === 'libai') { libai = heroes[i]; break; }
+    }
+    if (!libai) {
+      document.body.insertAdjacentHTML('beforeend',
+        '<p style="color:red">未找到 libai 数据</p>');
+      return;
+    }
+
+    // ① 初始态
+    window.StoryMap.render(document.getElementById('t1'), libai);
+
+    // ② 预展开第 3 站（长安）
+    window.StoryMap.render(document.getElementById('t2'), libai);
+    var seals2 = document.querySelectorAll('#t2 .sm-seal');
+    if (seals2[2]) { seals2[2].click(); }
+
+    // ③ 预展开末站（当涂）
+    window.StoryMap.render(document.getElementById('t3'), libai);
+    var seals3 = document.querySelectorAll('#t3 .sm-seal');
+    if (seals3[5]) { seals3[5].click(); }
+
+    // ④ 兜底卷轴
+    window.StoryMap.render(document.getElementById('t4'),
+      { name: { zh: '无名氏' }, lore: libai.lore });
+
+    // ⑤ 空 hero 防御
+    window.StoryMap.render(document.getElementById('t5'), null);
+  })();
+</script>
+</body>
+</html>

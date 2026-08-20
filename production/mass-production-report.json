@@ -1,0 +1,134 @@
+{
+  "qinshihuang": {
+    "id": "qinshihuang",
+    "fullArt": "assets/portraits/full/qinshihuang-falang-full.png",
+    "halo": {
+      "x": 1175,
+      "y": 1856,
+      "r": 1155
+    },
+    "sourceTry": 1
+  },
+  "hanwudi": {
+    "id": "hanwudi",
+    "fullArt": "assets/portraits/full/hanwudi-falang-full.png",
+    "halo": {
+      "x": 1654,
+      "y": 1405,
+      "r": 1028
+    },
+    "sourceTry": 1
+  },
+  "wuzetian": {
+    "id": "wuzetian",
+    "fullArt": "assets/portraits/full/wuzetian-falang-full.png",
+    "halo": {
+      "x": 1521,
+      "y": 1198,
+      "r": 1155
+    },
+    "sourceTry": 1
+  },
+  "kangxi": {
+    "id": "kangxi",
+    "fullArt": "assets/portraits/full/kangxi-falang-full.png",
+    "halo": {
+      "x": 1466,
+      "y": 1353,
+      "r": 894
+    },
+    "sourceTry": 1
+  },
+  "tangtaizong": {
+    "id": "tangtaizong",
+    "fullArt": "assets/portraits/full/tangtaizong-falang-full.png",
+    "halo": {
+      "x": 1688,
+      "y": 1311,
+      "r": 599
+    },
+    "sourceTry": 3,
+    "note": "v3最佳：单朝阳贴头后；凌烟阁匾额残留小字，旗帜无字",
+    "ok": true
+  },
+  "chengjisihan": {
+    "id": "chengjisihan",
+    "fullArt": "assets/portraits/full/chengjisihan-falang-full.png",
+    "halo": {
+      "x": 1708,
+      "y": 1806,
+      "r": 518
+    },
+    "sourceTry": 2
+  },
+  "zhugeliang": {
+    "id": "zhugeliang",
+    "fullArt": "assets/portraits/full/zhugeliang-falang-full.png",
+    "halo": {
+      "x": 1528,
+      "y": 923,
+      "r": 565
+    },
+    "sourceTry": 2
+  },
+  "yuefei": {
+    "id": "yuefei",
+    "fullArt": "assets/portraits/full/yuefei-falang-full.png",
+    "halo": {
+      "x": 1513,
+      "y": 1508,
+      "r": 1155
+    },
+    "sourceTry": 1
+  },
+  "huamulan": {
+    "id": "huamulan",
+    "fullArt": "assets/portraits/full/huamulan-falang-full.png",
+    "halo": {
+      "x": 1529,
+      "y": 1041,
+      "r": 832
+    },
+    "sourceTry": 1
+  },
+  "qijiguang": {
+    "id": "qijiguang",
+    "fullArt": "assets/portraits/full/qijiguang-falang-full.png",
+    "halo": {
+      "x": 1607,
+      "y": 1113,
+      "r": 752
+    },
+    "sourceTry": 1
+  },
+  "hanxin": {
+    "id": "hanxin",
+    "fullArt": "assets/portraits/full/hanxin-falang-full.png",
+    "halo": {
+      "x": 1759,
+      "y": 811,
+      "r": 685
+    },
+    "sourceTry": 2
+  },
+  "dufu": {
+    "id": "dufu",
+    "fullArt": "assets/portraits/full/dufu-falang-full.png",
+    "halo": {
+      "x": 1215,
+      "y": 2013,
+      "r": 1137
+    },
+    "sourceTry": 2
+  },
+  "wentianxiang": {
+    "id": "wentianxiang",
+    "fullArt": "assets/portraits/full/wentianxiang-falang-full.png",
+    "halo": {
+      "x": 1378,
+      "y": 1534,
+      "r": 1012
+    },
+    "sourceTry": 2
+  }
+}
