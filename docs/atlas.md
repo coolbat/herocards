@@ -35,9 +35,9 @@ place_id: {
 
 正式底图由 Natural Earth 的陆地、湖泊、河流和国界 GeoJSON 构建，源文件放在 `assets/atlas/sources/`，许可和来源见 `assets/atlas/ATTRIBUTION.md`。
 
-底图上另有 `assets/atlas/map-skin-qianli-v1.png` 青绿山水皮肤。它只负责山峦、色彩和 2.5D 层次：构建时会被陆地矢量轮廓裁切，海岸线、国界、中国轮廓、湖泊和河流随后以同一投影重新叠加。换言之，AI 图片不会参与地点定位，也不会决定大陆形状；中国大陆轮廓来自 Natural Earth Admin 0 矢量数据。
+底图上另有 `assets/atlas/map-skin-qianli-v1.jpg` 青绿山水皮肤。它只负责山峦、色彩和 2.5D 层次：构建时会被陆地矢量轮廓裁切，海岸线、国界、中国轮廓、湖泊和河流随后以同一投影重新叠加。换言之，AI 图片不会参与地点定位，也不会决定大陆形状；中国大陆轮廓来自 Natural Earth Admin 0 矢量数据。
 
-为便于静态页面稳定加载，生成脚本会把 PNG 皮肤嵌入 SVG。更换皮肤后必须重新运行构建命令，不能只覆盖 SVG 或 PNG 中的一个。
+为便于静态页面稳定加载，生成脚本会把经过压缩的 JPEG 皮肤嵌入 SVG。更换皮肤后必须重新运行构建命令，不能只覆盖 SVG 或 JPEG 中的一个；测试会检查运行资产不超过 1.5MB，并与全新构建逐字节一致。
 
 重新生成底图：
 

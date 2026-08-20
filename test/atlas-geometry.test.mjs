@@ -1,6 +1,10 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import childProcess from 'node:child_process';
 import fs from 'node:fs';
+import os from 'node:os';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 import vm from 'node:vm';
 
 import AtlasModel from '../js/atlas-data.js';
@@ -92,18 +96,40 @@ test('legacy artwork calibration is exact at control points and rejects unsuppor
 test('active atlas asset is generated from the same declared projection', () => {
   assert.equal(AtlasModel.asset.src, 'assets/atlas/map-projected.svg');
   assert.equal(AtlasModel.asset.projectionId, AtlasModel.projection.id);
-  assert.equal(AtlasModel.asset.skinSrc, 'assets/atlas/map-skin-qianli-v1.png');
+  assert.equal(AtlasModel.asset.skinSrc, 'assets/atlas/map-skin-qianli-v1.jpg');
 
   const svg = fs.readFileSync(new URL('../assets/atlas/map-projected.svg', import.meta.url), 'utf8');
+  assert.ok(Buffer.byteLength(svg) < 1_500_000, 'runtime map asset should stay below 1.5 MB');
   assert.match(svg, /viewBox="0 0 2400 1600"/);
   assert.match(svg, /data-projection="web-mercator-eurasia-indian-ocean-v1"/);
   assert.match(svg, /data-skin="qianli-qinglu-v1"/);
-  assert.match(svg, /data-source-href="map-skin-qianli-v1.png"/);
-  assert.match(svg, /href="data:image\/png;base64,/);
+  assert.match(svg, /data-source-href="map-skin-qianli-v1.jpg"/);
+  assert.match(svg, /href="data:image\/jpeg;base64,/);
   assert.match(svg, /clip-path="url\(#land-clip\)"/);
-  assert.match(svg, /id="china-mainland-outline"/);
+  assert.match(svg, /id="china-mainland-outline" d="M[^"]+"/);
   assert.match(svg, /data-boundary-source="natural-earth-admin-0-110m"/);
   assert.match(svg, /Natural Earth/);
+});
+
+test('checked-in atlas asset matches a fresh deterministic build', (t) => {
+  const temporaryDirectory = fs.mkdtempSync(path.join(os.tmpdir(), 'herocards-atlas-'));
+  t.after(() => fs.rmSync(temporaryDirectory, { recursive: true, force: true }));
+  const generatedPath = path.join(temporaryDirectory, 'map-projected.svg');
+  const scriptPath = fileURLToPath(new URL('../scripts/build-atlas.mjs', import.meta.url));
+  const result = childProcess.spawnSync(process.execPath, [scriptPath, '--output', generatedPath], {
+    cwd: fileURLToPath(new URL('..', import.meta.url)),
+    encoding: 'utf8'
+  });
+
+  assert.equal(result.status, 0, result.stderr || result.stdout);
+  assert.equal(
+    Buffer.compare(
+      fs.readFileSync(generatedPath),
+      fs.readFileSync(new URL('../assets/atlas/map-projected.svg', import.meta.url))
+    ),
+    0,
+    'run npm run build:atlas after changing projection, geography, or skin inputs'
+  );
 });
 
 test('China mainland outline comes from the projected administrative dataset', () => {

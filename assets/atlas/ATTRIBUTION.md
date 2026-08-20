@@ -10,7 +10,7 @@
 - Projection: `web-mercator-eurasia-indian-ocean-v1`, declared in
   `js/atlas-data.js`
 
-`map-skin-qianli-v1.png` is an AI-generated decorative terrain skin created with
+`map-skin-qianli-v1.jpg` is an AI-generated decorative terrain skin created with
 OpenAI image generation on 2026-08-20. Its mineral blue-green palette is
 informed by the Palace Museum's description of Wang Ximeng's *A Thousand Li of
 Rivers and Mountains* (azurite, malachite, ochre, and layered mineral color):
@@ -21,6 +21,6 @@ locations, or routes. `build-atlas.mjs` clips it to the Natural Earth land
 geometry and overlays the projected vector coastline and country boundaries,
 including a distinct China outline.
 
-The generated SVG is the self-contained runtime asset and embeds the skin. The
-GeoJSON files and PNG are build inputs; the original painterly `map.webp` is
+The generated SVG is the self-contained runtime asset and embeds the optimized
+JPEG skin. The GeoJSON files and JPEG are build inputs; the original painterly `map.webp` is
 retained only for the calibration tool and visual reference.

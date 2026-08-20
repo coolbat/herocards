@@ -8,7 +8,13 @@ import MapGeometry from '../js/map-geometry.js';
 const scriptDir = path.dirname(fileURLToPath(import.meta.url));
 const rootDir = path.resolve(scriptDir, '..');
 const sourceDir = path.join(rootDir, 'assets/atlas/sources');
-const outputPath = path.join(rootDir, 'assets/atlas/map-projected.svg');
+const outputFlagIndex = process.argv.indexOf('--output');
+if (outputFlagIndex >= 0 && !process.argv[outputFlagIndex + 1]) {
+  throw new Error('--output requires a file path');
+}
+const outputPath = outputFlagIndex >= 0
+  ? path.resolve(process.cwd(), process.argv[outputFlagIndex + 1])
+  : path.join(rootDir, 'assets/atlas/map-projected.svg');
 const skinPath = path.join(rootDir, AtlasModel.asset.skinSrc);
 const { width, height } = AtlasModel.projection;
 
@@ -110,7 +116,14 @@ const countryBoundaryPath = featurePaths(countries, geometryPath);
 const china = countries.features.find((feature) => feature.properties.ISO_A3 === 'CHN');
 if (!china) throw new Error('China boundary is missing from Natural Earth admin-0 data');
 const chinaPath = geometryPath(china.geometry);
-const skinDataUri = `data:image/png;base64,${skinBuffer.toString('base64')}`;
+const skinMime = new Map([
+  ['.jpg', 'image/jpeg'],
+  ['.jpeg', 'image/jpeg'],
+  ['.png', 'image/png'],
+  ['.webp', 'image/webp']
+]).get(path.extname(skinPath).toLowerCase());
+if (!skinMime) throw new Error(`Unsupported atlas skin format: ${path.extname(skinPath)}`);
+const skinDataUri = `data:${skinMime};base64,${skinBuffer.toString('base64')}`;
 
 const svg = `<?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${width} ${height}" role="img"

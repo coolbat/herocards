@@ -171,7 +171,7 @@
     version: 1,
     asset: {
       src: 'assets/atlas/map-projected.svg',
-      skinSrc: 'assets/atlas/map-skin-qianli-v1.png',
+      skinSrc: 'assets/atlas/map-skin-qianli-v1.jpg',
       skinStyle: 'qianli-qinglu-v1',
       projectionId: 'web-mercator-eurasia-indian-ocean-v1',
       fallbackSrc: 'assets/atlas/map.webp',
