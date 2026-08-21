@@ -6,6 +6,7 @@
 !.env.example
 .venv*/
 node_modules/
+dist/
 
 # Local QA and browser artifacts (kept on disk, not in repository history)
 output/

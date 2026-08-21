@@ -6,7 +6,9 @@
   "scripts": {
     "dev": "node server.mjs",
     "build:atlas": "node scripts/build-atlas.mjs",
+    "build:xhs": "node scripts/build-xhs.mjs",
     "test:map": "node --test test/atlas-geometry.test.mjs",
-    "check": "node --check js/*.js scripts/*.mjs && npm run test:map"
+    "test:xhs": "node --test test/xhs-bridge.test.mjs test/xhs-package.test.mjs",
+    "check": "node --check js/*.js scripts/*.mjs && npm run test:map && npm run test:xhs"
   }
 }

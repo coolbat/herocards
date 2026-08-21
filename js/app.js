@@ -163,28 +163,21 @@
   var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var coarsePointer = window.matchMedia('(pointer: coarse)').matches;
 
-  /* ==================================================== 英雄肖像预载 */
+  /* ==================================================== 英雄插画按需加载 */
 
-  /* 启动即后台预载英雄肖像（CardArt.preloadPortraits 契约：永不 reject，双保险）。
-     预载期间卡台进入 loading 态、召唤按钮暂锁；就绪后统一放开。
-     portraitsSettled / degradedFaceIds 用于「肖像就绪前已有卡按 sigil 降级
-     渲染过」的兜底重绘（正常流程下按钮暂锁 + 首卡延后绘制不会触发）。 */
+  /* 小工具离线包不能让 48 张卡图阻塞首屏。只在抽中、打开详情或缩略卡进入
+     视口时加载对应英雄资源；同一英雄的并发请求复用同一个 Promise。 */
   var hasPortraitLoader = !!(hasArt && typeof CardArt.preloadPortraits === 'function');
-  var portraitsSettled = !hasPortraitLoader;
-  var degradedFaceIds = {};
-  if (hasPortraitLoader && stage) stage.classList.add('is-loading-portraits');
-  if (hasPortraitLoader && summonBtn) summonBtn.disabled = true;
-  var portraitsReady = hasPortraitLoader
-    ? Promise.resolve(CardArt.preloadPortraits(HEROES)).then(function () {
-        portraitsSettled = true;
-        if (stage) stage.classList.remove('is-loading-portraits');
-        if (summonBtn) summonBtn.disabled = false;
-      }, function () {
-        portraitsSettled = true;
-        if (stage) stage.classList.remove('is-loading-portraits');
-        if (summonBtn) summonBtn.disabled = false;
-      })
-    : Promise.resolve();
+  var heroArtJobs = new Map();
+  function prepareHeroArt(heroObj) {
+    if (!heroObj || !hasPortraitLoader) return Promise.resolve();
+    if (heroArtJobs.has(heroObj.id)) return heroArtJobs.get(heroObj.id);
+    var job = Promise.resolve(CardArt.preloadPortraits([heroObj])).then(function () {
+      if (typeof faceCache !== 'undefined' && faceCache) faceCache.delete(heroObj.id);
+    }, function () { /* preloadPortraits 的失败不阻塞卡面降级 */ });
+    heroArtJobs.set(heroObj.id, job);
+    return job;
+  }
 
   /* ============================================================ 收藏状态 */
 
@@ -377,27 +370,31 @@
     for (var i = 0; i < HEROES.length; i++) {
       if (HEROES[i].id === id) { h = HEROES[i]; break; }
     }
-    if (!h || card.getAttribute('data-mini') === '1') return;
-    card.setAttribute('data-mini', '1');
-    var mini = null;
-    if (hasArt && typeof CardArt.paintMini === 'function') {
-      try { mini = CardArt.paintMini(h, 300, 464); } catch (err) {
-        console.warn('[英雄志] paintMini 失败（' + h.id + '），改用静态小卡：', err);
-        mini = null;
+    if (!h || card.hasAttribute('data-mini')) return;
+    card.setAttribute('data-mini', 'loading');
+    prepareHeroArt(h).then(function () {
+      if (!card.isConnected) return;
+      var mini = null;
+      if (hasArt && typeof CardArt.paintMini === 'function') {
+        try { mini = CardArt.paintMini(h, 300, 464); } catch (err) {
+          console.warn('[英雄志] paintMini 失败（' + h.id + '），改用静态小卡：', err);
+          mini = null;
+        }
       }
-    }
-    if (mini) {
-      card.insertBefore(mini, card.firstChild);
-    } else {
-      var g0 = groupInfo(h.group);
-      var ph = document.createElement('div');
-      ph.className = 'dex-locked';
-      ph.innerHTML = DEX_LOCK_SVG +
-        '<span class="dex-q" style="letter-spacing:0.12em;padding:0;opacity:1">' +
-        esc(h.name && h.name.zh ? h.name.zh : '') + '</span>' +
-        (g0 ? '<span class="dex-q" style="font-size:11px;letter-spacing:0.2em">' + esc(g0.zh) + '</span>' : '');
-      card.insertBefore(ph, card.firstChild);
-    }
+      if (mini) {
+        card.insertBefore(mini, card.firstChild);
+      } else {
+        var g0 = groupInfo(h.group);
+        var ph = document.createElement('div');
+        ph.className = 'dex-locked';
+        ph.innerHTML = DEX_LOCK_SVG +
+          '<span class="dex-q" style="letter-spacing:0.12em;padding:0;opacity:1">' +
+          esc(h.name && h.name.zh ? h.name.zh : '') + '</span>' +
+          (g0 ? '<span class="dex-q" style="font-size:11px;letter-spacing:0.2em">' + esc(g0.zh) + '</span>' : '');
+        card.insertBefore(ph, card.firstChild);
+      }
+      card.setAttribute('data-mini', '1');
+    });
   }
 
   /* 单个图鉴格子的 DOM（owned=已收集点亮 / 否则卡背剪影） */
@@ -617,10 +614,11 @@
      无 GL 时 DOM 静态卡面依然完成翻面与替换。 */
   var ensureCardLoaded = function (heroObj) {
     if (!hasArt) return Promise.resolve();
-    try {
-      loadFaceSet(heroObj); // 触发 paintFace 入缓存
-    } catch (err) { /* 静默：applyCard 里会再走降级链 */ }
-    return Promise.resolve();
+    return prepareHeroArt(heroObj).then(function () {
+      try {
+        loadFaceSet(heroObj); // 触发 paintFace 入缓存
+      } catch (err) { /* 静默：applyCard 里会再走降级链 */ }
+    });
   };
 
   var applyCard = function (heroObj) {
@@ -1142,10 +1140,6 @@
     if (!set || !set.diffuse || !set.normal || !set.rough || !set.height) {
       throw new Error('CardArt.paintFace 返回的贴图集不完整（' + heroObj.id + '）');
     }
-    if (!portraitsSettled) {
-      // 肖像预载未就绪时的绘制可能是 sigil 降级版，登记待重绘
-      degradedFaceIds[heroObj.id] = true;
-    }
     faceCache.set(heroObj.id, set);
     while (faceCache.size > FACE_CACHE_MAX) {
       faceCache.delete(faceCache.keys().next().value);
@@ -1202,7 +1196,7 @@
   if (frontLayer) {
     /* 升级抽卡三件套：贴图经由 CardArt canvas 直接更换 */
     ensureCardLoaded = function (heroObj) {
-      return Promise.resolve().then(function () {
+      return prepareHeroArt(heroObj).then(function () {
         loadFaceSet(heroObj); // 异常将沿 promise 链传播
       }).catch(function (err) {
         console.warn('[英雄志] 卡面贴图生成失败，本次回退静态卡面：', err);
@@ -1324,7 +1318,7 @@
       var h = getHero();
       if (!h || !window.XhsBridge) return;
       window.XhsBridge.saveImage(h, cardDataUrl(h)).then(function (ok) {
-        toast(ok ? (window.XhsBridge.available() ? '已存入相册' : '卡面已导出下载')
+        toast(ok ? '已存入相册'
                  : '导出失败，请稍后再试');
       });
     });
@@ -1389,12 +1383,14 @@
   /* 人物详情视图（hash 由调用方驱动，这里只做呈现） */
   function showHeroDetail(heroObj) {
     heroDetail = heroObj;
-    applyHeroCard(heroObj);
     if (heroQuoteBox) {
       heroQuoteBox.hidden = !heroObj.quote;
       if (heroQuoteText && heroObj.quote) heroQuoteText.textContent = heroObj.quote;
     }
     switchView('hero');
+    prepareHeroArt(heroObj).then(function () {
+      if (heroDetail === heroObj) applyHeroCard(heroObj);
+    });
   }
 
   /* 行旅地图视图 */
@@ -1457,19 +1453,12 @@
   buildClassChips();
   renderProgress();
 
-  /* 图鉴与首卡统一等「字体 + 肖像预载」就绪后绘制：
-     字体决定 canvas 文字排版，肖像决定卡面走肖像窗还是 sigil 徽记。
-     portraitsReady 契约上不 reject，任一环节异常都不阻塞首屏。
-     国风题款/印章字体显式 load：fonts.ready 不含尚未使用的字体。 */
+  /* 首屏只等本地 woff2 字体；人物插画在使用时按需加载。 */
   var fontsReady = (document.fonts && document.fonts.load) ? Promise.all([
     document.fonts.ready,
-    document.fonts.load('30px "Chong Xi Small Seal"', '詩仙唐書醫將帝群英签'),
     document.fonts.load('30px "Ma Shan Zheng"', '华夏人物图鉴今日请卡签李白举杯邀明月对影成三人名录生平')
   ]).catch(function () {}) : Promise.resolve();
-  var bootReady = Promise.all([
-    fontsReady,
-    portraitsReady
-  ]);
+  var bootReady = fontsReady;
 
   bootReady.then(function () {
     renderDex();                                         // 图鉴缩略卡（懒渲染）
@@ -1480,20 +1469,14 @@
         if (HEROES[i].id === daily.drawnId) {
           state.current = HEROES[i];
           showCardStage();
-          applyCard(HEROES[i]);
+          ensureCardLoaded(HEROES[i]).then(function () {
+            if (state.current) applyCard(state.current);
+          });
           if (HEROES[i].quote) setQuote(HEROES[i].quote);
           showStreak();
           break;
         }
       }
-    }
-
-    /* 若首卡曾在肖像未就绪时按 sigil 降级渲染过，重绘一次升级为肖像版：
-       CardArt 侧缓存在预载收尾时已清空，此处再作废本侧贴图缓存后重绘。 */
-    if (state.current && degradedFaceIds[state.current.id]) {
-      delete degradedFaceIds[state.current.id];
-      faceCache.delete(state.current.id);
-      try { applyCard(state.current); } catch (err) { /* 保持现状即可 */ }
     }
 
     /* 初始路由：#/  #/dex  #/hero/<id>  #/hero/<id>/map（兼旧版 #hero=<id>） */

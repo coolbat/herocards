@@ -109,7 +109,7 @@
   var FONT_TITLE = "'Cinzel', 'Noto Serif SC', serif";
   var FONT_BODY  = "'Noto Serif SC', serif";
   var FONT_BRUSH = "'Ma Shan Zheng', 'Noto Serif SC', serif";  // 题款/匾额毛笔体（本地子集 woff2）
-  var FONT_SEAL  = "'Chong Xi Small Seal', 'Ma Shan Zheng', serif";  // 印章小篆（崇羲篆体 CC-BY-ND，整字体加载，禁改作）
+  var FONT_SEAL  = "'Ma Shan Zheng', serif";  // 小工具仅打包受支持的本地 woff2 字体
   var FONT_LABEL = "'Jost', 'Noto Sans SC', sans-serif";
 
   /* 内置职业常量表：与 js/heroes-data.js 的 window.WOW_CLASS_INFO 同名同构。
@@ -2207,6 +2207,10 @@
       var id = h && h.id != null ? String(h.id) : '';
       if (!id) return Promise.resolve();
       if (_portraits.has(id)) return Promise.resolve();  // 已有定论（含「无图」标记）
+      if (h && typeof h.fullArt === 'string' && h.fullArt) {
+        _portraits.set(id, null);                         // 全幅英雄无需探测不存在的肖像窗资源
+        return Promise.resolve();
+      }
       return _loadImageOnce('assets/portraits/' + encodeURIComponent(id) + '.webp')
         .then(function (img) {
           if (img) return img;
