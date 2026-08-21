@@ -33,12 +33,12 @@
  *       quote:   '……',                        // 中文台词，≤30 字
  *       lore:    '……',                        // 中文生平速写，60–100 字
  *       stats:   { might: 4, magic: 10, resolve: 8 },  // 各 1–10 整数
- *       fullArt: 'assets/portraits/runtime/xxx.jpg'       // 【可选】全幅场景插画路径；
+ *       fullArt: 'assets/portraits/runtime/xxx.webp'       // 【可选】全幅场景插画路径；
  *                                                      // 填写且加载成功时，该英雄卡面走
  *                                                      // paintFaceFull 全幅管线（relief），
  *                                                      // 未填 / 加载失败自动回退常规
  *                                                      // 肖像窗 / sigil 路径（降级链不断）
- *       fullArtHeight: 'assets/portraits/runtime/xxx.jpg' // 【可选·伴生】AI 灰度高度图
+ *       fullArtHeight: 'assets/portraits/runtime/xxx.webp' // 【可选·伴生】AI 灰度高度图
  *                                                      // 路径，与 fullArt 搭配融合增强
  *                                                      // 画芯立体感；缺失自动略过
  *     }
@@ -117,8 +117,8 @@
       quote: '六合之内，皇帝之土。',
       lore: '名嬴政，前259年生于邯郸，十三岁即秦王位。前238年亲政，前221年扫灭六国，建中国首个大一统王朝，自定尊号皇帝。废分封、行郡县，书同文、车同轨，筑长城、修驰道；晚年求仙，前210年崩于沙丘。',
       stats: { might: 9, magic: 4, resolve: 9 },
-      fullArt: 'assets/portraits/runtime/qinshihuang-falang-full.jpg',
-      fullArtHeight: 'assets/portraits/runtime/qinshihuang-falang-aiheight.jpg',
+      fullArt: 'assets/portraits/runtime/qinshihuang-falang-full.webp',
+      fullArtHeight: 'assets/portraits/runtime/qinshihuang-falang-aiheight.webp',
       goldLineParams: { decoInnerFrame: false }
     },
 
@@ -147,8 +147,8 @@
       quote: '天马徕兮从西极，经万里兮归有德。',
       lore: '刘彻，前156年生，十六岁登基，在位五十四年。罢黜百家、独尊儒术，行推恩令以弱诸侯；北击匈奴、遣使通西域，开丝绸之路；南平百越，东定朝鲜。晚年下轮台诏罪己，前87年崩，葬茂陵。',
       stats: { might: 9, magic: 5, resolve: 8 },
-      fullArt: 'assets/portraits/runtime/hanwudi-falang-full.jpg',
-      fullArtHeight: 'assets/portraits/runtime/hanwudi-falang-aiheight.jpg',
+      fullArt: 'assets/portraits/runtime/hanwudi-falang-full.webp',
+      fullArtHeight: 'assets/portraits/runtime/hanwudi-falang-aiheight.webp',
       goldLineParams: {
         moonHint: { x: 273, y: 253, r: 163 },
         decoInnerFrame: false
@@ -179,8 +179,8 @@
       quote: '水能载舟，亦能覆舟。',
       lore: '李世民，598年生于武功。少年随父晋阳起兵，扫平群雄；626年玄武门之变后即位，改元贞观。虚怀纳谏、任人唯贤，轻徭薄赋、慎用刑罚，海内升平，四夷君长尊为「天可汗」。649年崩，葬昭陵。',
       stats: { might: 9, magic: 7, resolve: 10 },
-      fullArt: 'assets/portraits/runtime/tangtaizong-falang-full.jpg',
-      fullArtHeight: 'assets/portraits/runtime/tangtaizong-falang-aiheight.jpg',
+      fullArt: 'assets/portraits/runtime/tangtaizong-falang-full.webp',
+      fullArtHeight: 'assets/portraits/runtime/tangtaizong-falang-aiheight.webp',
       goldLineParams: {
         moonHint: { x: 332, y: 220, r: 150 },
         decoInnerFrame: false
@@ -211,8 +211,8 @@
       quote: '花须连夜发，莫待晓风吹。',
       lore: '武曌，624年生，并州文水人。十四岁入宫为太宗才人，高宗时立为皇后，并称「二圣」。690年革唐命建周称帝，为中国史上唯一女皇；创殿试、武举，知人善任。705年神龙政变退位，是年崩，遗制立无字碑。',
       stats: { might: 6, magic: 7, resolve: 10 },
-      fullArt: 'assets/portraits/runtime/wuzetian-falang-full.jpg',
-      fullArtHeight: 'assets/portraits/runtime/wuzetian-falang-aiheight.jpg',
+      fullArt: 'assets/portraits/runtime/wuzetian-falang-full.webp',
+      fullArtHeight: 'assets/portraits/runtime/wuzetian-falang-aiheight.webp',
       goldLineParams: {
         moonHint: { x: 476, y: 450, r: 120 },
         decoInnerFrame: false
@@ -243,8 +243,8 @@
       quote: '一代天骄，成吉思汗，只识弯弓射大雕。',
       lore: '铁木真，1162年生于斡难河畔。幼年丧父，部众离散，历尽艰辛统一蒙古诸部；1206年即大汗位，号成吉思汗，颁《大札撒》。西征花剌子模，灭西辽、败西夏；1227年崩于六盘山，子孙建成横跨欧亚的大帝国。',
       stats: { might: 10, magic: 3, resolve: 9 },
-      fullArt: 'assets/portraits/runtime/chengjisihan-falang-full.jpg',
-      fullArtHeight: 'assets/portraits/runtime/chengjisihan-falang-aiheight.jpg',
+      fullArt: 'assets/portraits/runtime/chengjisihan-falang-full.webp',
+      fullArtHeight: 'assets/portraits/runtime/chengjisihan-falang-aiheight.webp',
       goldLineParams: {
         moonHint: { x: 335, y: 222, r: 180 },
         decoInnerFrame: false
@@ -276,8 +276,8 @@
       quote: '民为邦本，本固邦宁。',
       lore: '爱新觉罗·玄烨，1654年生，八岁即位，十四岁亲政。智擒鳌拜，平三藩、收台湾，败沙俄于雅克萨、订《尼布楚条约》，三征噶尔丹；崇儒重学，敕编《康熙字典》。在位六十一年，1722年崩，庙号圣祖。',
       stats: { might: 7, magic: 8, resolve: 10 },
-      fullArt: 'assets/portraits/runtime/kangxi-falang-full.jpg',
-      fullArtHeight: 'assets/portraits/runtime/kangxi-falang-aiheight.jpg',
+      fullArt: 'assets/portraits/runtime/kangxi-falang-full.webp',
+      fullArtHeight: 'assets/portraits/runtime/kangxi-falang-aiheight.webp',
       goldLineParams: {
         moonHint: { x: 188, y: 640, r: 90 },
         decoInnerFrame: false
@@ -310,8 +310,8 @@
       quote: '鞠躬尽瘁，死而后已。',
       lore: '字孔明，琅琊阳都人，181年生。隐居隆中，207年刘备三顾茅庐，纵论三分。佐备取荆益、建蜀汉，拜丞相；受托孤辅后主，南平孟获，五次北伐。234年秋星落五丈原，年五十四，谥忠武侯，葬定军山。',
       stats: { might: 5, magic: 10, resolve: 9 },
-      fullArt: 'assets/portraits/runtime/zhugeliang-falang-full.jpg',
-      fullArtHeight: 'assets/portraits/runtime/zhugeliang-falang-aiheight.jpg',
+      fullArt: 'assets/portraits/runtime/zhugeliang-falang-full.webp',
+      fullArtHeight: 'assets/portraits/runtime/zhugeliang-falang-aiheight.webp',
       goldLineParams: { decoInnerFrame: false }
     },
 
@@ -339,8 +339,8 @@
       quote: '待从头，收拾旧山河，朝天阙。',
       lore: '字鹏举，相州汤阴人，1103年生，母刺「尽忠报国」于背。建岳家军，号令严明，冻死不拆屋、饿死不掳掠；绍兴十年北伐，郾城、颍昌大捷，直抵朱仙镇。1142年以「莫须有」遇害风波亭，年三十九，谥武穆。',
       stats: { might: 10, magic: 4, resolve: 10 },
-      fullArt: 'assets/portraits/runtime/yuefei-falang-full.jpg',
-      fullArtHeight: 'assets/portraits/runtime/yuefei-falang-aiheight.jpg',
+      fullArt: 'assets/portraits/runtime/yuefei-falang-full.webp',
+      fullArtHeight: 'assets/portraits/runtime/yuefei-falang-aiheight.webp',
       goldLineParams: {
         moonHint: { x: 331, y: 217, r: 204 },
         decoInnerFrame: false
@@ -371,8 +371,8 @@
       quote: '韩信将兵，多多益善。',
       lore: '淮阴人，早年落魄，受胯下之辱。亡楚归汉，萧何力荐，拜大将；明修栈道、暗度陈仓，破魏、下赵、降燕、定齐，垓下十面埋伏灭项羽，为汉初三杰。前196年以谋反罪被诛于长乐宫，夷三族。',
       stats: { might: 10, magic: 7, resolve: 6 },
-      fullArt: 'assets/portraits/runtime/hanxin-falang-full.jpg',
-      fullArtHeight: 'assets/portraits/runtime/hanxin-falang-aiheight.jpg',
+      fullArt: 'assets/portraits/runtime/hanxin-falang-full.webp',
+      fullArtHeight: 'assets/portraits/runtime/hanxin-falang-aiheight.webp',
       goldLineParams: { decoInnerFrame: false }
     },
 
@@ -400,8 +400,8 @@
       quote: '朔气传金柝，寒光照铁衣。',
       lore: '北朝民歌《木兰诗》中的巾帼英雄。可汗大点兵，父老弟幼，木兰市鞍马、代父从军，女扮男装转战十二载；凯旋归朝，辞尚书郎不受，「愿驰千里足，送儿还故乡」。其事真伪无考，其志千古共仰。',
       stats: { might: 8, magic: 3, resolve: 9 },
-      fullArt: 'assets/portraits/runtime/huamulan-falang-full.jpg',
-      fullArtHeight: 'assets/portraits/runtime/huamulan-falang-aiheight.jpg',
+      fullArt: 'assets/portraits/runtime/huamulan-falang-full.webp',
+      fullArtHeight: 'assets/portraits/runtime/huamulan-falang-aiheight.webp',
       goldLineParams: {
         moonHint: { x: 232, y: 180, r: 185 },
         decoInnerFrame: false
@@ -432,8 +432,8 @@
       quote: '封侯非我意，但愿海波平。',
       lore: '字元敬，登州人，1528年生，世袭登州卫指挥佥事。嘉靖间倭患猖獗，募义乌兵练戚家军，创鸳鸯阵，台州九战九捷，荡平东南；后镇蓟门十六载，修长城敌台。著《纪效新书》《练兵实纪》，1588年卒。',
       stats: { might: 9, magic: 5, resolve: 9 },
-      fullArt: 'assets/portraits/runtime/qijiguang-falang-full.jpg',
-      fullArtHeight: 'assets/portraits/runtime/qijiguang-falang-aiheight.jpg',
+      fullArt: 'assets/portraits/runtime/qijiguang-falang-full.webp',
+      fullArtHeight: 'assets/portraits/runtime/qijiguang-falang-aiheight.webp',
       goldLineParams: {
         moonHint: { x: 45, y: 145, r: 90 },
         decoInnerFrame: false
@@ -464,8 +464,8 @@
       quote: '人生自古谁无死，留取丹心照汗青。',
       lore: '字宋瑞，吉州庐陵人，1236年生，宝祐四年状元。元兵南下，毁家纾难，起兵勤王；兵败被俘，囚大都三年，拒忽必烈亲劝，1283年就义柴市，衣带留赞「孔曰成仁，孟曰取义」，年四十七。',
       stats: { might: 6, magic: 7, resolve: 10 },
-      fullArt: 'assets/portraits/runtime/wentianxiang-falang-full.jpg',
-      fullArtHeight: 'assets/portraits/runtime/wentianxiang-falang-aiheight.jpg',
+      fullArt: 'assets/portraits/runtime/wentianxiang-falang-full.webp',
+      fullArtHeight: 'assets/portraits/runtime/wentianxiang-falang-aiheight.webp',
       goldLineParams: {
         moonHint: { x: 319, y: 188, r: 206 },
         decoInnerFrame: false
@@ -498,8 +498,8 @@
       quote: '会当凌绝顶，一览众山小。',
       lore: '字子美，712年生于巩县。壮游齐赵吴越，困守长安十年；安史乱中颠沛，授左拾遗，旋弃官入蜀，筑草堂于浣花溪。晚岁漂泊荆湘，770年卒于湘江舟中。其诗沉郁顿挫，忧民伤时，世称「诗史」，尊为「诗圣」。',
       stats: { might: 3, magic: 10, resolve: 9 },
-      fullArt: 'assets/portraits/runtime/dufu-falang-full.jpg',
-      fullArtHeight: 'assets/portraits/runtime/dufu-falang-aiheight.jpg',
+      fullArt: 'assets/portraits/runtime/dufu-falang-full.webp',
+      fullArtHeight: 'assets/portraits/runtime/dufu-falang-aiheight.webp',
       goldLineParams: {
         moonHint: { x: 332, y: 285, r: 205 },
         decoInnerFrame: false
@@ -531,8 +531,8 @@
       quote: '大江东去，浪淘尽，千古风流人物。',
       lore: '字子瞻，号东坡居士，眉州眉山人，1037年生。嘉祐二年进士，名动京师。乌台诗案后贬黄州，作赤壁二赋、《寒食帖》；历知杭颍扬定，筑苏堤。晚年远谪惠州、儋州，1101年卒于常州。诗词文书画，一代之冠。',
       stats: { might: 4, magic: 10, resolve: 8 },
-      fullArt: 'assets/portraits/runtime/sushi-falang-full.jpg',
-      fullArtHeight: 'assets/portraits/runtime/sushi-falang-aiheight.jpg',
+      fullArt: 'assets/portraits/runtime/sushi-falang-full.webp',
+      fullArtHeight: 'assets/portraits/runtime/sushi-falang-aiheight.webp',
       goldLineParams: {
         moonHint: { x: 320, y: 165, r: 201 },
         decoInnerFrame: false
@@ -563,8 +563,8 @@
       quote: '生当作人杰，死亦为鬼雄。',
       lore: '号易安居士，济南章丘人，1084年生。嫁赵明诚，夫妇共赏金石，唱和忘忧。靖康之变仓皇南渡，明诚病殁，文物散佚，孤身漂泊浙中。词前期明丽，后期凄怆，自成「易安体」，为婉约词宗；约1155年卒。',
       stats: { might: 2, magic: 10, resolve: 8 },
-      fullArt: 'assets/portraits/runtime/liqingzhao-falang-full.jpg',
-      fullArtHeight: 'assets/portraits/runtime/liqingzhao-falang-aiheight.jpg',
+      fullArt: 'assets/portraits/runtime/liqingzhao-falang-full.webp',
+      fullArtHeight: 'assets/portraits/runtime/liqingzhao-falang-aiheight.webp',
       goldLineParams: {
         moonHint: { x: 210, y: 245, r: 115 },
         decoInnerFrame: false
@@ -594,8 +594,8 @@
       quote: '后之视今，亦犹今之视昔。',
       lore: '字逸少，琅琊临沂人，303年生，世称王右军。幼师卫夫人，博采秦汉篆隶，变朴质为妍美，备精诸体。永和九年兰亭雅集，乘兴作《兰亭集序》，被推为天下第一行书。晚年弃官归隐剡县，361年卒。',
       stats: { might: 3, magic: 10, resolve: 7 },
-      fullArt: 'assets/portraits/runtime/wangxizhi-falang-full.jpg',
-      fullArtHeight: 'assets/portraits/runtime/wangxizhi-falang-aiheight.jpg',
+      fullArt: 'assets/portraits/runtime/wangxizhi-falang-full.webp',
+      fullArtHeight: 'assets/portraits/runtime/wangxizhi-falang-aiheight.webp',
       goldLineParams: { decoInnerFrame: false }
     },
 
@@ -622,8 +622,8 @@
       quote: '满纸荒唐言，一把辛酸泪。',
       lore: '名霑，字梦阮，约1715年生。祖上三代任江宁织造，少年锦衣玉食；雍正六年家被抄，迁北京，晚居西郊，举家食粥。悼红轩中披阅十载、增删五次，著《红楼梦》未成，约1763年除夕泪尽而逝。',
       stats: { might: 2, magic: 10, resolve: 7 },
-      fullArt: 'assets/portraits/runtime/caoxueqin-falang-full.jpg',
-      fullArtHeight: 'assets/portraits/runtime/caoxueqin-falang-aiheight.jpg',
+      fullArt: 'assets/portraits/runtime/caoxueqin-falang-full.webp',
+      fullArtHeight: 'assets/portraits/runtime/caoxueqin-falang-aiheight.webp',
       goldLineParams: {
         moonHint: { x: 310, y: 290, r: 130 },
         decoInnerFrame: false
@@ -656,8 +656,8 @@
       quote: '然张骞凿空，其后使往者皆称博望侯。',
       lore: '汉中城固人。前139年应募使大月氏，途中为匈奴所拘十三年，持汉节不失；得脱后越葱岭，历大宛、康居、大月氏。前119年再使乌孙，副使遍及西域诸国，丝路大开，封博望侯，前114年卒。',
       stats: { might: 7, magic: 4, resolve: 10 },
-      fullArt: 'assets/portraits/runtime/zhangqian-falang-full.jpg',
-      fullArtHeight: 'assets/portraits/runtime/zhangqian-falang-aiheight.jpg',
+      fullArt: 'assets/portraits/runtime/zhangqian-falang-full.webp',
+      fullArtHeight: 'assets/portraits/runtime/zhangqian-falang-aiheight.webp',
       goldLineParams: {
         moonHint: { x: 180, y: 900, r: 100 },
         decoInnerFrame: false
@@ -689,8 +689,8 @@
       quote: '宁可就西而死，岂归东而生！',
       lore: '俗姓陈，洛州缑氏人，602年生，十三岁出家。贞观三年冒禁西行，越流沙、翻葱岭，历十七年、五万里，求学那烂陀寺，曲女城设会辩经。645年携经六百五十七部归长安，译经千三百余卷，664年圆寂。',
       stats: { might: 3, magic: 9, resolve: 10 },
-      fullArt: 'assets/portraits/runtime/xuanzang-falang-full.jpg',
-      fullArtHeight: 'assets/portraits/runtime/xuanzang-falang-aiheight.jpg',
+      fullArt: 'assets/portraits/runtime/xuanzang-falang-full.webp',
+      fullArtHeight: 'assets/portraits/runtime/xuanzang-falang-aiheight.webp',
       goldLineParams: {
         moonHint: { x: 135, y: 500, r: 150 },
         decoInnerFrame: false
@@ -722,8 +722,8 @@
       quote: '观夫海洋，洪涛接天，巨浪如山。',
       lore: '本姓马，云南昆阳人，1371年生。靖难有功，赐姓郑，世称三保太监。1405年起七下西洋，统宝船巨舰、士卒二万七千，历三十余国，远抵忽鲁谟斯与东非海岸，宣德柔远，1433年卒于第七次远航归途。',
       stats: { might: 8, magic: 5, resolve: 9 },
-      fullArt: 'assets/portraits/runtime/zhenghe-falang-full.jpg',
-      fullArtHeight: 'assets/portraits/runtime/zhenghe-falang-aiheight.jpg',
+      fullArt: 'assets/portraits/runtime/zhenghe-falang-full.webp',
+      fullArtHeight: 'assets/portraits/runtime/zhenghe-falang-aiheight.webp',
       goldLineParams: {
         moonHint: { x: 256, y: 243, r: 186 },
         decoInnerFrame: false
@@ -755,8 +755,8 @@
       quote: '大丈夫当朝碧海而暮苍梧。',
       lore: '名弘祖，号霞客，江阴人，1587年生。不应科举，二十二岁出游，三十余载足遍十九省；探幽崖邃壑，考江源、辨岩溶，订正前人地理之误。所著《徐霞客游记》六十余万言，被推「千古奇书」；1641年卒。',
       stats: { might: 6, magic: 7, resolve: 9 },
-      fullArt: 'assets/portraits/runtime/xuxiake-falang-full.jpg',
-      fullArtHeight: 'assets/portraits/runtime/xuxiake-falang-aiheight.jpg',
+      fullArt: 'assets/portraits/runtime/xuxiake-falang-full.webp',
+      fullArtHeight: 'assets/portraits/runtime/xuxiake-falang-aiheight.webp',
       goldLineParams: { decoInnerFrame: false }
     },
 
@@ -783,8 +783,8 @@
       quote: '人体欲得劳动，但不当使极尔。',
       lore: '字元化，沛国谯人。通晓养性之术，精方药针灸；创麻沸散，剖腹断肠、湔洗缝腹，为世界全身麻醉之先；又作五禽戏教人强身。曹操患头风召为侍医，托故归乡屡召不赴，208年下狱死，《青囊经》遂不传。',
       stats: { might: 3, magic: 10, resolve: 7 },
-      fullArt: 'assets/portraits/runtime/huatuo-falang-full.jpg',
-      fullArtHeight: 'assets/portraits/runtime/huatuo-falang-aiheight.jpg',
+      fullArt: 'assets/portraits/runtime/huatuo-falang-full.webp',
+      fullArtHeight: 'assets/portraits/runtime/huatuo-falang-aiheight.webp',
       goldLineParams: {
         moonHint: { x: 110, y: 665, r: 70 },
         decoInnerFrame: false
@@ -814,8 +814,8 @@
       quote: '亲量圭尺，躬察仪漏。',
       lore: '字文远，范阳遒人，429年生于建康。专功数术，搜拣古今；算圆周率于3.1415926与3.1415927之间，约率密率领先世界千年；造《大明历》，又制指南车、水碓磨、千里船。500年卒，年七十二。',
       stats: { might: 2, magic: 10, resolve: 8 },
-      fullArt: 'assets/portraits/runtime/zuchongzhi-falang-full.jpg',
-      fullArtHeight: 'assets/portraits/runtime/zuchongzhi-falang-aiheight.jpg',
+      fullArt: 'assets/portraits/runtime/zuchongzhi-falang-full.webp',
+      fullArtHeight: 'assets/portraits/runtime/zuchongzhi-falang-aiheight.webp',
       goldLineParams: {
         moonHint: { x: 188, y: 707, r: 70 },
         decoInnerFrame: false
@@ -849,8 +849,8 @@
       quote: '举杯邀明月，对影成三人。',
       lore: '唐代浪漫主义诗人，字太白，号青莲居士。斗酒诗百篇，长安市上酒家眠；一生好入名山游，诗成笑傲凌沧洲。其诗雄奇飘逸、想象力绝尘，兼有剑侠之气与谪仙之姿，被后世尊为「诗仙」，与杜甫并称「李杜」。',
       stats: { might: 6, magic: 9, resolve: 8 },
-      fullArt: 'assets/portraits/runtime/libai-falang-full.jpg',           // 小工具运行图 1024×1536（4K 母版保留于 full/）
-      fullArtHeight: 'assets/portraits/runtime/libai-falang-aiheight.jpg',  // 压缩高度图（4K 母版保留于 full/）
+      fullArt: 'assets/portraits/runtime/libai-falang-full.webp',           // 小工具运行图 1024×1536（4K 母版保留于 full/）
+      fullArtHeight: 'assets/portraits/runtime/libai-falang-aiheight.webp',  // 压缩高度图（4K 母版保留于 full/）
       goldLineParams: {
         moonHint: { x: 326, y: 197, r: 171 },   // 满月（逻辑坐标，QC 验收贴缘）
         decoInnerFrame: false,                  // 国风外框自带 46 细线，关闭塔罗式内框双线

@@ -171,7 +171,7 @@
     version: 1,
     asset: {
       src: 'assets/atlas/map-projected.svg',
-      skinSrc: 'assets/atlas/map-terrain-natural-earth-v2.jpg',
+      skinSrc: 'assets/atlas/map-terrain-natural-earth-v2.webp',
       skinStyle: 'natural-earth-srtm-qinglu-v2',
       terrainSource: 'natural-earth-shaded-relief-srtm-plus',
       terrainManifest: 'assets/atlas/terrain-manifest.json',

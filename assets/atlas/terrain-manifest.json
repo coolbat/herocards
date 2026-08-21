@@ -54,6 +54,11 @@
         127
       ],
       "verticalMeanDifference": 2.194220430107527
+    },
+    "packaging": {
+      "file": "assets/atlas/map-terrain-natural-earth-v2.webp",
+      "format": "webp",
+      "note": "由 output.file 单次转码（q78）用于小工具包瘦身；渲染管线的确定性产物仍为 jpg"
     }
   }
 }

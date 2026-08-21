@@ -298,7 +298,8 @@
   function run() {
     Promise.all([
       loadImage(HERO.fullArt),
-      loadImage(HERO.fullArtHeight)
+      loadImage(HERO.fullArtHeight),
+      window.CardArt.preloadPortraits([HERO])   // 印面小篆贴图预载（paintFaceFull 同步消费）
     ]).then(function (imgs) {
       var t0 = performance.now();
       var setG2 = window.CardArt.paintFaceFull(HERO, imgs[0], {

@@ -40,15 +40,17 @@ test('build:xhs creates one self-contained compliant package', () => {
     assert.deepEqual(relFiles.filter((file) => path.extname(file) === '.html'), ['index.html']);
     assert.ok(relFiles.every((file) => allowedExtensions.has(path.extname(file).toLowerCase())));
     assert.equal(relFiles.some((file) => /\.otf$|assets\/portraits\/full\//i.test(file)), false);
-    assert.equal(relFiles.includes('assets/atlas/map-terrain-natural-earth-v2.jpg'), true);
+    assert.equal(relFiles.includes('assets/atlas/map-terrain-natural-earth-v2.webp'), true);
     assert.equal(relFiles.includes('assets/atlas/terrain-manifest.json'), true);
     assert.equal(relFiles.includes('assets/atlas/map.webp'), false);
     assert.equal(relFiles.includes('assets/atlas/map-skin-qianli-v1.jpg'), false);
-    assert.equal(relFiles.filter((file) => /^assets\/portraits\/runtime\/.*\.jpg$/.test(file)).length, 48);
-    assert.equal(relFiles.filter((file) => /^assets\/portraits\/thumbs\/.*\.jpg$/.test(file)).length, 24);
+    assert.equal(relFiles.filter((file) => /^assets\/portraits\/runtime\/.*\.webp$/.test(file)).length, 48);
+    assert.equal(relFiles.filter((file) => /^assets\/portraits\/thumbs\/.*\.webp$/.test(file)).length, 24);
+    assert.ok(relFiles.filter((file) => /^assets\/seals\/s-[0-9a-f]+\.png$/.test(file)).length >= 50);
 
     const totalBytes = files.reduce((sum, file) => sum + fs.statSync(file).size, 0);
-    assert.ok(totalBytes <= 40 * 1024 * 1024, `package is ${(totalBytes / 1024 / 1024).toFixed(1)} MiB`);
+    // 平台硬上限：单体 zip 10MB（zip-artifact-spec §6），预算口径 9.6 MiB
+    assert.ok(totalBytes <= 9.6 * 1024 * 1024, `package is ${(totalBytes / 1024 / 1024).toFixed(1)} MiB`);
 
     const html = fs.readFileSync(path.join(outputDir, 'index.html'), 'utf8');
     assert.doesNotThrow(() => assertCompliantHtml(html));

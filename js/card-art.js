@@ -109,7 +109,84 @@
   var FONT_TITLE = "'Cinzel', 'Noto Serif SC', serif";
   var FONT_BODY  = "'Noto Serif SC', serif";
   var FONT_BRUSH = "'Ma Shan Zheng', 'Noto Serif SC', serif";  // 题款/匾额毛笔体（本地子集 woff2）
-  var FONT_SEAL  = "'Ma Shan Zheng', serif";  // 小工具仅打包受支持的本地 woff2 字体
+  var FONT_SEAL  = "'Ma Shan Zheng', serif";  // 小篆印面 PNG 缺失时的兜底字体
+
+  /* 印面小篆 glyph：崇羲篆体 CC-BY-ND 禁止子集化/改作字体文件，整字体 21MB
+     又超包体预算，故构建期把印面文字渲染成白字透明底竖排 PNG
+     （assets/seals/，production/build-seal-pngs.py，属字体正常使用），
+     运行时贴图并按需染色；加载失败回退 FONT_SEAL 字体排版（仅 1–2 字版式）。
+     文件名契约：'s-' + djb2(text) + '.png'（与生成器一致）。 */
+  var SEAL_BASE = 'assets/seals/';
+  var _sealGlyphs = new Map();      // text → HTMLImageElement | null（失败/加载中）
+  var _sealJobs = [];
+
+  function _sealHash(text) {
+    var h = 5381;
+    for (var i = 0; i < text.length; i++) {
+      h = ((h * 33) + text.charCodeAt(i)) >>> 0;
+    }
+    return h.toString(16);
+  }
+
+  function _preloadSeal(text) {
+    if (!text || typeof text !== 'string' || _sealGlyphs.has(text)) return;
+    _sealGlyphs.set(text, null);    // 先占位，防重复加载
+    _sealJobs.push(_loadImageOnce(SEAL_BASE + 's-' + _sealHash(text) + '.png').then(function (img) {
+      _sealGlyphs.set(text, img || null);
+    }));
+  }
+
+  /* 全部已请求印面 settle（永不 reject）；启动期绘制（如卡背）用它等齐 */
+  function whenSealsReady() {
+    return Promise.all(_sealJobs).then(function () {});
+  }
+
+  function _sealImg(text) {
+    return _sealGlyphs.get(text) || null;
+  }
+
+  /* 白色 glyph 按需染色（缓存）：朱文红 / 白文米白 / 材质层灰 */
+  var _sealTintCache = new Map();   // text|style → canvas
+  function _sealTinted(text, style) {
+    var img = _sealImg(text);
+    if (!img) return null;
+    var key = text + '|' + style;
+    var hit = _sealTintCache.get(key);
+    if (hit) return hit;
+    var c = document.createElement('canvas');
+    c.width = img.width;
+    c.height = img.height;
+    var g = c.getContext('2d');
+    g.drawImage(img, 0, 0);
+    g.globalCompositeOperation = 'source-in';
+    g.fillStyle = style;
+    g.fillRect(0, 0, c.width, c.height);
+    _sealTintCache.set(key, c);
+    return c;
+  }
+
+  /* 印面 glyph 写入 h/r 材质层（diffuse 由 blitSealFace 负责），
+     竖排任意字数整体保比例缩放；返回 false = 无图需回退字体排版 */
+  function _sealGlyphAll(P, text, cx, cy, box, hVal, rVal) {
+    if (!_sealImg(text)) return false;
+    var img = _sealImg(text);
+    var s = Math.min(box / img.width, box / img.height);
+    var dw = img.width * s, dh = img.height * s;
+    var dx = cx - dw / 2, dy = cy - dh / 2;
+    if (P.h && hVal != null) P.h.drawImage(_sealTinted(text, gray(hVal)), dx, dy, dw, dh);
+    if (P.r && rVal != null) P.r.drawImage(_sealTinted(text, gray(rVal)), dx, dy, dw, dh);
+    return true;
+  }
+
+  /* 在 blitSealFace 的离屏 oc（局部坐标 size×size）里居中画染色 glyph */
+  function _sealBlit(oc, text, size, box, style) {
+    var img = _sealTinted(text, style);
+    if (!img) return false;
+    var s = Math.min(box / img.width, box / img.height);
+    var dw = img.width * s, dh = img.height * s;
+    oc.drawImage(img, size / 2 - dw / 2, size / 2 - dh / 2, dw, dh);
+    return true;
+  }
   var FONT_LABEL = "'Jost', 'Noto Sans SC', sans-serif";
 
   /* 内置职业常量表：与 js/heroes-data.js 的 window.WOW_CLASS_INFO 同名同构。
@@ -1990,12 +2067,15 @@
       }
     });
     if (chars) {                                       // 白文刻入（高度反压、更哑光）
-      var fsH = chars.length === 2 ? size * 0.42 : size * 0.58;
-      if (chars.length === 2) {
-        textAll(P, chars[0], { font: fsH + 'px ' + FONT_SEAL, x: cx, y: cy - size * 0.02, hVal: 100, rVal: 220 });
-        textAll(P, chars[1], { font: fsH + 'px ' + FONT_SEAL, x: cx, y: cy + size * 0.37, hVal: 100, rVal: 220 });
-      } else {
-        textAll(P, chars, { font: fsH + 'px ' + FONT_SEAL, x: cx, y: cy + fsH * 0.35, hVal: 100, rVal: 220 });
+      // 优先小篆印面贴图（任意字数竖排）；缺图回退字体排版（1–2 字）
+      if (!_sealGlyphAll(P, chars, cx, cy, size * 0.78, 100, 220)) {
+        var fsH = chars.length === 2 ? size * 0.42 : size * 0.58;
+        if (chars.length === 2) {
+          textAll(P, chars[0], { font: fsH + 'px ' + FONT_SEAL, x: cx, y: cy - size * 0.02, hVal: 100, rVal: 220 });
+          textAll(P, chars[1], { font: fsH + 'px ' + FONT_SEAL, x: cx, y: cy + size * 0.37, hVal: 100, rVal: 220 });
+        } else {
+          textAll(P, chars, { font: fsH + 'px ' + FONT_SEAL, x: cx, y: cy + fsH * 0.35, hVal: 100, rVal: 220 });
+        }
       }
     }
     blitSealFace(P, cx, cy, size, cx * 31 + cy * 7 + size, function (oc) {
@@ -2010,7 +2090,8 @@
       oc.lineWidth = 1;
       oc.beginPath(); pathRoundRect(oc, 0.6, 0.6, size - 1.2, size - 1.2, rad); oc.stroke();
       if (!chars) return;
-      oc.fillStyle = '#F3E9CF';                        // 阴刻白字（小篆）
+      if (_sealBlit(oc, chars, size, size * 0.78, '#F3E9CF')) return;  // 小篆印面贴图
+      oc.fillStyle = '#F3E9CF';                        // 阴刻白字（兜底字体，1–2 字）
       oc.textAlign = 'center'; oc.textBaseline = 'alphabetic';
       var fs = chars.length === 2 ? size * 0.42 : size * 0.58;
       oc.font = fs + 'px ' + FONT_SEAL;
@@ -2038,9 +2119,12 @@
     }
     strokeAll(P, { hVal: 124, rVal: 200, dWidth: 2.8, path: function (ctx) { borderPath(ctx, 1.6); } });
     strokeAll(P, { hVal: 124, rVal: 200, dWidth: 0.9, path: function (ctx) { borderPath(ctx, 5.5); } });
-    chars.split('').forEach(function (ch, i) {         // 朱文线条的印泥厚度（h/r 层）
-      if (i < ys.length) textAll(P, ch, { font: fs + 'px ' + FONT_SEAL, x: cx, y: ys[i], hVal: 124, rVal: 200 });
-    });
+    // 朱文线条的印泥厚度（h/r 层）：优先小篆印面贴图，缺图回退逐字排版
+    if (!_sealGlyphAll(P, chars, cx, cy, size * 0.8, 124, 200)) {
+      chars.split('').forEach(function (ch, i) {
+        if (i < ys.length) textAll(P, ch, { font: fs + 'px ' + FONT_SEAL, x: cx, y: ys[i], hVal: 124, rVal: 200 });
+      });
+    }
     blitSealFace(P, cx, cy, size, cx * 13 + cy * 41 + size, function (oc) {
       oc.shadowColor = 'rgba(40,8,6,0.45)';            // 微影与画底分离，保可读
       oc.shadowBlur = 2.5;
@@ -2051,6 +2135,7 @@
       oc.lineWidth = 0.9;
       oc.beginPath(); pathRoundRect(oc, 5.5, 5.5, size - 11, size - 11, Math.max(2, rad - 3)); oc.stroke();
       oc.fillStyle = '#BE4132';
+      if (_sealBlit(oc, chars, size, size * 0.8, '#BE4132')) return;  // 小篆印面贴图
       oc.textAlign = 'center'; oc.textBaseline = 'alphabetic';
       oc.font = fs + 'px ' + FONT_SEAL;
       for (var i = 0; i < chars.length && i < ys.length; i++) {
@@ -2207,6 +2292,12 @@
   function preloadPortraits(heroes) {
     var list = Array.isArray(heroes) ? heroes : [];
     var jobs = list.map(function (h) {
+      // 印面小篆贴图随人物一并预载（seal/dynasty/category）
+      if (h) {
+        _preloadSeal(h.seal);
+        _preloadSeal(h.dynasty);
+        _preloadSeal(h.category);
+      }
       var id = h && h.id != null ? String(h.id) : '';
       if (!id) return Promise.resolve();
       if (_portraits.has(id)) return Promise.resolve();  // 已有定论（含「无图」标记）
@@ -2245,8 +2336,8 @@
         }));
       }
     });
-    return Promise.all(jobs).then(function () {
-      _faceCache.clear();                                // 肖像状态定型，旧缓存全部重画
+    return Promise.all(jobs.concat(_sealJobs.slice())).then(function () {
+      _faceCache.clear();                                // 肖像/印面状态定型，旧缓存全部重画
     });
   }
 
@@ -3721,6 +3812,8 @@
   /* --------------------------------------------------------------------------
    * 十、导出
    * ------------------------------------------------------------------------ */
+  _preloadSeal('群英');   // 卡背大印：启动即加载（paintBack 在 app 启动期同步调用）
+
   global.CardArt = {
     W: W,
     H: H,
@@ -3729,6 +3822,7 @@
     paintMini: paintMini,
     paintFaceFull: paintFaceFull,
     preloadPortraits: preloadPortraits,
-    hasPortrait: hasPortrait
+    hasPortrait: hasPortrait,
+    whenSealsReady: whenSealsReady
   };
 })(typeof window !== 'undefined' ? window : this);

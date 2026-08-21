@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2400 1600" role="img"
   aria-labelledby="atlas-title atlas-desc" data-projection="web-mercator-eurasia-indian-ocean-v1"
-  data-skin="natural-earth-srtm-qinglu-v2" data-skin-source="map-terrain-natural-earth-v2.jpg"
+  data-skin="natural-earth-srtm-qinglu-v2" data-skin-source="map-terrain-natural-earth-v2.webp"
   data-terrain-source="natural-earth-shaded-relief-srtm-plus"
   data-boundary-source="natural-earth-admin-0-110m">
   <title id="atlas-title">华夏人物行旅地理底图</title>

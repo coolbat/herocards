@@ -1032,7 +1032,7 @@
       var w0 = canvas.offsetWidth;
       var h0 = canvas.offsetHeight;
       if (w0 < 2 || h0 < 2) return;
-      var dpr = Math.min(window.devicePixelRatio || 1, 2);
+      var dpr = Math.min(window.devicePixelRatio || 1, 2.5);   // 高 DPR 手机保留更多卡面细节
       var w = Math.max(1, Math.round(w0 * dpr));
       var h = Math.max(1, Math.round(h0 * dpr));
       if (canvas.width !== w || canvas.height !== h) {
@@ -1264,12 +1264,21 @@
       return clone;
     };
 
-    var bs = loadBackSet();
-    if (bs) {
-      backLayer.setTextures(bs);
+    // 卡背「群英」印是小篆贴图：等印面就绪后再上卡背贴图，
+    // 避免启动竞态把兜底字体版卡背烤进 GL 纹理。卡背首次可见是翻面动画，延迟无害。
+    var applyBack = function () {
+      var bs = loadBackSet();
+      if (bs) {
+        backLayer.setTextures(bs);
+      } else {
+        backLayer.dispose();
+        backLayer = null;
+      }
+    };
+    if (hasArt && typeof CardArt.whenSealsReady === 'function') {
+      CardArt.whenSealsReady().then(applyBack, applyBack);
     } else {
-      backLayer.dispose();
-      backLayer = null;
+      applyBack();
     }
   }
 

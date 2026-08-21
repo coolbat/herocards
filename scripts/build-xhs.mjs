@@ -40,13 +40,13 @@ const files = [
   'js/app.js',
   'assets/fonts/MaShanZheng-subset.woff2',
   'assets/atlas/map-projected.svg',
-  'assets/atlas/map-terrain-natural-earth-v2.jpg',
+  'assets/atlas/map-terrain-natural-earth-v2.webp',
   'assets/atlas/terrain-manifest.json'
 ];
 
 const runtimeDir = path.join(repoDir, 'assets/portraits/runtime');
 const runtimeFiles = fs.readdirSync(runtimeDir)
-  .filter((name) => name.endsWith('.jpg'))
+  .filter((name) => name.endsWith('.webp'))
   .sort()
   .map((name) => path.posix.join('assets/portraits/runtime', name));
 
@@ -56,23 +56,33 @@ if (runtimeFiles.length !== 48) {
 
 const thumbnailDir = path.join(repoDir, 'assets/portraits/thumbs');
 const thumbnailFiles = fs.readdirSync(thumbnailDir)
-  .filter((name) => name.endsWith('-full.jpg'))
+  .filter((name) => name.endsWith('-full.webp'))
   .sort()
   .map((name) => path.posix.join('assets/portraits/thumbs', name));
 if (thumbnailFiles.length !== 24) {
   throw new Error(`图鉴缩略图应为 24 张，实际为 ${thumbnailFiles.length} 张`);
 }
 
-const manifest = files.concat(runtimeFiles, thumbnailFiles);
+/* 印面小篆贴图（白字透明底 PNG）：seal/dynasty/category + 卡背「群英」 */
+const sealDir = path.join(repoDir, 'assets/seals');
+const sealFiles = fs.readdirSync(sealDir)
+  .filter((name) => name.endsWith('.png'))
+  .sort()
+  .map((name) => path.posix.join('assets/seals', name));
+if (sealFiles.length < 50) {
+  throw new Error(`印面贴图应不少于 50 枚，实际为 ${sealFiles.length} 枚`);
+}
+
+const manifest = files.concat(runtimeFiles, thumbnailFiles, sealFiles);
 const packageSet = new Set(manifest);
 const heroSource = fs.readFileSync(path.join(repoDir, 'js/heroes-data.js'), 'utf8');
 const artReferences = [...heroSource.matchAll(/\bfullArt(?:Height)?\s*:\s*["'](assets\/portraits\/runtime\/[^"']+)["']/g)]
   .map((match) => match[1])
-  .filter((relative) => !relative.endsWith('/xxx.jpg'));
+  .filter((relative) => !relative.endsWith('/xxx.webp'));
 if (artReferences.length !== 48 || artReferences.some((relative) => !packageSet.has(relative))) {
   throw new Error('人物运行图引用与小工具包 manifest 不一致');
 }
-const thumbnailReferences = artReferences.filter((relative) => relative.endsWith('-full.jpg'))
+const thumbnailReferences = artReferences.filter((relative) => relative.endsWith('-full.webp'))
   .map((relative) => relative.replace('assets/portraits/runtime/', 'assets/portraits/thumbs/'));
 if (thumbnailReferences.length !== 24 || thumbnailReferences.some((relative) => !packageSet.has(relative))) {
   throw new Error('图鉴缩略图引用与小工具包 manifest 不一致');
@@ -125,9 +135,10 @@ for (const relative of manifest.filter((file) => file.endsWith('.svg'))) {
 const totalBytes = manifest.reduce((sum, relative) => {
   return sum + fs.statSync(path.join(outputDir, relative)).size;
 }, 0);
-const projectBudget = 40 * 1024 * 1024;
+// 平台硬上限：单体 zip 10MB（zip-artifact-spec §6）；留 0.4MiB 给 zip 头与余量
+const projectBudget = 9.6 * 1024 * 1024;
 if (totalBytes > projectBudget) {
-  throw new Error(`小工具包 ${(totalBytes / 1024 / 1024).toFixed(1)} MiB，超过项目 40 MiB 预算`);
+  throw new Error(`小工具包 ${(totalBytes / 1024 / 1024).toFixed(1)} MiB，超过平台 10MB 上限（按 9.6 MiB 预算控制）`);
 }
 
 console.log(`XHS package: ${manifest.length} files, ${(totalBytes / 1024 / 1024).toFixed(1)} MiB`);

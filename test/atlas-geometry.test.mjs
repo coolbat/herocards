@@ -111,7 +111,7 @@ test('legacy artwork calibration is exact at control points and rejects unsuppor
 test('active atlas asset is generated from the same declared projection', () => {
   assert.equal(AtlasModel.asset.src, 'assets/atlas/map-projected.svg');
   assert.equal(AtlasModel.asset.projectionId, AtlasModel.projection.id);
-  assert.equal(AtlasModel.asset.skinSrc, 'assets/atlas/map-terrain-natural-earth-v2.jpg');
+  assert.equal(AtlasModel.asset.skinSrc, 'assets/atlas/map-terrain-natural-earth-v2.webp');
   assert.equal(AtlasModel.asset.skinStyle, 'natural-earth-srtm-qinglu-v2');
   assert.equal(AtlasModel.asset.terrainManifest, 'assets/atlas/terrain-manifest.json');
   assert.equal('fallbackSrc' in AtlasModel.asset, false);
@@ -121,7 +121,7 @@ test('active atlas asset is generated from the same declared projection', () => 
   assert.match(svg, /viewBox="0 0 2400 1600"/);
   assert.match(svg, /data-projection="web-mercator-eurasia-indian-ocean-v1"/);
   assert.match(svg, /data-skin="natural-earth-srtm-qinglu-v2"/);
-  assert.match(svg, /data-skin-source="map-terrain-natural-earth-v2.jpg"/);
+  assert.match(svg, /data-skin-source="map-terrain-natural-earth-v2.webp"/);
   assert.match(svg, /data-terrain-source="natural-earth-shaded-relief-srtm-plus"/);
   assert.match(svg, /id="ocean-mask"/);
   assert.doesNotMatch(svg, /data:image\//);
