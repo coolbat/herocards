@@ -339,7 +339,7 @@
 
     var credit = document.createElement('div');
     credit.className = 'am-credit';
-    credit.textContent = '地理轮廓：Natural Earth · 青绿山水皮肤：AI';
+    credit.textContent = '地理与真实山势：Natural Earth / SRTM Plus · 青绿设色：程序生成';
     viewport.appendChild(credit);
     container.appendChild(viewport);
 

@@ -1,6 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import childProcess from 'node:child_process';
+import crypto from 'node:crypto';
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
@@ -9,6 +10,20 @@ import vm from 'node:vm';
 
 import AtlasModel from '../js/atlas-data.js';
 import MapGeometry from '../js/map-geometry.js';
+
+function jpegDimensions(buffer) {
+  let offset = 2;
+  while (offset + 9 < buffer.length) {
+    if (buffer[offset] !== 0xff) { offset += 1; continue; }
+    const marker = buffer[offset + 1];
+    const length = buffer.readUInt16BE(offset + 2);
+    if (marker >= 0xc0 && marker <= 0xc3) {
+      return { height: buffer.readUInt16BE(offset + 5), width: buffer.readUInt16BE(offset + 7) };
+    }
+    offset += 2 + length;
+  }
+  throw new Error('JPEG dimensions are unavailable');
+}
 
 function loadHeroes() {
   const context = { window: {} };
@@ -96,20 +111,67 @@ test('legacy artwork calibration is exact at control points and rejects unsuppor
 test('active atlas asset is generated from the same declared projection', () => {
   assert.equal(AtlasModel.asset.src, 'assets/atlas/map-projected.svg');
   assert.equal(AtlasModel.asset.projectionId, AtlasModel.projection.id);
-  assert.equal(AtlasModel.asset.skinSrc, 'assets/atlas/map-skin-qianli-v1.jpg');
+  assert.equal(AtlasModel.asset.skinSrc, 'assets/atlas/map-terrain-natural-earth-v2.jpg');
+  assert.equal(AtlasModel.asset.skinStyle, 'natural-earth-srtm-qinglu-v2');
+  assert.equal(AtlasModel.asset.terrainManifest, 'assets/atlas/terrain-manifest.json');
 
   const svg = fs.readFileSync(new URL('../assets/atlas/map-projected.svg', import.meta.url), 'utf8');
   assert.ok(Buffer.byteLength(svg) < 1_500_000, 'runtime map asset should stay below 1.5 MB');
   assert.match(svg, /viewBox="0 0 2400 1600"/);
   assert.match(svg, /data-projection="web-mercator-eurasia-indian-ocean-v1"/);
-  assert.match(svg, /data-skin="qianli-qinglu-v1"/);
-  assert.match(svg, /data-skin-source="map-skin-qianli-v1.jpg"/);
+  assert.match(svg, /data-skin="natural-earth-srtm-qinglu-v2"/);
+  assert.match(svg, /data-skin-source="map-terrain-natural-earth-v2.jpg"/);
+  assert.match(svg, /data-terrain-source="natural-earth-shaded-relief-srtm-plus"/);
   assert.match(svg, /id="ocean-mask"/);
   assert.doesNotMatch(svg, /data:image\//);
   assert.doesNotMatch(svg, /<image\b/);
   assert.match(svg, /id="china-mainland-outline" d="M[^"]+"/);
   assert.match(svg, /data-boundary-source="natural-earth-admin-0-110m"/);
   assert.match(svg, /Natural Earth/);
+});
+
+test('terrain derivative is traceable, projected and within the runtime budget', () => {
+  const manifest = JSON.parse(fs.readFileSync(
+    new URL('../assets/atlas/terrain-manifest.json', import.meta.url),
+    'utf8'
+  ));
+  const terrain = fs.readFileSync(new URL('../assets/atlas/map-terrain-natural-earth-v2.jpg', import.meta.url));
+  const checksum = crypto.createHash('sha256').update(terrain).digest('hex');
+
+  assert.equal(manifest.provider, 'Natural Earth');
+  assert.equal(manifest.product, '1:10m Shaded Relief Basic');
+  assert.equal(manifest.embeddedVersion, '2.0.0');
+  assert.equal(manifest.projectionId, AtlasModel.projection.id);
+  assert.equal(manifest.source.sha256, 'b2619fff2fc73c17152983c066adfaa25c4b626916b822bad2fae8bcd9be41a5');
+  assert.equal(checksum, manifest.output.sha256);
+  assert.deepEqual(jpegDimensions(terrain), { width: AtlasModel.projection.width, height: AtlasModel.projection.height });
+  assert.ok(terrain.length < 1_500_000, 'terrain texture should stay below 1.5 MB');
+});
+
+test('terrain derivative preserves two-dimensional geographic relief', () => {
+  const manifest = JSON.parse(fs.readFileSync(
+    new URL('../assets/atlas/terrain-manifest.json', import.meta.url),
+    'utf8'
+  ));
+  const analysis = manifest.output.spatialAnalysis;
+  assert.ok(analysis.horizontalMeanDifference > 1,
+    `terrain should vary east-west, received ${analysis.horizontalMeanDifference}`);
+  assert.ok(analysis.verticalMeanDifference > 1,
+    `terrain should vary north-south, received ${analysis.verticalMeanDifference}`);
+  assert.ok(analysis.luminanceRange[1] - analysis.luminanceRange[0] > 20);
+});
+
+test('terrain canvas bounds come from the declared projector without hand calibration', () => {
+  const bounds = MapGeometry.fullCanvasBounds(AtlasModel);
+  assert.ok(Math.abs(bounds.west - 20.29864) < 0.00001);
+  assert.ok(Math.abs(bounds.east - 156.70136) < 0.00001);
+  assert.ok(Math.abs(bounds.south - -15.532295) < 0.00001);
+  assert.ok(Math.abs(bounds.north - 59.876223) < 0.00001);
+  const northwest = MapGeometry.project([bounds.west, bounds.north], AtlasModel);
+  const southeast = MapGeometry.project([bounds.east, bounds.south], AtlasModel);
+  assert.ok(Math.abs(northwest.x) < 0.00001 && Math.abs(northwest.y) < 0.00001);
+  assert.ok(Math.abs(southeast.x - AtlasModel.projection.width) < 0.00001);
+  assert.ok(Math.abs(southeast.y - AtlasModel.projection.height) < 0.00001);
 });
 
 test('checked-in atlas asset matches a fresh deterministic build', (t) => {

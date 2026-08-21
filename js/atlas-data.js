@@ -171,11 +171,13 @@
     version: 1,
     asset: {
       src: 'assets/atlas/map-projected.svg',
-      skinSrc: 'assets/atlas/map-skin-qianli-v1.jpg',
-      skinStyle: 'qianli-qinglu-v1',
+      skinSrc: 'assets/atlas/map-terrain-natural-earth-v2.jpg',
+      skinStyle: 'natural-earth-srtm-qinglu-v2',
+      terrainSource: 'natural-earth-shaded-relief-srtm-plus',
+      terrainManifest: 'assets/atlas/terrain-manifest.json',
       projectionId: 'web-mercator-eurasia-indian-ocean-v1',
       fallbackSrc: 'assets/atlas/map.webp',
-      attribution: 'Natural Earth public domain'
+      attribution: 'Natural Earth Shaded Relief and vectors, public domain'
     },
     projection: {
       id: 'web-mercator-eurasia-indian-ocean-v1',

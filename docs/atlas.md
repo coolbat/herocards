@@ -35,17 +35,18 @@ place_id: {
 
 正式底图由 Natural Earth 的陆地、湖泊、河流和国界 GeoJSON 构建，源文件放在 `assets/atlas/sources/`，许可和来源见 `assets/atlas/ATTRIBUTION.md`。
 
-底图上另有 `assets/atlas/map-skin-qianli-v1.jpg` 青绿山水皮肤。它只负责山峦、色彩和 2.5D 层次：构建时会被陆地矢量轮廓裁切，海岸线、国界、中国轮廓、湖泊和河流随后以同一投影重新叠加。换言之，AI 图片不会参与地点定位，也不会决定大陆形状；中国大陆轮廓来自 Natural Earth Admin 0 矢量数据。
+地形底层为 `assets/atlas/map-terrain-natural-earth-v2.jpg`。它由 Natural Earth 1:10m Shaded Relief（SRTM Plus 高程派生阴影）按当前画布反算范围重投影，再以石青、石绿、赭色程序化设色；山脊和坡面不再来自 AI 图片。海岸线、国界、中国轮廓、湖泊和河流随后以同一投影叠加，中国大陆轮廓仍来自 Natural Earth Admin 0 矢量数据。
 
-为便于静态页面稳定加载，生成脚本会把经过压缩的 JPEG 皮肤嵌入 SVG。更换皮肤后必须重新运行构建命令，不能只覆盖 SVG 或 JPEG 中的一个；测试会检查运行资产不超过 1.5MB，并与全新构建逐字节一致。
+地形 JPEG 与矢量 SVG 是两个包内本地资源，避免 `data:` 图片的客户端版本前提。来源版本、源 ZIP SHA-256、投影范围、输出 SHA-256 和许可记录在 `assets/atlas/terrain-manifest.json`；原始 21600×10800 TIFF 只在构建缓存中使用，不进入 Git 或小红书包。
 
-重新生成底图：
+重新生成地形和底图：
 
 ```bash
+npm run build:terrain
 npm run build:atlas
 ```
 
-生成脚本和运行时共用 `MapGeometry.project`，因此底图与点位不会因两套投影公式发生漂移。修改投影边界、画布尺寸或 ID 时，必须同步更新 `ATLAS_MODEL.projection`，重新构建 SVG，并运行测试。
+`build:terrain` 先校验 Natural Earth 官方源文件，再由 `MapGeometry.fullCanvasBounds` 从项目投影反算画布边界；`build:atlas` 和运行时继续共用 `MapGeometry.project`。修改投影边界、画布尺寸或 ID 时，必须重新构建地形 JPEG 和矢量 SVG，并运行测试。
 
 ## 旧 2.5D 图片校准
 
@@ -59,6 +60,6 @@ npm run build:atlas
 npm run check
 ```
 
-自动检查覆盖：24 位人物的全部生平站点、地点字段完整性、重复地点复用、郑和跨洲方向关系、旧图控制点、投影资产一致性、局部/跨洲路线镜头范围，以及人物数据不再携带 `mx/my`。
+自动检查覆盖：24 位人物的全部生平站点、地点字段完整性、重复地点复用、郑和跨洲方向关系、旧图控制点、地形来源与二维变化、画布反算范围、投影资产一致性、局部/跨洲路线镜头范围，以及人物数据不再携带 `mx/my`。
 
 新增或修改地点后，还应在 390×844 真视口检查：点位故事卡、放大缩小、四向拖动、区域/存疑标识和密集标签。

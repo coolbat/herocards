@@ -1,0 +1,55 @@
+{
+  "schemaVersion": 1,
+  "provider": "Natural Earth",
+  "product": "1:10m Shaded Relief Basic",
+  "pageRelease": "3.2.0",
+  "embeddedVersion": "2.0.0",
+  "terrainBasis": "Downsampled SRTM Plus elevation-derived shaded relief",
+  "source": {
+    "url": "https://naturalearth.s3.amazonaws.com/10m_raster/SR_HR.zip",
+    "archive": "SR_HR.zip",
+    "raster": "SR_HR.tif",
+    "sha256": "b2619fff2fc73c17152983c066adfaa25c4b626916b822bad2fae8bcd9be41a5",
+    "crs": "EPSG:4326",
+    "dimensions": [
+      21600,
+      10800
+    ]
+  },
+  "license": {
+    "id": "public-domain",
+    "url": "https://www.naturalearthdata.com/about/terms-of-use/"
+  },
+  "projectionId": "web-mercator-eurasia-indian-ocean-v1",
+  "canvas": {
+    "width": 2400,
+    "height": 1600,
+    "bounds": {
+      "west": 20.298639568,
+      "east": 156.701360432,
+      "south": -15.532294848,
+      "north": 59.876222974
+    }
+  },
+  "renderer": {
+    "id": "natural-earth-qinglu-pillow-v1",
+    "script": "scripts/render-terrain.py",
+    "requirements": "scripts/requirements-terrain.txt",
+    "palette": "azurite-malachite-ochre-programmatic",
+    "aiGeometry": false
+  },
+  "output": {
+    "file": "assets/atlas/map-terrain-natural-earth-v2.jpg",
+    "format": "jpeg",
+    "bytes": 795868,
+    "sha256": "9e765f0ae9aac780e297ed0919124be52f4ec0e56e0de11dbdb11ea69d22136c",
+    "spatialAnalysis": {
+      "horizontalMeanDifference": 1.9381648936170213,
+      "luminanceRange": [
+        84,
+        127
+      ],
+      "verticalMeanDifference": 2.194220430107527
+    }
+  }
+}

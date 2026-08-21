@@ -40,6 +40,9 @@ test('build:xhs creates one self-contained compliant package', () => {
     assert.deepEqual(relFiles.filter((file) => path.extname(file) === '.html'), ['index.html']);
     assert.ok(relFiles.every((file) => allowedExtensions.has(path.extname(file).toLowerCase())));
     assert.equal(relFiles.some((file) => /\.otf$|assets\/portraits\/full\//i.test(file)), false);
+    assert.equal(relFiles.includes('assets/atlas/map-terrain-natural-earth-v2.jpg'), true);
+    assert.equal(relFiles.includes('assets/atlas/terrain-manifest.json'), true);
+    assert.equal(relFiles.includes('assets/atlas/map-skin-qianli-v1.jpg'), false);
     assert.equal(relFiles.filter((file) => /^assets\/portraits\/runtime\/.*\.jpg$/.test(file)).length, 48);
     assert.equal(relFiles.filter((file) => /^assets\/portraits\/thumbs\/.*\.jpg$/.test(file)).length, 24);
 

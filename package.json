@@ -5,6 +5,7 @@
   "description": "herocards · 中国古代人物卡片与生平行旅图（静态运行，地图资产可复现构建）",
   "scripts": {
     "dev": "node server.mjs",
+    "build:terrain": "node scripts/build-terrain.mjs",
     "build:atlas": "node scripts/build-atlas.mjs",
     "build:xhs": "node scripts/build-xhs.mjs",
     "test:map": "node --test test/atlas-geometry.test.mjs",

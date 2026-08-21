@@ -10,17 +10,23 @@
 - Projection: `web-mercator-eurasia-indian-ocean-v1`, declared in
   `js/atlas-data.js`
 
-`map-skin-qianli-v1.jpg` is an AI-generated decorative terrain skin created with
-OpenAI image generation on 2026-08-20. Its mineral blue-green palette is
-informed by the Palace Museum's description of Wang Ximeng's *A Thousand Li of
-Rivers and Mountains* (azurite, malachite, ochre, and layered mineral color):
+`map-terrain-natural-earth-v2.jpg` is generated from Natural Earth 1:10m
+Shaded Relief Basic. Natural Earth describes it as land-only relief derived
+from downsampled SRTM Plus elevation data and clipped to its 1:10m coastline.
+
+- Product page: https://www.naturalearthdata.com/downloads/10m-raster-data/10m-shaded-relief/
+- Source archive: https://naturalearth.s3.amazonaws.com/10m_raster/SR_HR.zip
+- License: public domain
+- Exact archive/output checksums and canvas bounds: `terrain-manifest.json`
+
+`npm run build:terrain` verifies the source archive, uses the canvas bounds
+derived from the same project Mercator projection, and applies a deterministic
+azurite/malachite/ochre palette. The palette is informed by the Palace Museum's
+description of Wang Ximeng's *A Thousand Li of Rivers and Mountains*:
 https://www.dpm.org.cn/collection/paint/228354.html
 
-The skin is visual material only: it does not define coastlines, boundaries,
-locations, or routes. `build-atlas.mjs` clips it to the Natural Earth land
-geometry and overlays the projected vector coastline and country boundaries,
-including a distinct China outline.
-
-The generated SVG is the self-contained runtime asset and embeds the optimized
-JPEG skin. The GeoJSON files and JPEG are build inputs; the original painterly `map.webp` is
-retained only for the calibration tool and visual reference.
+The terrain image does not define political boundaries. `build-atlas.mjs`
+overlays the projected vector coastline and country boundaries, including a
+distinct China outline. The terrain JPEG and vector SVG remain separate local
+runtime assets. The earlier AI skin is retained only as a visual reference and
+is not included in the Xiaohongshu package.

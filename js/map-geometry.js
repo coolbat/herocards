@@ -12,6 +12,10 @@
     return Math.log(Math.tan(Math.PI / 4 + radians / 2));
   }
 
+  function inverseMercatorY(value) {
+    return (2 * Math.atan(Math.exp(value)) - Math.PI / 2) * 180 / Math.PI;
+  }
+
   function clamp(value, minimum, maximum) {
     return Math.max(minimum, Math.min(maximum, value));
   }
@@ -45,6 +49,32 @@
     var source = model || (typeof globalThis !== 'undefined' ? globalThis.ATLAS_MODEL : null);
     if (!source || !source.projection) { throw new Error('Atlas geographic model is required'); }
     return createProjector(source.projection)(coordinates);
+  }
+
+  function fullCanvasBounds(model) {
+    var source = model || (typeof globalThis !== 'undefined' ? globalThis.ATLAS_MODEL : null);
+    if (!source || !source.projection) { throw new Error('Atlas geographic model is required'); }
+    var config = source.projection;
+    var padding = config.padding || 0;
+    var west = config.bounds.west * Math.PI / 180;
+    var east = config.bounds.east * Math.PI / 180;
+    var north = mercatorY(config.bounds.north);
+    var south = mercatorY(config.bounds.south);
+    var scale = Math.min(
+      (config.width - padding * 2) / (east - west),
+      (config.height - padding * 2) / (north - south)
+    );
+    var contentWidth = (east - west) * scale;
+    var contentHeight = (north - south) * scale;
+    var offsetX = (config.width - contentWidth) / 2;
+    var offsetY = (config.height - contentHeight) / 2;
+
+    return {
+      west: (west - offsetX / scale) * 180 / Math.PI,
+      east: (west + (config.width - offsetX) / scale) * 180 / Math.PI,
+      south: inverseMercatorY(north - (config.height - offsetY) / scale),
+      north: inverseMercatorY(north + offsetY / scale)
+    };
   }
 
   function barycentric(point, a, b, c) {
@@ -189,5 +219,5 @@
     };
   }
 
-  return { project: project, layout: layout };
+  return { project: project, fullCanvasBounds: fullCanvasBounds, layout: layout };
 });

@@ -5,6 +5,10 @@
 
 ## 结论
 
+> 实施状态（2026-08-21）：Phase 0 已落地。当前运行资产为
+> `assets/atlas/map-terrain-natural-earth-v2.jpg`，来源、校验和、投影画布范围与输出哈希见
+> `assets/atlas/terrain-manifest.json`；中国局部 Copernicus GLO-30 仍保留为未来深度缩放阶段。
+
 当前产品建议直接使用 **Natural Earth 1:10m Shaded Relief 作为真实山势底层**，重新投影后进行青绿设色；其源分辨率与本项目最大显示尺度接近，地形又和现有 Natural Earth 矢量专门配准。若需要从原始高程重新计算光照、坡度和海拔分层，正式母版优先使用 **GMTED2010 7.5 或 15 arc-second**。Copernicus DEM GLO-30 只保留给未来的中国局部深度缩放，不作为当前整幅亚洲地图的首选。
 
 Natural Earth Shaded Relief 已经是适合小比例尺地图的静态阴影，但不是可计算高程的 DEM；它可以成为当前运行版的地形视觉真值，不能用于查询高度或重新计算坡度。若未来新增中国局部深度缩放，可用 Copernicus GLO-30，受阻时回退 NASADEM。
