@@ -1,5 +1,5 @@
 const bannedHtml = /\son\w+\s*=|javascript:|<\s*(?:iframe|object|embed|form)\b|\bdownload\b|\btarget\s*=\s*["']_blank["']|\brel\s*=\s*["']manifest["']/i;
-const externalMarkupResource = /(?:src|href|xlink:href)\s*=\s*["']https?:\/\//i;
+const externalMarkupResource = /(?:src|href|xlink:href)\s*=\s*["'](?:https?:)?\/\//i;
 
 const bannedJavaScript = [
   ['网络与实时通信', /\b(?:fetch|XMLHttpRequest|WebSocket|EventSource|RTCPeerConnection|RTCDataChannel)\b/],
@@ -14,6 +14,34 @@ const bannedJavaScript = [
   ['动态嵌入或表单', /createElement\s*\(\s*["'](?:iframe|object|embed|form)["']|\.submit\s*\(\s*\)/],
   ['文件下载', /\.download\s*=|setAttribute\s*\(\s*["']download["']/]
 ];
+
+function hasProtocolRelativeUrlLiteral(source) {
+  let index = 0;
+  while (index < source.length) {
+    if (source[index] === '/' && source[index + 1] === '/') {
+      const newline = source.indexOf('\n', index + 2);
+      index = newline === -1 ? source.length : newline + 1;
+      continue;
+    }
+    if (source[index] === '/' && source[index + 1] === '*') {
+      const end = source.indexOf('*/', index + 2);
+      index = end === -1 ? source.length : end + 2;
+      continue;
+    }
+    const quote = source[index];
+    if (quote !== '"' && quote !== "'" && quote !== '`') {
+      index += 1;
+      continue;
+    }
+    let end = index + 1;
+    while (end < source.length && source[end] !== quote) {
+      end += source[end] === '\\' ? 2 : 1;
+    }
+    if (/^[ \t\r\n]*\/\//.test(source.slice(index + 1, end))) return true;
+    index = end + 1;
+  }
+  return false;
+}
 
 export function assertCompliantHtml(html) {
   const scripts = [...html.matchAll(/<script\b([^>]*)>([\s\S]*?)<\/script>/gi)];
@@ -32,7 +60,9 @@ export function assertCompliantJavaScript(source) {
     if (match) throw new Error(`脚本包含禁用能力（${label}）：${match[0]}`);
   }
   const withoutSvgNamespace = source.replaceAll('http://www.w3.org/2000/svg', '');
-  if (/https?:\/\//i.test(withoutSvgNamespace)) throw new Error('脚本包含外部网络地址');
+  if (/https?:\/\//i.test(withoutSvgNamespace) || hasProtocolRelativeUrlLiteral(withoutSvgNamespace)) {
+    throw new Error('脚本包含外部网络地址');
+  }
 }
 
 export function assertCompliantMarkup(markup, label) {
@@ -40,7 +70,7 @@ export function assertCompliantMarkup(markup, label) {
 }
 
 export function assertCompliantCss(css) {
-  if (/url\(["']?https?:\/\//i.test(css) || /@import\b/i.test(css)) {
+  if (/url\(\s*["']?(?:https?:)?\/\//i.test(css) || /@import\b/i.test(css)) {
     throw new Error('样式包含外部资源');
   }
 }

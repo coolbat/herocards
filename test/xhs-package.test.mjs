@@ -6,7 +6,12 @@ import path from 'node:path';
 import { spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 
-import { assertCompliantHtml, assertCompliantJavaScript } from '../scripts/xhs-policy.mjs';
+import {
+  assertCompliantCss,
+  assertCompliantHtml,
+  assertCompliantJavaScript,
+  assertCompliantMarkup
+} from '../scripts/xhs-policy.mjs';
 
 const repoDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const allowedExtensions = new Set([
@@ -86,6 +91,25 @@ test('XHS policy rejects inline script bodies and disabled APIs', () => {
   ]) {
     assert.throws(() => assertCompliantJavaScript(source), /禁用能力/);
   }
+});
+
+test('XHS policy rejects protocol-relative external resources', () => {
+  assert.throws(
+    () => assertCompliantHtml('<script src="app.js"></script><img src="//evil.example/x.png">'),
+    /外部资源/
+  );
+  assert.throws(
+    () => assertCompliantMarkup('<svg><image href="//evil.example/x.png"/></svg>', 'SVG'),
+    /外部资源/
+  );
+  assert.throws(
+    () => assertCompliantCss('.x { background: url(//evil.example/x.png); }'),
+    /外部资源/
+  );
+  assert.throws(
+    () => assertCompliantJavaScript('import("//evil.example/x.js")'),
+    /外部网络地址/
+  );
 });
 
 test('build:xhs refuses to erase an existing custom output directory', () => {
