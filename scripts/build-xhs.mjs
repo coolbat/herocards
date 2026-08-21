@@ -39,7 +39,6 @@ const files = [
   'js/xhs-bridge.js',
   'js/app.js',
   'assets/fonts/MaShanZheng-subset.woff2',
-  'assets/atlas/map.webp',
   'assets/atlas/map-projected.svg',
   'assets/atlas/map-terrain-natural-earth-v2.jpg',
   'assets/atlas/terrain-manifest.json'
