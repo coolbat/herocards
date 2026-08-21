@@ -1,5 +1,6 @@
 const bannedHtml = /\son\w+\s*=|javascript:|<\s*(?:iframe|object|embed|form)\b|\bdownload\b|\btarget\s*=\s*["']_blank["']|\brel\s*=\s*["']manifest["']/i;
 const externalMarkupResource = /(?:src|href|xlink:href)\s*=\s*["'](?:https?:)?\/\//i;
+const svgNamespace = 'http://www.w3.org/2000/svg';
 
 const bannedJavaScript = [
   ['网络与实时通信', /\b(?:fetch|XMLHttpRequest|WebSocket|EventSource|RTCPeerConnection|RTCDataChannel)\b/],
@@ -15,7 +16,15 @@ const bannedJavaScript = [
   ['文件下载', /\.download\s*=|setAttribute\s*\(\s*["']download["']/]
 ];
 
-function hasProtocolRelativeUrlLiteral(source) {
+function canStartRegex(source, slashIndex) {
+  let previous = slashIndex - 1;
+  while (previous >= 0 && /\s/.test(source[previous])) previous -= 1;
+  if (previous < 0 || /[([{=,:;!?&|+\-*%^~<>]/.test(source[previous])) return true;
+  const before = source.slice(0, slashIndex).match(/([A-Za-z_$][\w$]*)\s*$/);
+  return Boolean(before && /^(?:return|case|throw|delete|void|typeof|instanceof|in|of|yield|await)$/.test(before[1]));
+}
+
+function hasExternalUrlLiteral(source) {
   let index = 0;
   while (index < source.length) {
     if (source[index] === '/' && source[index + 1] === '/') {
@@ -28,6 +37,23 @@ function hasProtocolRelativeUrlLiteral(source) {
       index = end === -1 ? source.length : end + 2;
       continue;
     }
+    if (source[index] === '/' && canStartRegex(source, index)) {
+      let end = index + 1;
+      let inCharacterClass = false;
+      while (end < source.length) {
+        if (source[end] === '\\') {
+          end += 2;
+          continue;
+        }
+        if (source[end] === '[') inCharacterClass = true;
+        if (source[end] === ']') inCharacterClass = false;
+        if (source[end] === '/' && !inCharacterClass) break;
+        end += 1;
+      }
+      index = end + 1;
+      while (/[A-Za-z]/.test(source[index] || '')) index += 1;
+      continue;
+    }
     const quote = source[index];
     if (quote !== '"' && quote !== "'" && quote !== '`') {
       index += 1;
@@ -37,7 +63,8 @@ function hasProtocolRelativeUrlLiteral(source) {
     while (end < source.length && source[end] !== quote) {
       end += source[end] === '\\' ? 2 : 1;
     }
-    if (/^[ \t\r\n]*\/\//.test(source.slice(index + 1, end))) return true;
+    const literal = source.slice(index + 1, end).replaceAll('\\/', '/').trim();
+    if (literal !== svgNamespace && (/https?:\/\//i.test(literal) || /^\/\//.test(literal))) return true;
     index = end + 1;
   }
   return false;
@@ -59,10 +86,7 @@ export function assertCompliantJavaScript(source) {
     const match = pattern.exec(source);
     if (match) throw new Error(`脚本包含禁用能力（${label}）：${match[0]}`);
   }
-  const withoutSvgNamespace = source.replaceAll('http://www.w3.org/2000/svg', '');
-  if (/https?:\/\//i.test(withoutSvgNamespace) || hasProtocolRelativeUrlLiteral(withoutSvgNamespace)) {
-    throw new Error('脚本包含外部网络地址');
-  }
+  if (hasExternalUrlLiteral(source)) throw new Error('脚本包含外部网络地址');
 }
 
 export function assertCompliantMarkup(markup, label) {

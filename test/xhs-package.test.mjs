@@ -112,6 +112,21 @@ test('XHS policy rejects protocol-relative external resources', () => {
   );
 });
 
+test('XHS policy only exempts the exact SVG namespace string', () => {
+  assert.doesNotThrow(
+    () => assertCompliantJavaScript('document.createElementNS("http://www.w3.org/2000/svg", "svg")')
+  );
+  assert.doesNotThrow(
+    () => assertCompliantJavaScript('// Reference: https://docs.example.invalid/policy')
+  );
+  for (const source of [
+    'img.src = "http://www.w3.org/2000/svg.evil.example/x.png"',
+    'img.src = "http://www.w3.org/2000/svg?redirect=evil"'
+  ]) {
+    assert.throws(() => assertCompliantJavaScript(source), /外部网络地址/);
+  }
+});
+
 test('build:xhs refuses to erase an existing custom output directory', () => {
   const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'herocards-xhs-safety-'));
   const outputDir = path.join(tempDir, 'existing');

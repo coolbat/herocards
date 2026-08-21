@@ -15,7 +15,7 @@
 - 投影 SVG 不再内嵌 `data:` JPEG；地图皮肤和矢量覆盖层均作为包内本地图片分层加载，取消 `<img data:>` 的 9.37+ 版本前提，同时保留 Natural Earth 陆地裁切与中国轮廓。
 - 详情切换时立即显示目标人物的静态占位并隐藏旧 WebGL 卡面，资源就绪前分享按钮保持 disabled / `aria-busy=true`，避免保存或发布上一人物卡面。
 - 390×844 的独立产物实测：首屏和详情均为 0 控制台报错/警告；请卡后只新增该人物的正图与高度图，地图打开后按需加载本地皮肤与投影 SVG。请卡、全收集图鉴、详情慢载保护、地图点位故事均可操作。
-- `npm run check` 当前为地图 10 项 + 小红书 7 项，共 17 项通过；模拟 `window.xhs.miniTool` 的浏览器运行验证确认 `writeTempFile → postNote/saveImageToPhotosAlbum` 的实际调用顺序和参数。
+- `npm run check` 当前为地图 10 项 + 小红书 8 项，共 18 项通过；模拟 `window.xhs.miniTool` 的浏览器运行验证确认 `writeTempFile → postNote/saveImageToPhotosAlbum` 的实际调用顺序和参数。
 
 以下 Findings 保留为整改前基线，便于追踪问题来源；其中全部实现问题均已关闭，双端真机容器验证仍是发布门禁。
 
