@@ -2,14 +2,29 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
+import {
+  assertCompliantCss,
+  assertCompliantHtml,
+  assertCompliantJavaScript,
+  assertCompliantMarkup
+} from './xhs-policy.mjs';
+
 const repoDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
+const defaultOutputDir = path.join(repoDir, 'dist/xhs');
 const outputFlag = process.argv.indexOf('--output');
 const outputDir = path.resolve(outputFlag >= 0 && process.argv[outputFlag + 1]
   ? process.argv[outputFlag + 1]
-  : path.join(repoDir, 'dist/xhs'));
+  : defaultOutputDir);
 
 if (outputDir === repoDir || outputDir === path.parse(outputDir).root) {
   throw new Error(`拒绝清理不安全的输出目录：${outputDir}`);
+}
+const isDefaultOutput = outputDir === defaultOutputDir;
+if (!isDefaultOutput && fs.existsSync(outputDir)) {
+  throw new Error(`自定义输出目录已存在，拒绝覆盖：${outputDir}`);
+}
+if (isDefaultOutput && fs.existsSync(outputDir) && fs.lstatSync(outputDir).isSymbolicLink()) {
+  throw new Error(`默认输出目录不能是符号链接：${outputDir}`);
 }
 
 const files = [
@@ -39,7 +54,29 @@ if (runtimeFiles.length !== 48) {
   throw new Error(`运行插画应为 48 张，实际为 ${runtimeFiles.length} 张`);
 }
 
-const manifest = files.concat(runtimeFiles);
+const thumbnailDir = path.join(repoDir, 'assets/portraits/thumbs');
+const thumbnailFiles = fs.readdirSync(thumbnailDir)
+  .filter((name) => name.endsWith('-full.jpg'))
+  .sort()
+  .map((name) => path.posix.join('assets/portraits/thumbs', name));
+if (thumbnailFiles.length !== 24) {
+  throw new Error(`图鉴缩略图应为 24 张，实际为 ${thumbnailFiles.length} 张`);
+}
+
+const manifest = files.concat(runtimeFiles, thumbnailFiles);
+const packageSet = new Set(manifest);
+const heroSource = fs.readFileSync(path.join(repoDir, 'js/heroes-data.js'), 'utf8');
+const artReferences = [...heroSource.matchAll(/\bfullArt(?:Height)?\s*:\s*["'](assets\/portraits\/runtime\/[^"']+)["']/g)]
+  .map((match) => match[1])
+  .filter((relative) => !relative.endsWith('/xxx.jpg'));
+if (artReferences.length !== 48 || artReferences.some((relative) => !packageSet.has(relative))) {
+  throw new Error('人物运行图引用与小工具包 manifest 不一致');
+}
+const thumbnailReferences = artReferences.filter((relative) => relative.endsWith('-full.jpg'))
+  .map((relative) => relative.replace('assets/portraits/runtime/', 'assets/portraits/thumbs/'));
+if (thumbnailReferences.length !== 24 || thumbnailReferences.some((relative) => !packageSet.has(relative))) {
+  throw new Error('图鉴缩略图引用与小工具包 manifest 不一致');
+}
 fs.rmSync(outputDir, { recursive: true, force: true });
 
 for (const relative of manifest) {
@@ -64,18 +101,8 @@ for (const relative of manifest) {
 }
 
 const html = fs.readFileSync(path.join(outputDir, 'index.html'), 'utf8');
-const scriptTags = [...html.matchAll(/<script\b([^>]*)>[\s\S]*?<\/script>/gi)];
-if (!scriptTags.length || scriptTags.some((match) => !/\bsrc=["'][^"']+["']/i.test(match[1]))) {
-  throw new Error('所有脚本必须通过包内 src 外置引用');
-}
-if (/\son\w+\s*=|javascript:|<\s*(?:iframe|object)\b|\bdownload\b/i.test(html)) {
-  throw new Error('入口包含小工具容器禁用的 HTML 行为');
-}
-if (/(?:src|href)=["']https?:\/\//i.test(html)) {
-  throw new Error('入口包含外部资源引用');
-}
+assertCompliantHtml(html);
 
-const packageSet = new Set(manifest);
 for (const match of html.matchAll(/(?:src|href)=["']([^"']+)["']/gi)) {
   const relative = match[1].split(/[?#]/)[0];
   if (relative && !packageSet.has(relative)) throw new Error(`入口引用缺失：${relative}`);
@@ -87,12 +114,12 @@ for (const match of html.matchAll(/url\(["']?([^"')]+)["']?\)/gi)) {
 
 const jsSource = manifest.filter((file) => file.endsWith('.js'))
   .map((file) => fs.readFileSync(path.join(outputDir, file), 'utf8')).join('\n');
-const bannedJs = /\b(?:fetch|XMLHttpRequest|WebSocket|EventSource|RTCPeerConnection|Worker|SharedWorker|WebAssembly)\b|\beval\s*\(|\bnew\s+Function\b|navigator\.(?:clipboard|geolocation)|requestFullscreen|window\.open\s*\(/;
-if (bannedJs.test(jsSource)) throw new Error(`脚本包含禁用能力：${bannedJs.exec(jsSource)[0]}`);
+assertCompliantJavaScript(jsSource);
 
 const css = fs.readFileSync(path.join(outputDir, 'css/style.css'), 'utf8');
-if (/url\(["']?https?:\/\//i.test(css) || /@import\b/i.test(css)) {
-  throw new Error('样式包含外部资源');
+assertCompliantCss(css);
+for (const relative of manifest.filter((file) => file.endsWith('.svg'))) {
+  assertCompliantMarkup(fs.readFileSync(path.join(outputDir, relative), 'utf8'), relative);
 }
 
 const totalBytes = manifest.reduce((sum, relative) => {

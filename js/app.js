@@ -148,6 +148,7 @@
   var heroQuoteBox = document.getElementById('heroQuote');
   var heroQuoteText = document.getElementById('heroQuoteText');
   var exploreBtn = document.getElementById('exploreBtn');
+  var heroShareBar = document.getElementById('heroShareBar');
   var heroNoteBtn = document.getElementById('heroNoteBtn');
   var heroSaveBtn = document.getElementById('heroSaveBtn');
   /* 行旅地图页（全屏视图） */
@@ -362,7 +363,7 @@
       dexObserver.unobserve(en.target);
       paintDexMini(en.target);
     });
-  }, { rootMargin: '240px 0px' }) : null;
+  }, { rootMargin: '80px 0px' }) : null;
 
   function paintDexMini(card) {
     var id = card.getAttribute('data-id');
@@ -372,6 +373,17 @@
     }
     if (!h || card.hasAttribute('data-mini')) return;
     card.setAttribute('data-mini', 'loading');
+    if (typeof h.fullArt === 'string' && h.fullArt) {
+      var art = document.createElement('img');
+      art.className = 'dex-art';
+      art.alt = '';
+      art.loading = 'lazy';
+      art.decoding = 'async';
+      art.src = h.fullArt.replace('assets/portraits/runtime/', 'assets/portraits/thumbs/');
+      card.insertBefore(art, card.firstChild);
+      card.setAttribute('data-mini', '1');
+      return;
+    }
     prepareHeroArt(h).then(function () {
       if (!card.isConnected) return;
       var mini = null;
@@ -1304,6 +1316,12 @@
 
   var heroDetail = null;   /* 当前详情页 / 地图页人物 */
 
+  function setHeroShareReady(ready) {
+    if (heroNoteBtn) heroNoteBtn.disabled = !ready;
+    if (heroSaveBtn) heroSaveBtn.disabled = !ready;
+    if (heroShareBar) heroShareBar.setAttribute('aria-busy', ready ? 'false' : 'true');
+  }
+
   /* 当前卡面 diffuse 的 dataURL（分享/存相册用）；失败返回空串 */
   function cardDataUrl(heroObj) {
     if (!heroObj) return '';
@@ -1383,13 +1401,19 @@
   /* 人物详情视图（hash 由调用方驱动，这里只做呈现） */
   function showHeroDetail(heroObj) {
     heroDetail = heroObj;
+    renderFace(heroObj, faceEl2, obj2);                  // 立即替换旧人物，GL 层加载期间隐藏
+    if (obj2) obj2.classList.add('is-loading-art');
+    setHeroShareReady(false);
     if (heroQuoteBox) {
       heroQuoteBox.hidden = !heroObj.quote;
       if (heroQuoteText && heroObj.quote) heroQuoteText.textContent = heroObj.quote;
     }
     switchView('hero');
     prepareHeroArt(heroObj).then(function () {
-      if (heroDetail === heroObj) applyHeroCard(heroObj);
+      if (heroDetail !== heroObj) return;
+      applyHeroCard(heroObj);
+      if (obj2) obj2.classList.remove('is-loading-art');
+      setHeroShareReady(true);
     });
   }
 

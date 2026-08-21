@@ -103,9 +103,10 @@ test('active atlas asset is generated from the same declared projection', () => 
   assert.match(svg, /viewBox="0 0 2400 1600"/);
   assert.match(svg, /data-projection="web-mercator-eurasia-indian-ocean-v1"/);
   assert.match(svg, /data-skin="qianli-qinglu-v1"/);
-  assert.match(svg, /data-source-href="map-skin-qianli-v1.jpg"/);
-  assert.match(svg, /href="data:image\/jpeg;base64,/);
-  assert.match(svg, /clip-path="url\(#land-clip\)"/);
+  assert.match(svg, /data-skin-source="map-skin-qianli-v1.jpg"/);
+  assert.match(svg, /id="ocean-mask"/);
+  assert.doesNotMatch(svg, /data:image\//);
+  assert.doesNotMatch(svg, /<image\b/);
   assert.match(svg, /id="china-mainland-outline" d="M[^"]+"/);
   assert.match(svg, /data-boundary-source="natural-earth-admin-0-110m"/);
   assert.match(svg, /Natural Earth/);

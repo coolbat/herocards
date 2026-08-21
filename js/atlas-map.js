@@ -27,6 +27,7 @@
       'will-change:transform;--am-marker-scale:1;}',
     '.am-map{position:absolute;inset:0;width:100%;height:100%;display:block;',
       'pointer-events:none;-webkit-user-drag:none;}',
+    '.am-map-skin{opacity:.96;}',
     '.am-route{position:absolute;inset:0;width:100%;height:100%;overflow:visible;',
       'pointer-events:none;}',
     '.am-route-line{fill:none;stroke:#e0b958;stroke-width:4;',
@@ -169,8 +170,19 @@
     world.style.height = result.map.height + 'px';
     viewport.appendChild(world);
 
+    var skin = document.createElement('img');
+    skin.className = 'am-map am-map-skin';
+    skin.alt = '';
+    skin.setAttribute('aria-hidden', 'true');
+    skin.draggable = false;
+    skin.src = model.asset.skinSrc;
+    skin.addEventListener('error', function () {
+      if (skin.parentNode) skin.parentNode.removeChild(skin);
+    });
+    world.appendChild(skin);
+
     var image = document.createElement('img');
-    image.className = 'am-map';
+    image.className = 'am-map am-map-vectors';
     image.alt = '行旅大地图';
     image.draggable = false;
     image.src = model.asset.src;

@@ -487,7 +487,10 @@
 
   function makePack() {
     var cD = mkCanvas(W, H), cH = mkCanvas(W, H), cR = mkCanvas(W, H);
-    var d = cD.getContext('2d'), h = cH.getContext('2d'), r = cR.getContext('2d');
+    var contextOptions = { willReadFrequently: true };
+    var d = cD.getContext('2d', contextOptions);
+    var h = cH.getContext('2d', contextOptions);
+    var r = cR.getContext('2d', contextOptions);
     d.scale(SCX, SCY); h.scale(SCX, SCY); r.scale(SCX, SCY);   // 逻辑坐标作画，物理 2× 输出
     return { cD: cD, cH: cH, cR: cR, d: d, h: h, r: r };
   }

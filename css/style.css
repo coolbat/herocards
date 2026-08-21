@@ -545,6 +545,15 @@ svg { display: block; }
   display: block;
 }
 
+.dex-card .dex-art {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+}
+
 .dex-card.owned:active { transform: scale(0.97); }
 
 @media (hover: hover) {
@@ -686,6 +695,13 @@ svg { display: block; }
   min-height: 44px;
   font-size: 13px;
   opacity: 0.92;
+}
+
+#cardObj2.is-loading-art canvas { visibility: hidden; }
+#cardObj2.is-webgl.is-loading-art .card-face { visibility: visible; }
+.share-bar-hero .share-btn:disabled {
+  opacity: 0.46;
+  cursor: wait;
 }
 
 /* 行旅地图页 */
