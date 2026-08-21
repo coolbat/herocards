@@ -9,13 +9,13 @@
 **当前结论：代码、离线包和移动 Web 运行验证均已通过；提交前仍需在小红书 iOS / Android 真机容器完成最终验收。**
 
 - 新增 `npm run build:xhs`：白名单生成 `dist/xhs/`，产物为 86 个受支持文件、唯一 `index.html`、28.9 MiB；40 MiB 是项目自设回归预算，不冒充平台包体上限。自定义输出目录若已存在会拒绝覆盖，避免递归误删。
-- 新增桥接契约与包合规测试：`postNote` 使用 `mediaInfo.image_resources`，大图先经 `writeTempFile`，相册接口只传 `filePath`；自动拦截外链、非空内联脚本体、完整禁用 API、禁用 HTML、不支持扩展名和多 HTML。
+- 新增桥接契约与包合规测试：`postNote` 使用 `mediaInfo.image_resources`，大图先经 `writeTempFile`，相册接口只传 `filePath`；自动拦截含协议相对 URL 在内的外链、非空内联脚本体、禁用 API、禁用 HTML、不支持扩展名和多 HTML。
 - 24 张正图与 24 张高度图从 548.9 MiB 的 4K 母版改为约 25 MiB 的运行图；首屏不再全量预载，抽中和详情才加载对应人物。图鉴另用 24 张合计 1.8 MiB 的 320×480 缩略图，390×844 全收集首屏实测只加载 12 张、约 0.9 MiB，且不再同步生成完整卡面。
 - 移除 `<a download>` 降级和 21 MiB OTF，引入包内 WOFF2；修复全幅人物无意义的 `.webp/.png` 探测，并把地图和详情操作目标扩大到 44×44 px。
 - 投影 SVG 不再内嵌 `data:` JPEG；地图皮肤和矢量覆盖层均作为包内本地图片分层加载，取消 `<img data:>` 的 9.37+ 版本前提，同时保留 Natural Earth 陆地裁切与中国轮廓。
 - 详情切换时立即显示目标人物的静态占位并隐藏旧 WebGL 卡面，资源就绪前分享按钮保持 disabled / `aria-busy=true`，避免保存或发布上一人物卡面。
 - 390×844 的独立产物实测：首屏和详情均为 0 控制台报错/警告；请卡后只新增该人物的正图与高度图，地图打开后按需加载本地皮肤与投影 SVG。请卡、全收集图鉴、详情慢载保护、地图点位故事均可操作。
-- `npm run check` 当前为地图 10 项 + 小红书 6 项，共 16 项通过；模拟 `window.xhs.miniTool` 的浏览器运行验证确认 `writeTempFile → postNote/saveImageToPhotosAlbum` 的实际调用顺序和参数。
+- `npm run check` 当前为地图 10 项 + 小红书 7 项，共 17 项通过；模拟 `window.xhs.miniTool` 的浏览器运行验证确认 `writeTempFile → postNote/saveImageToPhotosAlbum` 的实际调用顺序和参数。
 
 以下 Findings 保留为整改前基线，便于追踪问题来源；其中全部实现问题均已关闭，双端真机容器验证仍是发布门禁。
 
