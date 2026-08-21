@@ -120,6 +120,8 @@ test('XHS policy only exempts the exact SVG namespace string', () => {
     () => assertCompliantJavaScript('// Reference: https://docs.example.invalid/policy')
   );
   for (const source of [
+    'img.src = "http://www.w3.org/2000/svg"',
+    'img.src = " http://www.w3.org/2000/svg "',
     'img.src = "http://www.w3.org/2000/svg.evil.example/x.png"',
     'img.src = "http://www.w3.org/2000/svg?redirect=evil"'
   ]) {

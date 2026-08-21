@@ -90,11 +90,10 @@
   /* ------------------------------------------------------------------------
    * 二、小工具
    * --------------------------------------------------------------------- */
-  var SVG_NS = 'http://www.w3.org/2000/svg';
 
   // 建 SVG 元素并批量设属性
   function svgEl(tag, attrs) {
-    var el = document.createElementNS(SVG_NS, tag);
+    var el = document.createElementNS('http://www.w3.org/2000/svg', tag);
     for (var k in attrs) {
       if (attrs.hasOwnProperty(k)) { el.setAttribute(k, attrs[k]); }
     }

@@ -13,7 +13,6 @@
   'use strict';
 
   var STYLE_ID = 'am-atlas-map-style';
-  var SVG_NS = 'http://www.w3.org/2000/svg';
   var PRECISION_LABELS = {
     site: '遗址级定位',
     city: '城市级定位',
@@ -101,7 +100,7 @@
   }
 
   function svgEl(tag, attrs) {
-    var element = document.createElementNS(SVG_NS, tag);
+    var element = document.createElementNS('http://www.w3.org/2000/svg', tag);
     for (var key in attrs) {
       if (attrs.hasOwnProperty(key)) { element.setAttribute(key, attrs[key]); }
     }

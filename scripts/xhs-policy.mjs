@@ -24,6 +24,12 @@ function canStartRegex(source, slashIndex) {
   return Boolean(before && /^(?:return|case|throw|delete|void|typeof|instanceof|in|of|yield|await)$/.test(before[1]));
 }
 
+function isSvgNamespaceArgument(source, quoteIndex, rawLiteral) {
+  if (rawLiteral !== svgNamespace) return false;
+  const before = source.slice(Math.max(0, quoteIndex - 80), quoteIndex);
+  return /\bdocument\.createElementNS\s*\(\s*$/.test(before);
+}
+
 function hasExternalUrlLiteral(source) {
   let index = 0;
   while (index < source.length) {
@@ -63,8 +69,10 @@ function hasExternalUrlLiteral(source) {
     while (end < source.length && source[end] !== quote) {
       end += source[end] === '\\' ? 2 : 1;
     }
-    const literal = source.slice(index + 1, end).replaceAll('\\/', '/').trim();
-    if (literal !== svgNamespace && (/https?:\/\//i.test(literal) || /^\/\//.test(literal))) return true;
+    const rawLiteral = source.slice(index + 1, end);
+    const literal = rawLiteral.replaceAll('\\/', '/').trim();
+    const isExternal = /https?:\/\//i.test(literal) || /^\/\//.test(literal);
+    if (isExternal && !isSvgNamespaceArgument(source, index, rawLiteral)) return true;
     index = end + 1;
   }
   return false;
