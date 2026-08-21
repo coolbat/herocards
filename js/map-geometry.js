@@ -20,7 +20,7 @@
     return Math.max(minimum, Math.min(maximum, value));
   }
 
-  function createProjector(config) {
+  function projectionMetrics(config) {
     var width = config.width;
     var height = config.height;
     var padding = config.padding || 0;
@@ -35,12 +35,26 @@
     var offsetX = (width - contentW) / 2;
     var offsetY = (height - contentH) / 2;
 
+    return {
+      width: width,
+      height: height,
+      west: west,
+      north: north,
+      scale: scale,
+      offsetX: offsetX,
+      offsetY: offsetY
+    };
+  }
+
+  function createProjector(config) {
+    var metrics = projectionMetrics(config);
+
     return function project(coordinates) {
       var longitude = Number(coordinates[0]) * Math.PI / 180;
       var latitudeY = mercatorY(coordinates[1]);
       return {
-        x: offsetX + (longitude - west) * scale,
-        y: offsetY + (north - latitudeY) * scale
+        x: metrics.offsetX + (longitude - metrics.west) * metrics.scale,
+        y: metrics.offsetY + (metrics.north - latitudeY) * metrics.scale
       };
     };
   }
@@ -54,26 +68,13 @@
   function fullCanvasBounds(model) {
     var source = model || (typeof globalThis !== 'undefined' ? globalThis.ATLAS_MODEL : null);
     if (!source || !source.projection) { throw new Error('Atlas geographic model is required'); }
-    var config = source.projection;
-    var padding = config.padding || 0;
-    var west = config.bounds.west * Math.PI / 180;
-    var east = config.bounds.east * Math.PI / 180;
-    var north = mercatorY(config.bounds.north);
-    var south = mercatorY(config.bounds.south);
-    var scale = Math.min(
-      (config.width - padding * 2) / (east - west),
-      (config.height - padding * 2) / (north - south)
-    );
-    var contentWidth = (east - west) * scale;
-    var contentHeight = (north - south) * scale;
-    var offsetX = (config.width - contentWidth) / 2;
-    var offsetY = (config.height - contentHeight) / 2;
+    var metrics = projectionMetrics(source.projection);
 
     return {
-      west: (west - offsetX / scale) * 180 / Math.PI,
-      east: (west + (config.width - offsetX) / scale) * 180 / Math.PI,
-      south: inverseMercatorY(north - (config.height - offsetY) / scale),
-      north: inverseMercatorY(north + offsetY / scale)
+      west: (metrics.west - metrics.offsetX / metrics.scale) * 180 / Math.PI,
+      east: (metrics.west + (metrics.width - metrics.offsetX) / metrics.scale) * 180 / Math.PI,
+      south: inverseMercatorY(metrics.north - (metrics.height - metrics.offsetY) / metrics.scale),
+      north: inverseMercatorY(metrics.north + metrics.offsetY / metrics.scale)
     };
   }
 

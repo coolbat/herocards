@@ -9,7 +9,7 @@ import zipfile
 from pathlib import Path
 
 import numpy as np
-from PIL import Image, ImageChops, ImageEnhance
+from PIL import Image, ImageChops, ImageEnhance, __version__ as pillow_version
 
 
 def parse_args():
@@ -28,18 +28,6 @@ def parse_args():
 def mercator_y(latitude):
     radians = math.radians(max(-85.0, min(85.0, latitude)))
     return math.log(math.tan(math.pi / 4 + radians / 2))
-
-
-def inverse_mercator(value):
-    return math.degrees(2 * math.atan(math.exp(value)) - math.pi / 2)
-
-
-def source_x(longitude):
-    return (longitude + 180.0) * 60.0 - 0.5
-
-
-def source_y(latitude):
-    return (90.0 - latitude) * 60.0 - 0.5
 
 
 def palette_channel(value, channel):
@@ -109,7 +97,7 @@ def main():
     args = parse_args()
     source_path = Path(args.source)
     output_path = Path(args.output)
-    Image.MAX_IMAGE_PIXELS = None
+    Image.MAX_IMAGE_PIXELS = 250_000_000
 
     with tempfile.TemporaryDirectory(prefix="herocards-terrain-") as temporary_directory:
         if source_path.suffix.lower() == ".zip":
@@ -123,14 +111,19 @@ def main():
             raster_path = source_path
 
         with Image.open(raster_path) as source_image:
+            if source_image.size != (21600, 10800):
+                raise RuntimeError(f"unexpected Natural Earth raster dimensions: {source_image.size}")
             terrain = render(source_image, args)
         output_path.parent.mkdir(parents=True, exist_ok=True)
         terrain.save(output_path, "JPEG", quality=86, optimize=True, progressive=True, subsampling=2)
         preview = np.asarray(terrain.convert("L").resize((48, 32), Image.Resampling.LANCZOS), dtype=np.int16)
         print(json.dumps({
-            "horizontalMeanDifference": float(np.abs(np.diff(preview, axis=1)).mean()),
-            "verticalMeanDifference": float(np.abs(np.diff(preview, axis=0)).mean()),
-            "luminanceRange": [int(preview.min()), int(preview.max())],
+            "dependencies": {"Pillow": pillow_version, "numpy": np.__version__},
+            "spatialAnalysis": {
+                "horizontalMeanDifference": float(np.abs(np.diff(preview, axis=1)).mean()),
+                "verticalMeanDifference": float(np.abs(np.diff(preview, axis=0)).mean()),
+                "luminanceRange": [int(preview.min()), int(preview.max())],
+            },
         }, sort_keys=True))
 
 

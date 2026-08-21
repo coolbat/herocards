@@ -13,18 +13,18 @@ const rootDir = path.resolve(scriptDir, '..');
 const sourceUrl = 'https://naturalearth.s3.amazonaws.com/10m_raster/SR_HR.zip';
 const sourceSha256 = 'b2619fff2fc73c17152983c066adfaa25c4b626916b822bad2fae8bcd9be41a5';
 const cacheDir = path.join(rootDir, '.cache/terrain');
-const sourceFlag = process.argv.indexOf('--source');
-const outputFlag = process.argv.indexOf('--output');
-const manifestFlag = process.argv.indexOf('--manifest');
-const sourcePath = path.resolve(sourceFlag >= 0 && process.argv[sourceFlag + 1]
-  ? process.argv[sourceFlag + 1]
-  : path.join(cacheDir, 'SR_HR.zip'));
-const outputPath = path.resolve(outputFlag >= 0 && process.argv[outputFlag + 1]
-  ? process.argv[outputFlag + 1]
-  : path.join(rootDir, AtlasModel.asset.skinSrc));
-const manifestPath = path.resolve(manifestFlag >= 0 && process.argv[manifestFlag + 1]
-  ? process.argv[manifestFlag + 1]
-  : path.join(rootDir, AtlasModel.asset.terrainManifest));
+
+function fileFlag(name, fallback) {
+  const index = process.argv.indexOf(name);
+  if (index < 0) return path.resolve(fallback);
+  const value = process.argv[index + 1];
+  if (!value || value.startsWith('--')) throw new Error(`${name} requires a file path`);
+  return path.resolve(value);
+}
+
+const sourcePath = fileFlag('--source', path.join(cacheDir, 'SR_HR.zip'));
+const outputPath = fileFlag('--output', path.join(rootDir, AtlasModel.asset.skinSrc));
+const manifestPath = fileFlag('--manifest', path.join(rootDir, AtlasModel.asset.terrainManifest));
 
 function sha256(filePath) {
   return crypto.createHash('sha256').update(fs.readFileSync(filePath)).digest('hex');
@@ -62,7 +62,7 @@ const render = spawnSync('python3', [
 if (render.status !== 0) {
   throw new Error(render.stderr || render.stdout || '真实地形渲染失败');
 }
-const spatialAnalysis = JSON.parse(render.stdout.trim());
+const renderMetadata = JSON.parse(render.stdout.trim());
 
 const outputStats = await fsp.stat(outputPath);
 const manifest = {
@@ -94,6 +94,7 @@ const manifest = {
     id: 'natural-earth-qinglu-pillow-v1',
     script: 'scripts/render-terrain.py',
     requirements: 'scripts/requirements-terrain.txt',
+    dependencies: renderMetadata.dependencies,
     palette: 'azurite-malachite-ochre-programmatic',
     aiGeometry: false
   },
@@ -102,7 +103,7 @@ const manifest = {
     format: 'jpeg',
     bytes: outputStats.size,
     sha256: sha256(outputPath),
-    spatialAnalysis
+    spatialAnalysis: renderMetadata.spatialAnalysis
   }
 };
 await fsp.mkdir(path.dirname(manifestPath), { recursive: true });

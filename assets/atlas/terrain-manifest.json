@@ -35,6 +35,10 @@
     "id": "natural-earth-qinglu-pillow-v1",
     "script": "scripts/render-terrain.py",
     "requirements": "scripts/requirements-terrain.txt",
+    "dependencies": {
+      "Pillow": "12.2.0",
+      "numpy": "2.4.4"
+    },
     "palette": "azurite-malachite-ochre-programmatic",
     "aiGeometry": false
   },

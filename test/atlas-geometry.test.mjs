@@ -174,6 +174,18 @@ test('terrain canvas bounds come from the declared projector without hand calibr
   assert.ok(Math.abs(southeast.y - AtlasModel.projection.height) < 0.00001);
 });
 
+test('terrain builder rejects command flags without values before downloading or writing', () => {
+  const scriptPath = fileURLToPath(new URL('../scripts/build-terrain.mjs', import.meta.url));
+  for (const flag of ['--source', '--output', '--manifest']) {
+    const result = childProcess.spawnSync(process.execPath, [scriptPath, flag], {
+      cwd: fileURLToPath(new URL('..', import.meta.url)),
+      encoding: 'utf8'
+    });
+    assert.notEqual(result.status, 0, `${flag} should require a value`);
+    assert.match(result.stderr, /requires a file path/);
+  }
+});
+
 test('checked-in atlas asset matches a fresh deterministic build', (t) => {
   const temporaryDirectory = fs.mkdtempSync(path.join(os.tmpdir(), 'herocards-atlas-'));
   t.after(() => fs.rmSync(temporaryDirectory, { recursive: true, force: true }));
