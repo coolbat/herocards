@@ -188,10 +188,6 @@
   /* 每日请卡状态：{ date: 'YYYY-MM-DD', drawnId, streak, lastDate } */
   var DAILY_KEY = 'guofeng-daily';
 
-  /* 预览模式（?preview=all）：解锁全部卡 + 取消每日一签限制，且不落盘，
-     仅供开发期整站预览，打包前无需移除（无参数时完全不生效） */
-  var PREVIEW_ALL = /[?&]preview=all/.test(window.location.search);
-
   var state = {
     collected: new Set(),   // 已收集英雄 id
     current: null,          // 当前舞台展示的英雄对象
@@ -221,14 +217,12 @@
   }
 
   function saveDaily() {
-    if (PREVIEW_ALL) return;   // 预览模式不落盘，避免占掉真实名额
     try {
       window.localStorage.setItem(DAILY_KEY, JSON.stringify(daily));
     } catch (err) { /* 静默 */ }
   }
 
   function canDrawToday() {
-    if (PREVIEW_ALL) return true;
     return daily.date !== todayStr();
   }
 
@@ -247,9 +241,6 @@
 
   /* localStorage 全部 try/catch：隐私模式 / 配额异常时静默降级为内存态 */
   function loadCollection() {
-    if (PREVIEW_ALL) {
-      HEROES.forEach(function (h) { state.collected.add(h.id); });
-    }
     try {
       var raw = window.localStorage.getItem(STORAGE_KEY);
       if (!raw) {
@@ -278,7 +269,6 @@
   }
 
   function saveCollection() {
-    if (PREVIEW_ALL) return;   // 预览模式不落盘，避免污染真实收藏
     try {
       window.localStorage.setItem(STORAGE_KEY, JSON.stringify(Array.from(state.collected)));
     } catch (err) {
