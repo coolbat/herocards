@@ -176,7 +176,6 @@
       terrainSource: 'natural-earth-shaded-relief-srtm-plus',
       terrainManifest: 'assets/atlas/terrain-manifest.json',
       projectionId: 'web-mercator-eurasia-indian-ocean-v1',
-      fallbackSrc: 'assets/atlas/map.webp',
       attribution: 'Natural Earth Shaded Relief and vectors, public domain'
     },
     projection: {

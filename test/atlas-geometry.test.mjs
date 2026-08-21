@@ -114,6 +114,7 @@ test('active atlas asset is generated from the same declared projection', () => 
   assert.equal(AtlasModel.asset.skinSrc, 'assets/atlas/map-terrain-natural-earth-v2.jpg');
   assert.equal(AtlasModel.asset.skinStyle, 'natural-earth-srtm-qinglu-v2');
   assert.equal(AtlasModel.asset.terrainManifest, 'assets/atlas/terrain-manifest.json');
+  assert.equal('fallbackSrc' in AtlasModel.asset, false);
 
   const svg = fs.readFileSync(new URL('../assets/atlas/map-projected.svg', import.meta.url), 'utf8');
   assert.ok(Buffer.byteLength(svg) < 1_500_000, 'runtime map asset should stay below 1.5 MB');
