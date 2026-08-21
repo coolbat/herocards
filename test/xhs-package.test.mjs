@@ -71,6 +71,9 @@ test('XHS policy rejects inline script bodies and disabled APIs', () => {
   );
   for (const source of [
     'window.prompt("x")',
+    'prompt("x")',
+    'open("./page")',
+    'Function("return 1")()',
     'navigator.serviceWorker.register("sw.js")',
     'document.execCommand("copy")',
     'navigator.bluetooth.requestDevice({})',

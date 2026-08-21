@@ -3,13 +3,13 @@ const externalMarkupResource = /(?:src|href|xlink:href)\s*=\s*["']https?:\/\//i;
 
 const bannedJavaScript = [
   ['网络与实时通信', /\b(?:fetch|XMLHttpRequest|WebSocket|EventSource|RTCPeerConnection|RTCDataChannel)\b/],
-  ['动态代码或 WASM', /\beval\s*\(|\bnew\s+Function\b|\bWebAssembly\b/],
+  ['动态代码或 WASM', /\beval\s*\(|\b(?:new\s+)?Function\s*\(|\bWebAssembly\b/],
   ['Worker', /\b(?:Worker|SharedWorker)\s*\(|navigator\.serviceWorker\b/],
   ['定位、剪贴板或凭据', /navigator\.(?:geolocation|clipboard|credentials|locks)\b|document\.execCommand\s*\(\s*["'](?:copy|cut|paste)["']/],
   ['硬件或传感器', /navigator\.(?:bluetooth|usb|hid|serial)\b|\b(?:DeviceMotionEvent|DeviceOrientationEvent|AmbientLightSensor|Accelerometer|Gyroscope|Magnetometer|AbsoluteOrientationSensor)\b/],
   ['屏幕或设备信息', /\b(?:requestFullscreen|getDisplayMedia)\b|navigator\.(?:getBattery|connection|mediaDevices)\b/],
   ['持久化或跨域存储', /navigator\.storage\.(?:persist|persisted)\b|document\.requestStorageAccess\b/],
-  ['窗口能力', /window\.(?:open|prompt)\s*\(/],
+  ['窗口能力', /\b(?:window\.)?(?:open|prompt)\s*\(/],
   ['移动 WebView 不支持能力', /\b(?:PaymentRequest|PushManager|NDEFReader|SyncManager)\b|Notification\.requestPermission\b|\bnew\s+Notification\b|navigator\.(?:requestMIDIAccess|xr|keyboard)\b|\brequestPointerLock\b/],
   ['动态嵌入或表单', /createElement\s*\(\s*["'](?:iframe|object|embed|form)["']|\.submit\s*\(\s*\)/],
   ['文件下载', /\.download\s*=|setAttribute\s*\(\s*["']download["']/]
