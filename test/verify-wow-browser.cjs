@@ -6,10 +6,10 @@ async (page) => {
   page.on('pageerror', onError);
   const ensure = (value, message) => { if (!value) throw new Error(message); };
   const ready = async p => p.waitForFunction(() => {
-    const c=document.getElementById('wowCardLighting'); return c && !c.hidden;
+    const c=document.getElementById('cardLighting'); return c && !c.hidden;
   });
   const checksum = async p => p.evaluate(() => {
-    const c=document.getElementById('wowCardLighting'),gl=c.getContext('webgl2');
+    const c=document.getElementById('cardLighting'),gl=c.getContext('webgl2');
     const data=new Uint8Array(c.width*c.height*4);
     gl.readPixels(0,0,c.width,c.height,gl.RGBA,gl.UNSIGNED_BYTE,data);
     let sum=0;for(let i=0;i<data.length;i+=64) sum=(sum*31+data[i])>>>0;
@@ -19,40 +19,41 @@ async (page) => {
   await page.goto(base+'/wow.html#hero=jaina-proudmoore');
   await page.reload(); // also exercise startup when the runner reuses the same fragment URL
   await ready(page);
+  ensure(await page.locator('#view').evaluate(el=>el.tagName==='SECTION'),'Full-page detail was replaced');
   const before=await checksum(page);
-  const expectedDesktop=await page.locator('#wowCardLighting').evaluate(el=>Math.round(el.clientWidth*Math.min(Math.max(devicePixelRatio,2),2.5)));
+  const expectedDesktop=await page.locator('#cardLighting').evaluate(el=>Math.round(el.clientWidth*Math.min(Math.max(devicePixelRatio,2),2.5)));
   ensure(before.width===expectedDesktop,'Desktop supersampling does not match layout size');
   await page.screenshot({path:'output/playwright/wow-desktop-jaina.png'});
-  const stage=page.locator('#wowStage');const bounds=await stage.boundingBox();
+  const stage=page.locator('#stage');const bounds=await stage.boundingBox();
   await page.mouse.move(bounds.x+bounds.width*.15,bounds.y+bounds.height*.15);
   await page.evaluate(()=>new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r))));
   const after=await checksum(page);
   ensure(before.sum!==after.sum && after.error===0,'Pointer light did not redraw');
   ensure(before.width===after.width && before.height===after.height,'Pointer tilt resized the drawing buffer');
   ensure(await page.evaluate(()=>{
-    const gl=document.getElementById('wowCardLighting').getContext('webgl2');
+    const gl=document.getElementById('cardLighting').getContext('webgl2');
     gl.activeTexture(gl.TEXTURE0);
     return gl.getTexParameter(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER)===gl.LINEAR;
   }),'Diffuse detail was softened by mipmap filtering');
 
   const contextLossSupported=await page.evaluate(()=>{
-    const c=document.getElementById('wowCardLighting');
+    const c=document.getElementById('cardLighting');
     window.qcLoseExtension=c.getContext('webgl2').getExtension('WEBGL_lose_context');
     if(window.qcLoseExtension) window.qcLoseExtension.loseContext();
     return !!window.qcLoseExtension;
   });
   if(contextLossSupported){
-    await page.waitForFunction(()=>document.getElementById('wowCardLighting').hidden);
+    await page.waitForFunction(()=>document.getElementById('cardLighting').hidden);
     await page.evaluate(()=>window.qcLoseExtension.restoreContext());
     await ready(page);
     ensure((await checksum(page)).error===0,'Context restoration failed');
   }
   await page.emulateMedia({reducedMotion:'reduce'});
   await page.mouse.move(bounds.x+bounds.width*.8,bounds.y+bounds.height*.8);
-  ensure(await page.locator('#wowTilt').evaluate(el=>getComputedStyle(el).transform==='none'),'Reduced motion ignored');
+  ensure(await page.locator('#tilt').evaluate(el=>getComputedStyle(el).transform==='none'),'Reduced motion ignored');
   await page.emulateMedia({reducedMotion:'no-preference'});
   await page.keyboard.press('Escape');
-  ensure(await page.locator('#wowOverlay').evaluate(el=>el.hidden),'Escape did not close');
+  ensure(await page.locator('#view').evaluate(el=>el.hidden),'Escape did not close');
   await page.getByRole('button',{name:'部落',exact:true}).click();
   ensure(await page.locator('#wowCount').textContent()==='8 位英雄','Horde filter failed');
   await page.getByRole('button',{name:'全部',exact:true}).click();
@@ -68,7 +69,7 @@ async (page) => {
   await mobile.goto(base+'/wow.html#hero=illidan-stormrage');await ready(mobile);
   mobileMetrics=await checksum(mobile);
   ensure(await mobile.evaluate(()=>document.documentElement.scrollWidth<=390),'Mobile horizontal overflow');
-  const expectedWidth=await mobile.locator('#wowCardLighting').evaluate(el=>Math.round(el.clientWidth*Math.min(Math.max(devicePixelRatio,2),2.5)));
+  const expectedWidth=await mobile.locator('#cardLighting').evaluate(el=>Math.round(el.clientWidth*Math.min(Math.max(devicePixelRatio,2),2.5)));
   ensure(mobileMetrics.width===expectedWidth && mobileMetrics.error===0,'High-DPR buffer does not match display size');
   await mobile.screenshot({path:'output/playwright/wow-mobile-390-dpr3.png'});
   } finally { await mobileContext.close(); }
@@ -82,14 +83,35 @@ async (page) => {
   const fallback=await fallbackContext.newPage();fallback.on('pageerror',onError);
   await fallback.goto(base+'/wow.html#hero=jaina-proudmoore');
   await fallback.waitForFunction(()=>{
-    const c=document.getElementById('wowCardCanvas');
-    return !document.getElementById('wowOverlay').hidden && c.getContext('2d').getImageData(500,500,1,1).data[3]>0;
+    const c=document.getElementById('cardCanvas');
+    return !document.getElementById('view').hidden && c.getContext('2d').getImageData(500,500,1,1).data[3]>0;
   });
-  ensure(await fallback.locator('#wowCardLighting').evaluate(el=>el.hidden),'2D fallback hidden');
+  ensure(await fallback.locator('#cardLighting').evaluate(el=>el.hidden),'2D fallback hidden');
   } finally { await fallbackContext.close(); }
+
+  // The new main branch shares its page driver with the heritage gallery.
+  // Keep that page's 2D detail, thumbnails, and life-map round trip intact.
+  const heritageContext=await page.context().browser().newContext();
+  try {
+    const heritage=await heritageContext.newPage();heritage.on('pageerror',onError);
+    await heritage.goto(base+'/guofeng.html#hero=libai');
+    await heritage.waitForFunction(()=>{
+      const c=document.getElementById('cardCanvas');
+      return !document.getElementById('view').hidden && c.getContext('2d').getImageData(500,500,1,1).data[3]>0;
+    });
+    ensure(await heritage.locator('#grid img').count()===24,'Heritage gallery lost its 24 thumbnails');
+    ensure(await heritage.locator('#cardLighting').count()===0,'Heritage rendering changed unexpectedly');
+    await heritage.locator('#exploreBtn').click();
+    await heritage.waitForFunction(()=>!document.getElementById('viewMap').hidden && document.getElementById('atlasMount').querySelector('img'));
+    await heritage.screenshot({path:'output/playwright/merge-guofeng-map.png'});
+    await heritage.locator('#mapBack').click();
+    ensure(await heritage.locator('#view').isVisible(),'Map return did not restore the detail');
+    await heritage.locator('#viewBack').click();
+    ensure(await heritage.locator('#view').evaluate(el=>el.hidden) && await heritage.evaluate(()=>!location.hash),'Heritage return did not restore the wall');
+  } finally { await heritageContext.close(); }
   page.off('pageerror',onError);
   ensure(errors.length===0,'Page errors: '+errors.join('; '));
-  const report={pointerLight:true,desktopSupersampling:before,stableBufferOnTilt:true,diffuseDetailSampling:true,contextLossSupported,contextRestored:contextLossSupported,
+  const report={fullPageDetail:true,heritageGalleryAndMap:true,pointerLight:true,desktopSupersampling:before,stableBufferOnTilt:true,diffuseDetailSampling:true,contextLossSupported,contextRestored:contextLossSupported,
     reducedMotion:true,escapeClose:true,factionFilter:true,allFiveFullArtDetails:true,
     mobile390Dpr3:mobileMetrics,webglUnavailableFallback:true,pageErrors:errors};
   // Export through the browser so the CLI runner needs no filesystem capability.

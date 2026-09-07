@@ -20,9 +20,9 @@ const outputDir = path.join(repoDir, 'dist/pages');
 const copies = [
   // [源（仓库相对）, 目标（发布目录相对）]
   ['site/index.html', 'index.html'],
-  ['index.html', 'app.html'],
+  ['guofeng.html', 'app.html'],
   ['wow.html', 'wow.html'],
-  ['css/style.css', 'css/style.css'],
+  ['css/guofeng.css', 'css/guofeng.css'],
   ['css/wow.css', 'css/wow.css'],
   ['js/heroes-data.js', 'js/heroes-data.js'],
   ['js/card-art.js', 'js/card-art.js'],
@@ -30,10 +30,8 @@ const copies = [
   ['js/atlas-data.js', 'js/atlas-data.js'],
   ['js/map-geometry.js', 'js/map-geometry.js'],
   ['js/atlas-map.js', 'js/atlas-map.js'],
-  ['js/xhs-bridge.js', 'js/xhs-bridge.js'],
-  ['js/app.js', 'js/app.js'],
+  ['js/showcase.js', 'js/showcase.js'],
   ['js/heroes-data-wow.js', 'js/heroes-data-wow.js'],
-  ['js/wow-app.js', 'js/wow-app.js'],
   ['assets/icon.svg', 'assets/icon.svg'],
   ['assets/fonts/MaShanZheng-subset.woff2', 'assets/fonts/MaShanZheng-subset.woff2'],
   ['assets/atlas/map-projected.svg', 'assets/atlas/map-projected.svg'],

@@ -281,10 +281,12 @@ dreamina image2image --model_version=4.7 --ratio=2:3 --resolution_type=2k \
 
 ### GitHub Pages 双主题展示站（2026-09-07）
 
-- 落地页 `site/index.html` → 发布为 `index.html`；国风主站 `index.html` 原样发布为 `app.html`（源码侧不动 index.html，XHS 打包链路零影响）；魔兽展示页 `wow.html`
-- 魔兽数据 `js/heroes-data-wow.js`：24 人重编（旧数据未入 git 已丢失）；23 人走肖像窗降级路径（`assets/portraits/<id>.webp`），希瓦 fullArt 走 v7 全幅管线（运行图 `assets/portraits/wow-runtime/`，禁区用 card-art.js 内置希瓦定稿默认区）；其余 23 张全幅卡量产仍为待办
-- 构建：`npm run build:pages` → `dist/pages/`（约 11.5 MiB，含引用完整性校验）；发布：`gh-pages` 分支根目录 + repo 公开
-- wow-app.js 环境兜底：IntersectionObserver 不派发时 1.2s 全量补渲卡墙；rAF 缺显示链路时 80ms setTimeout 画详情卡
+- 落地页 `site/index.html` → 发布为 `index.html`；`guofeng.html` 发布为 `app.html`，`wow.html` 为魔兽页（仓库 `index.html` + `app.js` 保持不动，XHS 小工具链路——含每日请卡——零影响）
+- 两页共享驱动 `js/showcase.js`（卡墙 + 筛选 chips + 整页详情视图 + 可选行旅图），各页以 `window.SHOWCASE` 内联配置注入（chip 字段/徽章/属性标签/字体/缩略模式/hasMap）；详情为整页视图非弹层，大卡 `min(84vh,900px)`
+- 国风展示页（2026-09-07 改版）：移除每日请卡/收藏/签筒，卡墙 24 人全亮（缩略用 thumbs/<id>-falang-full.webp <img>），详情页含「探索生平行旅」→ AtlasMap
+- 魔兽数据 `js/heroes-data-wow.js`：24 位英雄；希瓦 v7 加四张 ImageGen 全幅卡，其余 19 人走肖像窗降级路径（`assets/portraits/<id>.webp`）；全幅运行图位于 `assets/portraits/wow-runtime/`，新卡使用逐卡禁区与希瓦同款装饰。
+- 构建：`npm run build:pages` → `dist/pages/`（约 14.6 MiB，含引用完整性校验）；发布：`gh-pages` 分支根目录 + repo 公开
+- showcase.js 环境兜底：IntersectionObserver 不派发时 1.2s 全量补渲卡墙；rAF 缺显示链路时 80ms setTimeout 画详情卡
 
 ## 2026-09-07 · ImageGen 原生卡面与显示层
 
@@ -313,7 +315,8 @@ dreamina image2image --model_version=4.7 --ratio=2:3 --resolution_type=2k \
 魔兽详情新增 `js/card-lighting.js`，上传 diffuse/normal/rough/height，沿用 `js/app.js`
 既定 shader 和参数，按指针/尺寸事件绘制，关闭即释放 GPU 资源；支持失去/恢复上下文、
 WebGL 不可用时的 2D 降级和 reduced-motion。此模块未接入国风主站。
-390px 手机端卡面从 210px 调整到 310px，DPR 上限 2.5。
+合并 main 时保留整页详情与大卡尺寸（手机宽 min(88vw,420px)），DPR 上限 2.5。
+`showcase.js` 通过可选的 `#cardLighting` 接入魔兽光照；国风继续使用原有 2D 详情与行旅图。
 
 验证：`npm run check`（26 项）、`npm run build:pages`，以及
 `playwright-cli run-code --filename=test/verify-wow-browser.cjs`。

@@ -7,7 +7,7 @@
 .venv*/
 node_modules/
 dist/
-.cache/terrain/
+.cache/
 
 # Local QA and browser artifacts (kept on disk, not in repository history)
 output/

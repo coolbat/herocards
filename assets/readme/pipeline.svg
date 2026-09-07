@@ -1,0 +1,81 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="300" viewBox="0 0 1200 300" role="img" aria-labelledby="title desc">
+  <title id="title">herocards 渲染管线</title>
+  <desc id="desc">卡面源图经高度融合、烫金刻线生成四张贴图，最终由 WebGL2 实时光照渲染。</desc>
+  <defs>
+    <linearGradient id="gold" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#D9B968"/>
+      <stop offset="1" stop-color="#8A6D35"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1200" height="300" rx="20" fill="#0B0E14"/>
+  <!-- 月环母题：右上角淡金弧 -->
+  <circle cx="1120" cy="-40" r="150" fill="none" stroke="#C8A55A" stroke-opacity="0.22" stroke-width="1.5"/>
+  <circle cx="1120" cy="-40" r="118" fill="none" stroke="#C8A55A" stroke-opacity="0.12" stroke-width="1.5"/>
+
+  <text x="56" y="52" font-family="Menlo, ui-monospace, monospace" font-size="13" letter-spacing="4" fill="#C8A55A">RENDER PIPELINE</text>
+  <text x="56" y="76" font-family="Menlo, ui-monospace, monospace" font-size="11" letter-spacing="2" fill="#918A78">1329×2048 · 四贴图 · 实时光照</text>
+
+  <!-- 连接线：行旅图虚线路线母题 -->
+  <g stroke="#C8A55A" stroke-opacity="0.55" stroke-width="1.5" stroke-dasharray="7 6">
+    <line x1="240" y1="180" x2="288" y2="180"/>
+    <line x1="472" y1="180" x2="520" y2="180"/>
+    <line x1="704" y1="180" x2="752" y2="180"/>
+    <line x1="936" y1="180" x2="984" y2="180"/>
+  </g>
+  <g fill="#C8A55A">
+    <circle cx="264" cy="180" r="3.5"/>
+    <circle cx="496" cy="180" r="3.5"/>
+    <circle cx="728" cy="180" r="3.5"/>
+    <circle cx="960" cy="180" r="3.5"/>
+  </g>
+
+  <!-- 节点：卡框双细线母题 -->
+  <g font-family="Songti SC, PingFang SC, serif">
+    <!-- 1 源图 -->
+    <g transform="translate(56 105)">
+      <rect width="184" height="150" rx="12" fill="#10141D" stroke="url(#gold)" stroke-opacity="0.8"/>
+      <rect x="5" y="5" width="174" height="140" rx="8" fill="none" stroke="#C8A55A" stroke-opacity="0.28"/>
+      <text x="20" y="34" font-family="Menlo, ui-monospace, monospace" font-size="12" fill="#918A78">01</text>
+      <text x="20" y="66" font-size="21" font-weight="700" fill="#ECE3CF">卡面源图</text>
+      <text x="20" y="98" font-size="12.5" fill="#918A78">2:3 插画 + AI 灰度</text>
+      <text x="20" y="120" font-size="12.5" fill="#918A78">高度图（逐卡生成）</text>
+    </g>
+    <!-- 2 高度融合 -->
+    <g transform="translate(288 105)">
+      <rect width="184" height="150" rx="12" fill="#10141D" stroke="url(#gold)" stroke-opacity="0.8"/>
+      <rect x="5" y="5" width="174" height="140" rx="8" fill="none" stroke="#C8A55A" stroke-opacity="0.28"/>
+      <text x="20" y="34" font-family="Menlo, ui-monospace, monospace" font-size="12" fill="#918A78">02</text>
+      <text x="20" y="66" font-size="21" font-weight="700" fill="#ECE3CF">高度融合</text>
+      <text x="20" y="98" font-size="12.5" fill="#918A78">程序化宏观浮雕 ×</text>
+      <text x="20" y="120" font-size="12.5" fill="#918A78">AI 高度三通道融合</text>
+    </g>
+    <!-- 3 烫金刻线 -->
+    <g transform="translate(520 105)">
+      <rect width="184" height="150" rx="12" fill="#10141D" stroke="url(#gold)" stroke-opacity="0.8"/>
+      <rect x="5" y="5" width="174" height="140" rx="8" fill="none" stroke="#C8A55A" stroke-opacity="0.28"/>
+      <text x="20" y="34" font-family="Menlo, ui-monospace, monospace" font-size="12" fill="#918A78">03</text>
+      <text x="20" y="66" font-size="21" font-weight="700" fill="#ECE3CF">烫金刻线</text>
+      <text x="20" y="98" font-size="12.5" fill="#918A78">DoG 骨架 + 月环拟合</text>
+      <text x="20" y="120" font-size="12.5" fill="#918A78">落脊成凸起金属线</text>
+    </g>
+    <!-- 4 四贴图 -->
+    <g transform="translate(752 105)">
+      <rect width="184" height="150" rx="12" fill="#10141D" stroke="url(#gold)" stroke-opacity="0.8"/>
+      <rect x="5" y="5" width="174" height="140" rx="8" fill="none" stroke="#C8A55A" stroke-opacity="0.28"/>
+      <text x="20" y="34" font-family="Menlo, ui-monospace, monospace" font-size="12" fill="#918A78">04</text>
+      <text x="20" y="66" font-size="21" font-weight="700" fill="#ECE3CF">四张贴图</text>
+      <text x="20" y="98" font-size="12.5" fill="#918A78">diffuse · height</text>
+      <text x="20" y="120" font-size="12.5" fill="#918A78">normal · roughness</text>
+    </g>
+    <!-- 5 WebGL 实光 -->
+    <g transform="translate(984 105)">
+      <rect width="184" height="150" rx="12" fill="#10141D" stroke="url(#gold)" stroke-opacity="0.8"/>
+      <rect x="5" y="5" width="174" height="140" rx="8" fill="none" stroke="#C8A55A" stroke-opacity="0.28"/>
+      <text x="20" y="34" font-family="Menlo, ui-monospace, monospace" font-size="12" fill="#918A78">05</text>
+      <text x="20" y="66" font-size="21" font-weight="700" fill="#ECE3CF">WebGL2 实光</text>
+      <text x="20" y="98" font-size="12.5" fill="#918A78">主光 + 高光 + 视差</text>
+      <text x="20" y="120" font-size="12.5" fill="#918A78">金线随指针扫亮</text>
+    </g>
+  </g>
+</svg>

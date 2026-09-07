@@ -1,9 +1,11 @@
 {
+  "fullPageDetail": true,
+  "heritageGalleryAndMap": true,
   "pointerLight": true,
   "desktopSupersampling": {
-    "sum": 516537496,
-    "width": 620,
-    "height": 956,
+    "sum": 3815421194,
+    "width": 980,
+    "height": 1512,
     "error": 0
   },
   "stableBufferOnTilt": true,
@@ -15,9 +17,9 @@
   "factionFilter": true,
   "allFiveFullArtDetails": true,
   "mobile390Dpr3": {
-    "sum": 3951019667,
-    "width": 775,
-    "height": 1195,
+    "sum": 3419490809,
+    "width": 858,
+    "height": 1323,
     "error": 0
   },
   "webglUnavailableFallback": true,

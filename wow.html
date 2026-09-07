@@ -24,10 +24,10 @@
 </header>
 
 <nav class="wow-chips" id="wowChips" aria-label="阵营筛选">
-  <button class="chip is-active" data-faction="all" type="button">全部</button>
-  <button class="chip chip-alliance" data-faction="alliance" type="button">联盟</button>
-  <button class="chip chip-horde" data-faction="horde" type="button">部落</button>
-  <button class="chip chip-neutral" data-faction="neutral" type="button">中立</button>
+  <button class="chip is-active" data-f="all" type="button">全部</button>
+  <button class="chip chip-alliance" data-f="alliance" type="button">联盟</button>
+  <button class="chip chip-horde" data-f="horde" type="button">部落</button>
+  <button class="chip chip-neutral" data-f="neutral" type="button">中立</button>
 </nav>
 
 <main class="wow-grid" id="wowGrid" aria-label="英雄卡墙"></main>
@@ -37,33 +37,70 @@
   <p><a href="app.html">华夏人物图鉴 ›</a></p>
 </footer>
 
-<!-- 英雄详情浮层 -->
-<div class="wow-overlay" id="wowOverlay" hidden>
-  <div class="wow-overlay-bg" id="wowOverlayBg"></div>
-  <div class="wow-detail" role="dialog" aria-modal="true" aria-label="英雄详情">
-    <button class="wow-close" id="wowClose" type="button" aria-label="关闭">×</button>
-    <div class="wow-stage" id="wowStage">
-      <div class="wow-tilt" id="wowTilt">
-        <canvas class="wow-card-canvas" id="wowCardCanvas" width="1329" height="2048"></canvas>
-        <canvas class="wow-card-lighting" id="wowCardLighting" hidden aria-hidden="true"></canvas>
-        <div class="wow-shine" id="wowShine" aria-hidden="true"></div>
+<!-- 英雄详情（整页视图，非弹层）：大卡片 + 资料 -->
+<section class="view" id="view" hidden aria-label="英雄详情">
+  <button class="view-back" id="viewBack" type="button">‹ 卡墙</button>
+  <div class="view-body">
+    <div class="stage" id="stage">
+      <div class="tilt" id="tilt">
+        <canvas class="card-canvas" id="cardCanvas" width="1329" height="2048"></canvas>
+        <canvas class="card-lighting" id="cardLighting" hidden aria-hidden="true"></canvas>
+        <div class="shine" aria-hidden="true"></div>
       </div>
     </div>
-    <aside class="wow-meta">
-      <p class="wm-title-en" id="wmTitleEn"></p>
-      <h2 class="wm-name" id="wmName"></h2>
-      <p class="wm-title-zh" id="wmTitleZh"></p>
-      <div class="wm-badges" id="wmBadges"></div>
-      <blockquote class="wm-quote" id="wmQuote"></blockquote>
-      <p class="wm-lore" id="wmLore"></p>
-      <div class="wm-stats" id="wmStats"></div>
+    <aside class="meta">
+      <p class="m-title-en" id="mTitleEn"></p>
+      <h2 class="m-name" id="mName"></h2>
+      <p class="m-title-zh" id="mTitleZh"></p>
+      <div class="m-badges" id="mBadges"></div>
+      <blockquote class="m-quote" id="mQuote"></blockquote>
+      <p class="m-lore" id="mLore"></p>
+      <div class="m-stats" id="mStats"></div>
     </aside>
   </div>
-</div>
+</section>
 
+<script>
+/* 展示页驱动配置（js/showcase.js 消费） */
+window.SHOWCASE = {
+  theme: 'wow',
+  gridEl: 'wowGrid',
+  chipsEl: 'wowChips',
+  countEl: 'wowCount',
+  chipField: 'faction',
+  countUnit: '位英雄',
+  chipColors: { alliance: '#4a8fdd', horde: '#c41f3b', neutral: '#c8a55a' },
+  chipLabels: { alliance: '联盟', horde: '部落', neutral: '中立' },
+  badges: function (hero) {
+    var cls = (window.WOW_CLASS_INFO || {})[hero.class];
+    var rar = (window.WOW_RARITY_INFO || {})[hero.rarity];
+    return [
+      [(window.SHOWCASE.chipLabels)[hero.faction], (window.SHOWCASE.chipColors)[hero.faction]],
+      [cls && cls.zh, cls && cls.color],
+      [hero.race && hero.race.zh, null],
+      [rar && rar.zh, rar && rar.color]
+    ];
+  },
+  subtitle: function (hero) { return hero.title.zh + ' · ' + hero.race.zh; },
+  titleEn: function (hero) { return hero.title.en; },
+  statLabels: { might: '武力', magic: '魔法', resolve: '意志' },
+  statColor: function (hero) {
+    var cls = (window.WOW_CLASS_INFO || {})[hero.class];
+    return cls ? cls.color : '#c8a55a';
+  },
+  fonts: [
+    '700 40px "Noto Serif SC"',
+    '500 13px Cinzel',
+    '500 18px Jost',
+    '400 22px "Noto Serif SC"'
+  ],
+  miniMode: 'canvas',
+  hasMap: false
+};
+</script>
 <script src="js/heroes-data-wow.js"></script>
 <script src="js/card-art.js"></script>
 <script src="js/card-lighting.js"></script>
-<script src="js/wow-app.js"></script>
+<script src="js/showcase.js"></script>
 </body>
 </html>
