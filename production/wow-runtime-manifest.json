@@ -39,18 +39,18 @@
       ],
       "thumbnail": {
         "output": "assets/portraits/wow-runtime/jaina-proudmoore-imagegen-v1-thumb.webp",
-        "sha256": "0b9e3cf6abc8bec20c66babeb9178134bcbbb6b9ffb23bbbe143c522f3809608",
-        "bytes": 149346,
+        "sha256": "329b70d277c0a3585124d9fecc795c7fb8ec970585c250e2273474c990ab623f",
+        "bytes": 440704,
         "dimensions": [
-          640,
-          986
+          1329,
+          2048
         ]
       },
       "qc": "production/wow-imagegen/jaina-proudmoore-qc.json",
       "heightSmoothingLogicalPixels": 2,
       "layout": "warcraft-default",
       "styleReference": "sylvanas-windrunner",
-      "qcSha256": "2f45f267e0c1198a91ccec850907ad853bd2d0b0d9746771b713a4e23844bd4b",
+      "qcSha256": "5febe86d05688f2f6abd768a268b3b46ba47d03fa46c8abe18ecff20c4c47eaf",
       "goldLineParams": {
         "moonRing": false,
         "skipZones": [
@@ -126,18 +126,18 @@
       ],
       "thumbnail": {
         "output": "assets/portraits/wow-runtime/arthas-menethil-imagegen-v1-thumb.webp",
-        "sha256": "5604a60744c74c7e9bcc6fef94c5144ffcde2e46f0685bcbaa4c26f627e08153",
-        "bytes": 158880,
+        "sha256": "ca344b883de81ed6b89d212a406eb770459259411515315663cb01a8a702748d",
+        "bytes": 484898,
         "dimensions": [
-          640,
-          986
+          1329,
+          2048
         ]
       },
       "qc": "production/wow-imagegen/arthas-menethil-qc.json",
       "heightSmoothingLogicalPixels": 2,
       "layout": "warcraft-default",
       "styleReference": "sylvanas-windrunner",
-      "qcSha256": "2c2160913f9791652437b8e209d7d57e493c5109f6db90f4662d7aa0e1f8be64",
+      "qcSha256": "7593dca4ed4bcfca005883e988be425578fea32fead5a37e061807f945fc1004",
       "goldLineParams": {
         "moonRing": false,
         "minComp": 900,
@@ -220,18 +220,18 @@
       ],
       "thumbnail": {
         "output": "assets/portraits/wow-runtime/illidan-stormrage-imagegen-v1-thumb.webp",
-        "sha256": "b37a2067f0ae5aa502b385855f8287fc46b755216dceca4ca3eee0edaa3a81f3",
-        "bytes": 137270,
+        "sha256": "96663b3660800aecfcb2b1a845d822a2d07f8469e5723df655d039292f913688",
+        "bytes": 400962,
         "dimensions": [
-          640,
-          986
+          1329,
+          2048
         ]
       },
       "qc": "production/wow-imagegen/illidan-stormrage-qc.json",
       "heightSmoothingLogicalPixels": 2,
       "layout": "warcraft-default",
       "styleReference": "sylvanas-windrunner",
-      "qcSha256": "aea4b799e84f1d0dddb199182c0fe0d6562dd5b140eb044581ec7da47bf9ec70",
+      "qcSha256": "560900f98d102169eee52272934df3beba4ca8cceafce7c381434e57c0c47098",
       "goldLineParams": {
         "moonRing": false,
         "skipZones": [
@@ -319,18 +319,18 @@
       ],
       "thumbnail": {
         "output": "assets/portraits/wow-runtime/thrall-imagegen-v1-thumb.webp",
-        "sha256": "14abb052d200f64d35385d5c2824dec0cf014f9d664f2e056b14d57c3c53b7a3",
-        "bytes": 151660,
+        "sha256": "74ef10af4b5d348faf940c72898fddf391d50d00b29f9ff7b63895809b28f3d4",
+        "bytes": 460702,
         "dimensions": [
-          640,
-          986
+          1329,
+          2048
         ]
       },
       "qc": "production/wow-imagegen/thrall-qc.json",
       "heightSmoothingLogicalPixels": 2,
       "layout": "warcraft-default",
       "styleReference": "sylvanas-windrunner",
-      "qcSha256": "9a1e48dbec7e419190b436c11238556d429217c15f0da41db21ef35376df4285",
+      "qcSha256": "27394cb20d10dbf1eb6ce32d5f9aeea16bfbad6fa42c70f779849db14f0ac9fd",
       "goldLineParams": {
         "moonRing": false,
         "skipZones": [
@@ -409,15 +409,15 @@
       "styleReference": "sylvanas-windrunner",
       "thumbnail": {
         "output": "assets/portraits/wow-runtime/varian-wrynn-imagegen-v1-thumb.webp",
-        "sha256": "e061c4c10605f8f5b938e3efe9a17638dde3d6a6376082ae8a99fca430172641",
-        "bytes": 136010,
+        "sha256": "3d47725b8e3a431915612f62e3721bbc9cfa0348f0c9fc87f0051cdcb29facc2",
+        "bytes": 444490,
         "dimensions": [
-          640,
-          986
+          1329,
+          2048
         ]
       },
       "qc": "production/wow-imagegen/varian-wrynn-qc.json",
-      "qcSha256": "d83ed9c370db32ac74567f3e32bff83b1f4b949ec34fcb0142b4a027670728ce",
+      "qcSha256": "4811582c2e7ab21f1eb46ca368c8abdbf0f44148a6290c477e2c3e5d9195190e",
       "goldLineParams": {
         "moonRing": false,
         "skipZones": [
@@ -521,15 +521,15 @@
       "styleReference": "sylvanas-windrunner",
       "thumbnail": {
         "output": "assets/portraits/wow-runtime/anduin-wrynn-imagegen-v1-thumb.webp",
-        "sha256": "cb6b2867e3fb63e0dbe6f2f238ae31b39101eccf0305ab0b677825a9f038fac4",
-        "bytes": 137600,
+        "sha256": "8d797c9614a9039b7ef8429d1bb4ab214a272e8639cd4b688d15882a47c63701",
+        "bytes": 426824,
         "dimensions": [
-          640,
-          986
+          1329,
+          2048
         ]
       },
       "qc": "production/wow-imagegen/anduin-wrynn-qc.json",
-      "qcSha256": "c1b06c6a85d59771c7444fb2ab2ba42543a2b878ca83818140cb227dd4904d0e",
+      "qcSha256": "c09537824b810d156cfaac1567dce20ca7f85102929dd8dce96f641af6e63069",
       "goldLineParams": {
         "moonRing": false,
         "minComp": 900,
@@ -628,15 +628,15 @@
       "styleReference": "sylvanas-windrunner",
       "thumbnail": {
         "output": "assets/portraits/wow-runtime/uther-lightbringer-imagegen-v1-thumb.webp",
-        "sha256": "c8654173ff62e8b6ffa65627918fdb7b4cc7f7f86c3ba9ff38a8248e4bdb62e9",
-        "bytes": 142912,
+        "sha256": "20fb2c227f99f6d91012ebca15d5a0426cc82b792ae461dba81da185127f26a3",
+        "bytes": 453418,
         "dimensions": [
-          640,
-          986
+          1329,
+          2048
         ]
       },
       "qc": "production/wow-imagegen/uther-lightbringer-qc.json",
-      "qcSha256": "9934bb8504c4c8f95237761bfc6ff85581dedb586c029c8a251d7c2f2cf6780c",
+      "qcSha256": "d1f7c5823f64b3840d062877e65a108169ff01167a06fadb99c07b471b1b7afd",
       "goldLineParams": {
         "moonRing": false,
         "skipZones": [
@@ -740,15 +740,15 @@
       "styleReference": "sylvanas-windrunner",
       "thumbnail": {
         "output": "assets/portraits/wow-runtime/tyrande-whisperwind-imagegen-v1-thumb.webp",
-        "sha256": "755a217ad97dd60c158e099e95bbb4aab40687e06078d7024f5c522b21f985fe",
-        "bytes": 138166,
+        "sha256": "4e047d52d61ce9e1a75867179168f301b579d9eca0607346ec85f6a33150155a",
+        "bytes": 428332,
         "dimensions": [
-          640,
-          986
+          1329,
+          2048
         ]
       },
       "qc": "production/wow-imagegen/tyrande-whisperwind-qc.json",
-      "qcSha256": "fc801f3e2f90953d22d388b48c2681e48bcf55306fc796ed4fa6c1e69c4a1dfa",
+      "qcSha256": "c29f92bfc7d372fe8233ab3945d906d5bec1f1548f4a6de4c7b6bdec8854988b",
       "goldLineParams": {
         "moonRing": false,
         "minComp": 900,
@@ -834,15 +834,15 @@
       "styleReference": "sylvanas-windrunner",
       "thumbnail": {
         "output": "assets/portraits/wow-runtime/malfurion-stormrage-imagegen-v1-thumb.webp",
-        "sha256": "eb861b5d39ea8c1b85850c7e6279f67d57fa43c24fd77c5032547fe736431917",
-        "bytes": 143524,
+        "sha256": "6dc4a7ede4c469082a5fc6e601228bcf97c027e581ff6913aa998110edde0c91",
+        "bytes": 461634,
         "dimensions": [
-          640,
-          986
+          1329,
+          2048
         ]
       },
       "qc": "production/wow-imagegen/malfurion-stormrage-qc.json",
-      "qcSha256": "e57d54ee5bdb9b8dec17fd46a6045010084c05c987651f3acd8de1e4e94eaf7c",
+      "qcSha256": "7446fecd55887c9c0beb07064e12fe1397b900a52980a618e9dd1ea8f6ec9b0a",
       "goldLineParams": {
         "moonRing": false,
         "minComp": 900,
@@ -940,15 +940,15 @@
       "styleReference": "sylvanas-windrunner",
       "thumbnail": {
         "output": "assets/portraits/wow-runtime/alleria-windrunner-imagegen-v1-thumb.webp",
-        "sha256": "39dffe60436bb48bf1906dd5d7fe0459f5c451d47241a093dce9db43ddf294da",
-        "bytes": 123266,
+        "sha256": "1f16afc2ff8c26515ca1c9f1824ebfadd80a8ba7a780251d0da8cc406e9e9bc8",
+        "bytes": 389218,
         "dimensions": [
-          640,
-          986
+          1329,
+          2048
         ]
       },
       "qc": "production/wow-imagegen/alleria-windrunner-qc.json",
-      "qcSha256": "3633fbd94c9711ce991961740cc4a21fbbc2526e6687d35e6cf6ee3668746306",
+      "qcSha256": "55bfe272d6e153be4845098fcf455af221c744708f2538543d7f3d261a3f13cf",
       "goldLineParams": {
         "moonRing": false,
         "minComp": 900,
@@ -1040,15 +1040,15 @@
       "styleReference": "sylvanas-windrunner",
       "thumbnail": {
         "output": "assets/portraits/wow-runtime/turalyon-imagegen-v1-thumb.webp",
-        "sha256": "122550789b289de09ca3e5b4bb888490dac6ad59e0fe5df24c529c401b0371bb",
-        "bytes": 126528,
+        "sha256": "4afc19be54c550de2c1dfebbb1171f3caa8f7d173a314baa9036499b11381bc0",
+        "bytes": 432338,
         "dimensions": [
-          640,
-          986
+          1329,
+          2048
         ]
       },
       "qc": "production/wow-imagegen/turalyon-qc.json",
-      "qcSha256": "c47c0129aa4ecbe42a3ab63d7c990250ac7a951378146edd8e721b88399866a6",
+      "qcSha256": "f29aafaa73affd6106348a8f190bf53f8a4042b6b68d99a12dd5f639d81d03cc",
       "goldLineParams": {
         "moonRing": false,
         "minComp": 900,
@@ -1159,15 +1159,15 @@
       "styleReference": "sylvanas-windrunner",
       "thumbnail": {
         "output": "assets/portraits/wow-runtime/khadgar-imagegen-v1-thumb.webp",
-        "sha256": "e089e56a948b6ad5d06e2b12e0137c412045d4cda2e8fe223ed4e19c5692f650",
-        "bytes": 118916,
+        "sha256": "650c0d835b9729f8687513ccc83a333362deb0ff69ecc48ab5e297a8eeb4b1db",
+        "bytes": 389848,
         "dimensions": [
-          640,
-          986
+          1329,
+          2048
         ]
       },
       "qc": "production/wow-imagegen/khadgar-qc.json",
-      "qcSha256": "b97341b3be628f2b26165a0d815f4ea9b165a9fcf5317bc160f2c19acdef2a5f",
+      "qcSha256": "51d8126cffe955bdb9fc7c320b3b9dc442759715e941fca4baa1e19c4b0ae6fd",
       "goldLineParams": {
         "moonRing": false,
         "minComp": 900,
@@ -1253,15 +1253,15 @@
       "styleReference": "sylvanas-windrunner",
       "thumbnail": {
         "output": "assets/portraits/wow-runtime/cairne-bloodhoof-imagegen-v1-thumb.webp",
-        "sha256": "8bb3030d9911ba7761c228adbec49f03f8a19055e5322ac7e752b0d46d2f00c3",
-        "bytes": 119698,
+        "sha256": "b407b375ad1109e0cc74d0dc2594045ed91086ab1b6caf8100a4e7eb6475ace4",
+        "bytes": 396972,
         "dimensions": [
-          640,
-          986
+          1329,
+          2048
         ]
       },
       "qc": "production/wow-imagegen/cairne-bloodhoof-qc.json",
-      "qcSha256": "b00c05fb77d5acbe5c685454b88621cf39601eacb24df57f7b59f8835dc2ea5b",
+      "qcSha256": "2772fc0a984ad8272927911f211b2fb91daab9a37c58ea46020d9907f62052dc",
       "goldLineParams": {
         "moonRing": false,
         "minComp": 1200,
@@ -1354,15 +1354,15 @@
       "styleReference": "sylvanas-windrunner",
       "thumbnail": {
         "output": "assets/portraits/wow-runtime/baine-bloodhoof-imagegen-v1-thumb.webp",
-        "sha256": "683338a74ad4c70ebd1d7453cfd63c86a05893acfefa838900772bc1f2b24215",
-        "bytes": 121496,
+        "sha256": "9c832c1c6a6f9c71bc0d69e97726dae2a9451199861b0c2d9963c8d1e27964bd",
+        "bytes": 394048,
         "dimensions": [
-          640,
-          986
+          1329,
+          2048
         ]
       },
       "qc": "production/wow-imagegen/baine-bloodhoof-qc.json",
-      "qcSha256": "e84e14c250a751d2e5e0b24e864f24b1acf86c13f2b5a0abeceafe7f73778397",
+      "qcSha256": "9ec0cd7801769ba718f916cdf42317b783b8bbef3bae7b762655e15c54a35fdd",
       "goldLineParams": {
         "moonRing": false,
         "minComp": 900,
@@ -1479,15 +1479,15 @@
       "styleReference": "sylvanas-windrunner",
       "thumbnail": {
         "output": "assets/portraits/wow-runtime/voljin-imagegen-v1-thumb.webp",
-        "sha256": "e6b75842d0ac7b50bebe415d79c40d81b21cb2558047d2f381217800aa81cc23",
-        "bytes": 107684,
+        "sha256": "b25bab64241d1c6fd720c6f15e8f7459cc5476bdc98dc9922ff7e8ff08faaaeb",
+        "bytes": 350344,
         "dimensions": [
-          640,
-          986
+          1329,
+          2048
         ]
       },
       "qc": "production/wow-imagegen/voljin-qc.json",
-      "qcSha256": "692ba9cc4a3e9f223f3d8b3b99b28304fe178c420969961223b7ac03c1e051de",
+      "qcSha256": "b0715de71f607a15e8628404205ba246e2dbc29b1549fcb843d152ad3989e362",
       "goldLineParams": {
         "moonRing": false,
         "minComp": 900,
@@ -1573,15 +1573,15 @@
       "styleReference": "sylvanas-windrunner",
       "thumbnail": {
         "output": "assets/portraits/wow-runtime/rexxar-imagegen-v1-thumb.webp",
-        "sha256": "e30b9de2efd386df795b8df144eeac7a29fa428abd9beb23e50b89e1e210700f",
-        "bytes": 117770,
+        "sha256": "5a758ebc70a8f71d79160b59215f70247ee35555d6aca26d78b2be7b741aea7e",
+        "bytes": 392824,
         "dimensions": [
-          640,
-          986
+          1329,
+          2048
         ]
       },
       "qc": "production/wow-imagegen/rexxar-qc.json",
-      "qcSha256": "ff5e51f16a57e874d48f8ff99369967d7634b6a2cfc3e659f896fc32d6192029",
+      "qcSha256": "4df992f8297fb316292788566edb49a12b46fd3d2aa6ee5bf5b9d432d71f525a",
       "goldLineParams": {
         "moonRing": false,
         "minComp": 900,
@@ -1667,15 +1667,15 @@
       "styleReference": "sylvanas-windrunner",
       "thumbnail": {
         "output": "assets/portraits/wow-runtime/grommash-hellscream-imagegen-v1-thumb.webp",
-        "sha256": "2b7bc7bbb1e07cce013a4059ce3f0eab99ba092a5e722b745d15840de5119820",
-        "bytes": 123028,
+        "sha256": "37c02ba17e0f6c62351afc47361973eb0f882a82471fd3d68788640778b865d6",
+        "bytes": 397000,
         "dimensions": [
-          640,
-          986
+          1329,
+          2048
         ]
       },
       "qc": "production/wow-imagegen/grommash-hellscream-qc.json",
-      "qcSha256": "613cfcec1b9ee4aafe4b4ab83190cedbacc70326f26c1bda93bffaade8f1cd53",
+      "qcSha256": "cc9266be54f566c8bceecbbf6d999843b8923d816ed3cc1f3e94dd71d814ed28",
       "goldLineParams": {
         "moonRing": false,
         "minComp": 900,
@@ -1761,15 +1761,15 @@
       "styleReference": "sylvanas-windrunner",
       "thumbnail": {
         "output": "assets/portraits/wow-runtime/garrosh-hellscream-imagegen-v1-thumb.webp",
-        "sha256": "c1839dcd65e1c3da4e65618958adee4bf2766c83075918e9073f85927a4c9e55",
-        "bytes": 121418,
+        "sha256": "ce4478ec1e25ba23be54f33d1a319c0972fcfc72b5b0f28a78547b2d1dde03f4",
+        "bytes": 405060,
         "dimensions": [
-          640,
-          986
+          1329,
+          2048
         ]
       },
       "qc": "production/wow-imagegen/garrosh-hellscream-qc.json",
-      "qcSha256": "5e72e77b7edbe93ff6747618b059ac15b3124aa90d411754e304c8736e5e6446",
+      "qcSha256": "961ea89e05a294d5ae526910b09fe2573eb959a8338ca6ce5b5823f75e217888",
       "goldLineParams": {
         "moonRing": false,
         "minComp": 900,
@@ -1855,15 +1855,15 @@
       "styleReference": "sylvanas-windrunner",
       "thumbnail": {
         "output": "assets/portraits/wow-runtime/medivh-imagegen-v1-thumb.webp",
-        "sha256": "d5e624c94fc43fbb5382e934db102fd5ef9e7350f647964b6a73fe3d0b59fd67",
-        "bytes": 116608,
+        "sha256": "0a67740cff2de0dbe832b69a8eeef5e2d6d27ee56ab748c22212e60288952af7",
+        "bytes": 387460,
         "dimensions": [
-          640,
-          986
+          1329,
+          2048
         ]
       },
       "qc": "production/wow-imagegen/medivh-qc.json",
-      "qcSha256": "4b4a314a9a4d9eb9e119f60d796547770f6448657c9f506037ded303932850c1",
+      "qcSha256": "0df703faefdff42d1decfc10581930924e2dfdfda9aedcb557c82382e5f9d818",
       "goldLineParams": {
         "moonRing": false,
         "minComp": 900,
@@ -1949,15 +1949,15 @@
       "styleReference": "sylvanas-windrunner",
       "thumbnail": {
         "output": "assets/portraits/wow-runtime/guldan-imagegen-v1-thumb.webp",
-        "sha256": "2fdb149022feb83907878211ec6bd200f7e36cc3ec8469b19b4d6a4929d4965d",
-        "bytes": 119912,
+        "sha256": "4b11addfcbddd06fe35960541de3245efa1e13e22ad52855679f03d996bdf940",
+        "bytes": 386786,
         "dimensions": [
-          640,
-          986
+          1329,
+          2048
         ]
       },
       "qc": "production/wow-imagegen/guldan-qc.json",
-      "qcSha256": "03246ae41488fccb9a85dbbec92d2b48ee425ba976e817b06aa2a95de6df085e",
+      "qcSha256": "0303f95f00d7195e9ba8c526b7a4728eb420761a5e599f193d7d1e182b04ed79",
       "goldLineParams": {
         "moonRing": false,
         "minComp": 900,
@@ -2043,15 +2043,15 @@
       "styleReference": "sylvanas-windrunner",
       "thumbnail": {
         "output": "assets/portraits/wow-runtime/kaelthas-sunstrider-imagegen-v1-thumb.webp",
-        "sha256": "fe693257e5824c660104a6ac84593e5b01b88e577af7a5d7f655fc4f0346e641",
-        "bytes": 136166,
+        "sha256": "82ac42da102a50782bdaeffca1b58299a57b4e83d04cd60e630801386f858a02",
+        "bytes": 453916,
         "dimensions": [
-          640,
-          986
+          1329,
+          2048
         ]
       },
       "qc": "production/wow-imagegen/kaelthas-sunstrider-qc.json",
-      "qcSha256": "28c3317e89bf17aeec121e009bb2061a1acace569a6ac3b98172204a46c3cdf2",
+      "qcSha256": "f179d8c11661e5851909a5bc002d8fe811b3ab4596a044c6d7ccc71c70a26459",
       "goldLineParams": {
         "moonRing": false,
         "minComp": 900,
@@ -2174,15 +2174,15 @@
       "styleReference": "sylvanas-windrunner",
       "thumbnail": {
         "output": "assets/portraits/wow-runtime/kelthuzad-imagegen-v1-thumb.webp",
-        "sha256": "f0c8da69b76c49c2971bb3b5a34faf721268238b60288cb5b024a8f44ced4e9a",
-        "bytes": 136214,
+        "sha256": "fb0a2127f4f818f5fad22e291f678133993c9840d0065ebdc537894ffb3636a6",
+        "bytes": 457614,
         "dimensions": [
-          640,
-          986
+          1329,
+          2048
         ]
       },
       "qc": "production/wow-imagegen/kelthuzad-qc.json",
-      "qcSha256": "bb41261a317472cb9b8b71df924264810eb0bbe0390fd994eb86d328282644cd",
+      "qcSha256": "958f2b8133631ca4eeae345ac46c1fc1cd5c69413ab54669e519edc230e6df62",
       "goldLineParams": {
         "moonRing": false,
         "minComp": 900,
@@ -2268,15 +2268,15 @@
       "styleReference": "sylvanas-windrunner",
       "thumbnail": {
         "output": "assets/portraits/wow-runtime/maiev-shadowsong-imagegen-v1-thumb.webp",
-        "sha256": "5d4e6787c1b4c3e56799bfd1bd70900b91f7b6bdd28555b19001b0073a57ce8f",
-        "bytes": 119294,
+        "sha256": "a6e50f1c153f46b4a6aa2cb73e657c93830770331f4457c4bba0241e5bf4b439",
+        "bytes": 395580,
         "dimensions": [
-          640,
-          986
+          1329,
+          2048
         ]
       },
       "qc": "production/wow-imagegen/maiev-shadowsong-qc.json",
-      "qcSha256": "7c575d0c615522c243144f52cfcab969ae99e3a174b8f1f81f262fc618f858b2",
+      "qcSha256": "f3989e1bf48981d69b532f0d5f39d1dc7c5f2b246d40aee9bb42e5429ad404f3",
       "goldLineParams": {
         "moonRing": false,
         "minComp": 900,
@@ -2324,7 +2324,7 @@
   },
   "cardArtSha256": "0f041514fd5537d662c04f51f64aafbabff12aa9aa7f055571d7d075467f9e4d",
   "heroDataSha256": "8505b58ee0b8c8041460857f1cc09e880f16fb95cb0945a995441fac5912a250",
-  "qcScriptSha256": "42c52fd7de6792debaeeea5a17b692656e767d60043e04e76b8303b840dbcb14",
+  "qcScriptSha256": "bdd66dff2096f12f2b5d2a08f8e1d8ae102d78dd45139bfc19cd7443f3cc6648",
   "coverage": {
     "totalHeroes": 24,
     "fullArtHeroes": 24,

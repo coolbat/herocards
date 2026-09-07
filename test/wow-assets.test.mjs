@@ -76,7 +76,7 @@ test('ImageGen cards have complete assets, independent framing and reproducible 
     assert.equal(entry.styleReference,baseline.id);
     const thumbnail=fs.readFileSync(new URL('../'+hero.fullArtThumb,import.meta.url));
     assert.equal(createHash('sha256').update(thumbnail).digest('hex'),entry.thumbnail.sha256);
-    assert.deepEqual(entry.thumbnail.dimensions,[640,986]);
+    assert.deepEqual(entry.thumbnail.dimensions,[1329,2048]);
     assert.equal(thumbnail.length,entry.thumbnail.bytes);
     assert.equal(hero.fullArtCropBottom,entry.cropBottom);
     assert.equal(hero.fullArtHeightSmoothing,entry.heightSmoothingLogicalPixels);

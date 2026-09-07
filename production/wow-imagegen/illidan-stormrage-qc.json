@@ -11,12 +11,12 @@
   "layout": "warcraft-default",
   "styleReference": "sylvanas-windrunner",
   "cropBottom": 0,
-  "renderMs": 696,
+  "renderMs": 660,
   "goldLines": {
     "seeds": 26598,
     "comps": 20,
     "moon": null,
-    "ms": 313
+    "ms": 285
   },
   "legacy": {
     "heightGradientP50": 2,
@@ -37,6 +37,6 @@
     "normalPass": true
   },
   "lightPixelDelta": 20.938,
-  "thumbBytes": 137288,
+  "thumbBytes": 400979,
   "noUpscalingAtEncoding": true
 }

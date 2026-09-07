@@ -126,8 +126,8 @@
     for (const key of ['diffuse','height','normal','rough']) {
       const c=document.getElementById(key);c.getContext('2d').drawImage(set[key],0,0,c.width,c.height);
     }
-    const thumb=document.createElement('canvas');thumb.width=640;thumb.height=986;
-    const ctx=thumb.getContext('2d');ctx.imageSmoothingQuality='high';ctx.drawImage(set.diffuse,0,0,640,986);
+    const thumb=document.createElement('canvas');thumb.width=CardArt.W;thumb.height=CardArt.H;
+    const ctx=thumb.getContext('2d');ctx.imageSmoothingQuality='high';ctx.drawImage(set.diffuse,0,0,CardArt.W,CardArt.H);
     window.qc = {id, nativeDimensions:dims, textureDimensions:[CardArt.W,CardArt.H],
       layout:'warcraft-default', styleReference:'sylvanas-windrunner',
       cropBottom:hero.fullArtCropBottom ?? .08, renderMs:Math.round(elapsed),

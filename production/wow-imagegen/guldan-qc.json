@@ -11,32 +11,32 @@
   "layout": "warcraft-default",
   "styleReference": "sylvanas-windrunner",
   "cropBottom": 0,
-  "renderMs": 663,
+  "renderMs": 674,
   "goldLines": {
-    "seeds": 28894,
+    "seeds": 28981,
     "comps": 13,
     "moon": null,
-    "ms": 304
+    "ms": 284
   },
   "legacy": {
-    "heightGradientP50": 2.75,
-    "heightGradientP99": 542.25,
+    "heightGradientP50": 2,
+    "heightGradientP99": 543,
     "roughMidPercent": 50.27,
-    "normalActiveMean": 41.73,
+    "normalActiveMean": 42.57,
     "normalP99": 125,
     "roughPass": true,
     "normalPass": false
   },
   "optimized": {
     "heightGradientP50": 2,
-    "heightGradientP99": 532.25,
+    "heightGradientP99": 532.75,
     "roughMidPercent": 50.67,
-    "normalActiveMean": 34.72,
+    "normalActiveMean": 34.71,
     "normalP99": 98,
     "roughPass": true,
     "normalPass": true
   },
-  "lightPixelDelta": 20.216,
-  "thumbBytes": 119930,
+  "lightPixelDelta": 20.195,
+  "thumbBytes": 386804,
   "noUpscalingAtEncoding": true
 }
