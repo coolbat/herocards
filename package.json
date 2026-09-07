@@ -2,7 +2,8 @@
   "name": "herocards",
   "version": "1.0.0",
   "private": true,
-  "description": "herocards · 中国古代人物卡片与生平行旅图（静态运行，地图资产可复现构建）",
+  "license": "MIT",
+  "description": "herocards · 烫金浮雕收藏卡引擎：纯静态零依赖，数据驱动任意题材主题（现有华夏先贤、魔兽英雄两套）",
   "scripts": {
     "dev": "node server.mjs",
     "build:terrain": "node scripts/build-terrain.mjs",
