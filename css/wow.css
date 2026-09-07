@@ -1,5 +1,5 @@
 /* ============================================================================
-   艾泽拉斯英雄志 · 展示页样式（wow.html）
+   艾泽拉斯英雄志 · 展示页样式（wow.html，驱动 js/showcase.js）
    暗夜蓝黑底 + 烧金线 + 奥术蓝 accent；阵营三色：联盟蓝 / 部落红 / 中立金。
    配色沿用 css/style.wow-legacy.css（旧站皮肤备份）的色板。
    ========================================================================== */
@@ -137,7 +137,7 @@ a { color: var(--arcane); text-decoration: none; }
   margin: 0 auto;
 }
 
-.wc-card {
+.cell {
   position: relative;
   display: block;
   width: 100%;
@@ -148,10 +148,10 @@ a { color: var(--arcane); text-decoration: none; }
   border-radius: 12px;
   transition: transform .25s ease;
 }
-.wc-card:hover { transform: translateY(-6px); }
-.wc-card:focus-visible { outline: 2px solid var(--arcane); outline-offset: 3px; }
+.cell:hover { transform: translateY(-6px); }
+.cell:focus-visible { outline: 2px solid var(--arcane); outline-offset: 3px; }
 
-.wc-card canvas {
+.cell canvas {
   display: block;
   width: 100%;
   height: auto;
@@ -160,13 +160,13 @@ a { color: var(--arcane); text-decoration: none; }
   box-shadow: 0 10px 28px rgba(0, 0, 0, 0.55);
 }
 
-.wc-card.is-pending canvas { background: var(--bg-lift); }
+.cell.is-pending canvas { background: var(--bg-lift); }
 
-.wc-card[data-rarity="legendary"] canvas { box-shadow: 0 10px 28px rgba(0,0,0,.55), 0 0 18px rgba(255,128,0,.22); }
-.wc-card[data-rarity="epic"] canvas { box-shadow: 0 10px 28px rgba(0,0,0,.55), 0 0 18px rgba(163,53,238,.20); }
-.wc-card[data-rarity="rare"] canvas { box-shadow: 0 10px 28px rgba(0,0,0,.55), 0 0 18px rgba(0,112,221,.22); }
+.cell[data-rarity="legendary"] canvas { box-shadow: 0 10px 28px rgba(0,0,0,.55), 0 0 18px rgba(255,128,0,.22); }
+.cell[data-rarity="epic"] canvas { box-shadow: 0 10px 28px rgba(0,0,0,.55), 0 0 18px rgba(163,53,238,.20); }
+.cell[data-rarity="rare"] canvas { box-shadow: 0 10px 28px rgba(0,0,0,.55), 0 0 18px rgba(0,112,221,.22); }
 
-.wc-faction {
+.cell-tag {
   position: absolute;
   top: 8px;
   left: 8px;
@@ -178,9 +178,9 @@ a { color: var(--arcane); text-decoration: none; }
   color: #0a0d14;
   pointer-events: none;
 }
-.wc-faction.alliance { background: var(--alliance); }
-.wc-faction.horde { background: var(--horde); color: #fff; }
-.wc-faction.neutral { background: var(--neutral); }
+.cell-tag.t-alliance { background: var(--alliance); }
+.cell-tag.t-horde { background: var(--horde); color: #fff; }
+.cell-tag.t-neutral { background: var(--neutral); }
 
 /* ------------------------------------------------------------- 页脚 */
 .wow-footer {
@@ -193,118 +193,109 @@ a { color: var(--arcane); text-decoration: none; }
 }
 .wow-footer p + p { margin-top: 6px; }
 
-/* ------------------------------------------------------------- 详情浮层 */
-.wow-overlay {
+/* ------------------------------------------------------------- 详情整页视图 */
+.view {
   position: fixed;
   inset: 0;
   z-index: 50;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: clamp(10px, 3vw, 32px);
+  overflow: auto;
+  background:
+    radial-gradient(1000px 600px at 30% 0%, rgba(105, 204, 240, 0.08), transparent 60%),
+    var(--bg);
 }
 
-.wow-overlay-bg {
+.view-back {
   position: absolute;
-  inset: 0;
-  background: rgba(4, 6, 10, 0.82);
-  backdrop-filter: blur(6px);
-}
-
-.wow-detail {
-  position: relative;
-  display: flex;
-  gap: clamp(18px, 3.5vw, 44px);
-  align-items: center;
-  max-width: 900px;
-  max-height: 100%;
+  top: calc(14px + env(safe-area-inset-top, 0px));
+  left: 16px;
+  z-index: 5;
+  padding: 8px 16px;
+  font-family: var(--sans);
+  font-size: 14px;
+  letter-spacing: 0.1em;
+  color: var(--cream-dim);
   background: var(--panel);
   border: 1px solid var(--panel-border);
-  border-radius: 18px;
-  padding: clamp(18px, 3vw, 36px);
-  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6);
-  overflow: auto;
-}
-
-.wow-close {
-  position: absolute;
-  top: 10px;
-  right: 12px;
-  width: 34px;
-  height: 34px;
-  border: 1px solid var(--line);
-  border-radius: 50%;
-  background: none;
-  color: var(--cream-dim);
-  font-size: 20px;
-  line-height: 1;
+  border-radius: 999px;
   cursor: pointer;
   transition: color .2s, border-color .2s;
 }
-.wow-close:hover { color: var(--cream); border-color: var(--gold); }
+.view-back:hover { color: var(--cream); border-color: var(--gold); }
 
-.wow-stage { perspective: 1100px; flex: none; }
+.view-body {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(24px, 4.5vw, 64px);
+  padding: clamp(64px, 9vh, 90px) clamp(18px, 4vw, 56px) clamp(28px, 5vh, 56px);
+  max-width: 1180px;
+  margin: 0 auto;
+}
 
-.wow-tilt {
+.stage { perspective: 1200px; flex: none; }
+
+/* 大卡：高度贴视口，比旧弹层大得多 */
+.tilt {
   position: relative;
-  width: clamp(210px, 30vw, 310px);
+  height: min(84vh, 900px);
   aspect-ratio: 664 / 1024;
   transform-style: preserve-3d;
   transition: transform .12s ease-out;
 }
 
-.wow-card-canvas {
+.card-canvas {
   display: block;
   width: 100%;
   height: 100%;
-  border-radius: 14px;
-  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.65);
+  border-radius: 16px;
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.7);
 }
 
-.wow-shine {
+.shine {
   position: absolute;
   inset: 0;
-  border-radius: 14px;
+  border-radius: 16px;
   pointer-events: none;
   background: radial-gradient(420px 420px at var(--sx, 50%) var(--sy, 50%),
               rgba(255, 244, 214, 0.16), transparent 60%);
   opacity: 0;
   transition: opacity .2s;
 }
-.wow-tilt:hover .wow-shine { opacity: 1; }
+.tilt:hover .shine { opacity: 1; }
 
-.wow-meta { min-width: 0; max-width: 420px; }
+.meta { min-width: 0; max-width: 440px; }
 
-.wm-title-en {
+.m-title-en {
   font-family: var(--serif);
-  font-size: 12px;
+  font-size: 13px;
   letter-spacing: 0.32em;
   text-transform: uppercase;
   color: var(--gold);
 }
 
-.wm-name {
-  font-size: clamp(24px, 3.4vw, 32px);
+.m-name {
+  font-size: clamp(28px, 3.6vw, 40px);
   font-weight: 700;
   letter-spacing: 0.06em;
-  margin-top: 6px;
+  margin-top: 8px;
 }
 
-.wm-title-zh {
-  margin-top: 4px;
-  font-size: 15px;
+.m-title-zh {
+  margin-top: 6px;
+  font-size: 16px;
   color: var(--cream-dim);
   letter-spacing: 0.2em;
 }
 
-.wm-badges {
+.m-badges {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
-  margin-top: 14px;
+  margin-top: 16px;
 }
 
-.wm-badge {
+.m-badge {
   font-family: var(--sans);
   font-size: 12px;
   letter-spacing: 0.1em;
@@ -314,26 +305,26 @@ a { color: var(--arcane); text-decoration: none; }
   color: var(--cream-dim);
 }
 
-.wm-quote {
-  margin-top: 18px;
+.m-quote {
+  margin-top: 20px;
   padding-left: 14px;
   border-left: 2px solid var(--gold);
-  font-size: 16px;
+  font-size: 17px;
   color: var(--gold);
   letter-spacing: 0.05em;
 }
 
-.wm-lore {
+.m-lore {
   margin-top: 14px;
-  font-size: 14px;
-  line-height: 1.9;
+  font-size: 15px;
+  line-height: 1.95;
   color: var(--cream-dim);
   text-align: justify;
 }
 
-.wm-stats { margin-top: 18px; display: grid; gap: 10px; }
+.m-stats { margin-top: 20px; display: grid; gap: 10px; }
 
-.wm-stat {
+.m-stat {
   display: grid;
   grid-template-columns: 44px 1fr 26px;
   align-items: center;
@@ -344,14 +335,14 @@ a { color: var(--arcane); text-decoration: none; }
   color: var(--cream-dim);
 }
 
-.wm-stat-track {
+.m-stat-track {
   height: 5px;
   border-radius: 3px;
   background: rgba(236, 227, 207, 0.1);
   overflow: hidden;
 }
 
-.wm-stat-fill {
+.m-stat-fill {
   display: block;
   height: 100%;
   border-radius: 3px;
@@ -359,10 +350,11 @@ a { color: var(--arcane); text-decoration: none; }
 }
 
 /* ------------------------------------------------------------- 响应式 */
-@media (max-width: 760px) {
+@media (max-width: 860px) {
   .wow-header { flex-wrap: wrap; justify-content: center; }
   .wow-brand { order: -1; flex-basis: 100%; }
-  .wow-detail { flex-direction: column; align-items: center; }
-  .wow-meta { max-width: 100%; }
+  .view-body { flex-direction: column; justify-content: flex-start; }
+  .tilt { height: auto; width: min(88vw, 420px); }
+  .meta { max-width: min(88vw, 560px); }
   .wow-grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); }
 }
