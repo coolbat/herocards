@@ -1,0 +1,28 @@
+{
+  "applied": false,
+  "candidateHeightSmoothing": 1,
+  "retainedHeightSmoothing": 2,
+  "observations": [
+    {
+      "id": "uther-lightbringer",
+      "heightGradientP50": 0,
+      "normalActiveMean": 41.77
+    },
+    {
+      "id": "tyrande-whisperwind",
+      "heightGradientP50": 0,
+      "normalActiveMean": 36.5
+    },
+    {
+      "id": "cairne-bloodhoof",
+      "heightGradientP50": 0,
+      "normalActiveMean": 43.25
+    },
+    {
+      "id": "baine-bloodhoof",
+      "heightGradientP50": 1.5,
+      "normalActiveMean": 44.24
+    }
+  ],
+  "reason": "Reduced smoothing failed to recover the median target for three cards and exceeded the normal threshold for three; current reviewed visual result retained."
+}

@@ -1,0 +1,42 @@
+{
+  "id": "kelthuzad",
+  "nativeDimensions": [
+    1024,
+    1536
+  ],
+  "textureDimensions": [
+    1329,
+    2048
+  ],
+  "layout": "warcraft-default",
+  "styleReference": "sylvanas-windrunner",
+  "cropBottom": 0,
+  "renderMs": 679,
+  "goldLines": {
+    "seeds": 36151,
+    "comps": 24,
+    "moon": null,
+    "ms": 323
+  },
+  "legacy": {
+    "heightGradientP50": 2.75,
+    "heightGradientP99": 497,
+    "roughMidPercent": 56.3,
+    "normalActiveMean": 51.06,
+    "normalP99": 125,
+    "roughPass": true,
+    "normalPass": false
+  },
+  "optimized": {
+    "heightGradientP50": 2,
+    "heightGradientP99": 524,
+    "roughMidPercent": 56.27,
+    "normalActiveMean": 31.96,
+    "normalP99": 97,
+    "roughPass": true,
+    "normalPass": true
+  },
+  "lightPixelDelta": 19.934,
+  "thumbBytes": 136232,
+  "noUpscalingAtEncoding": true
+}

@@ -1,0 +1,42 @@
+{
+  "id": "maiev-shadowsong",
+  "nativeDimensions": [
+    1024,
+    1536
+  ],
+  "textureDimensions": [
+    1329,
+    2048
+  ],
+  "layout": "warcraft-default",
+  "styleReference": "sylvanas-windrunner",
+  "cropBottom": 0.16,
+  "renderMs": 737,
+  "goldLines": {
+    "seeds": 31980,
+    "comps": 19,
+    "moon": null,
+    "ms": 303
+  },
+  "legacy": {
+    "heightGradientP50": 3.25,
+    "heightGradientP99": 496.75,
+    "roughMidPercent": 54.65,
+    "normalActiveMean": 38.94,
+    "normalP99": 113,
+    "roughPass": true,
+    "normalPass": true
+  },
+  "optimized": {
+    "heightGradientP50": 2,
+    "heightGradientP99": 486,
+    "roughMidPercent": 56.6,
+    "normalActiveMean": 30.42,
+    "normalP99": 91,
+    "roughPass": true,
+    "normalPass": true
+  },
+  "lightPixelDelta": 19.092,
+  "thumbBytes": 119312,
+  "noUpscalingAtEncoding": true
+}

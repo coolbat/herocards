@@ -1,0 +1,42 @@
+{
+  "id": "tyrande-whisperwind",
+  "nativeDimensions": [
+    1024,
+    1536
+  ],
+  "textureDimensions": [
+    1329,
+    2048
+  ],
+  "layout": "warcraft-default",
+  "styleReference": "sylvanas-windrunner",
+  "cropBottom": 0.12,
+  "renderMs": 699,
+  "goldLines": {
+    "seeds": 34686,
+    "comps": 20,
+    "moon": null,
+    "ms": 343
+  },
+  "legacy": {
+    "heightGradientP50": 2,
+    "heightGradientP99": 412,
+    "roughMidPercent": 57.37,
+    "normalActiveMean": 42.91,
+    "normalP99": 111,
+    "roughPass": true,
+    "normalPass": false
+  },
+  "optimized": {
+    "heightGradientP50": 0,
+    "heightGradientP99": 407,
+    "roughMidPercent": 55.76,
+    "normalActiveMean": 29.71,
+    "normalP99": 82,
+    "roughPass": true,
+    "normalPass": true
+  },
+  "lightPixelDelta": 21.683,
+  "thumbBytes": 138185,
+  "noUpscalingAtEncoding": true
+}

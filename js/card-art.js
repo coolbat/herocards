@@ -3347,7 +3347,7 @@
    * 返回 { mode, goldCover }（goldCover 为放宽金域占比，供调参观测）。
    * 叠加层（边框 / 铭牌 / 宝石）随后按既有语义精确覆写其上。
    */
-  function paintFullArtBase(P, img, mode, externalMaps, cropBottom, heightSmoothing) {
+  function paintFullArtBase(P, img, mode, externalMaps, cropBottom, heightSmoothing, nonMetalZones) {
     drawFullArtCover(P.d, img, LW, LH, cropBottom);         // all maps share the same framing
 
     var G = FULLART_GOLD;
@@ -3418,6 +3418,18 @@
     } else {
       var extH = externalMaps && externalMaps.height;
       var fuse = !!(extH && externalMaps.fuseHeight);
+      // Warm skies, skin, wood and fur can share gold's hue. Reviewed per-card
+      // regions exclude those materials from the color-based metal detector.
+      // Only the base roughness changes; depth, artwork and applied gold ridges do not.
+      (Array.isArray(nonMetalZones) ? nonMetalZones : []).forEach(function (zone) {
+        if (!zone || ![zone.x, zone.y, zone.rx, zone.ry].every(Number.isFinite) || zone.rx <= 0 || zone.ry <= 0) return;
+        var cx = zone.x * SC, cy = zone.y * SC, rx = zone.rx * SC, ry = zone.ry * SC;
+        for (var y = Math.max(0, Math.floor(cy - ry)); y < Math.min(H, Math.ceil(cy + ry)); y++) {
+          for (var x = Math.max(0, Math.floor(cx - rx)); x < Math.min(W, Math.ceil(cx + rx)); x++) {
+            if (Math.pow((x - cx) / rx, 2) + Math.pow((y - cy) / ry, 2) <= 1) wideMask[y * W + x] = 0;
+          }
+        }
+      });
       deriveReliefMaps(lumA, wideMask, hd, rd, !!(extH && !fuse));  // rough 恒 relief 分区；融合模式保留 relief 高度作基底
     }
     P.h.putImageData(hImg, 0, 0);
@@ -3470,7 +3482,7 @@
     var extMaps = (opts && opts.externalMaps) || null;   // { normal, height, fuseHeight } 试验贴图
     var cropBottom = opts && opts.cropBottom != null ? opts.cropBottom : hero.fullArtCropBottom;
     var heightSmoothing = opts && opts.heightSmoothing != null ? opts.heightSmoothing : hero.fullArtHeightSmoothing;
-    var artInfo = paintFullArtBase(P, artImage, reqMode, extMaps, cropBottom, heightSmoothing);
+    var artInfo = paintFullArtBase(P, artImage, reqMode, extMaps, cropBottom, heightSmoothing, hero.fullArtNonMetalZones);
     /* v5.1 烫金刻线层：relief 模式默认开启（opts.goldLines === false 可关），
        落在叠加层之前——边框 / 名牌等照旧覆写其上 */
     if (artInfo.mode === 'relief' && (!opts || opts.goldLines !== false)) {

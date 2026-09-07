@@ -1,0 +1,42 @@
+{
+  "id": "cairne-bloodhoof",
+  "nativeDimensions": [
+    1024,
+    1536
+  ],
+  "textureDimensions": [
+    1329,
+    2048
+  ],
+  "layout": "warcraft-default",
+  "styleReference": "sylvanas-windrunner",
+  "cropBottom": 0,
+  "renderMs": 672,
+  "goldLines": {
+    "seeds": 26135,
+    "comps": 9,
+    "moon": null,
+    "ms": 288
+  },
+  "legacy": {
+    "heightGradientP50": 2,
+    "heightGradientP99": 454.25,
+    "roughMidPercent": 19.37,
+    "normalActiveMean": 49.75,
+    "normalP99": 105,
+    "roughPass": false,
+    "normalPass": false
+  },
+  "optimized": {
+    "heightGradientP50": 0,
+    "heightGradientP99": 438.25,
+    "roughMidPercent": 57.64,
+    "normalActiveMean": 38.11,
+    "normalP99": 83,
+    "roughPass": true,
+    "normalPass": true
+  },
+  "lightPixelDelta": 22.149,
+  "thumbBytes": 119717,
+  "noUpscalingAtEncoding": true
+}

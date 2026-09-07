@@ -1,0 +1,42 @@
+{
+  "id": "kaelthas-sunstrider",
+  "nativeDimensions": [
+    1024,
+    1536
+  ],
+  "textureDimensions": [
+    1329,
+    2048
+  ],
+  "layout": "warcraft-default",
+  "styleReference": "sylvanas-windrunner",
+  "cropBottom": 0,
+  "renderMs": 679,
+  "goldLines": {
+    "seeds": 31994,
+    "comps": 16,
+    "moon": null,
+    "ms": 294
+  },
+  "legacy": {
+    "heightGradientP50": 2,
+    "heightGradientP99": 415,
+    "roughMidPercent": 19.35,
+    "normalActiveMean": 47.38,
+    "normalP99": 111,
+    "roughPass": false,
+    "normalPass": false
+  },
+  "optimized": {
+    "heightGradientP50": 1.5,
+    "heightGradientP99": 448.5,
+    "roughMidPercent": 54.31,
+    "normalActiveMean": 36.82,
+    "normalP99": 88,
+    "roughPass": true,
+    "normalPass": true
+  },
+  "lightPixelDelta": 22.54,
+  "thumbBytes": 136184,
+  "noUpscalingAtEncoding": true
+}

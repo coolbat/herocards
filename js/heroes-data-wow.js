@@ -6,10 +6,10 @@
  * 供 js/card-art.js 直接消费；仅由 wow.html 引入，与国风主站互不影响。
  *
  * 资产路由：
- *   - 19 位英雄走肖像窗降级路径（assets/portraits/<id>.webp 旧版油画肖像）；
+ *   - 24 位英雄均已接入全幅卡；旧版油画肖像保留作加载失败时的降级资源。
  *   - 希尔瓦娜斯带 fullArt / fullArtHeight，走全幅烫金浮雕管线（v7 基准卡，
  *     金线禁区用 card-art.js 内置的希瓦定稿默认区）。
- *   - 另 4 位接入 ImageGen 全幅原画、语义深度图、独立金线禁区及希瓦同款装饰。
+ *   - 另 23 位接入 ImageGen 全幅原画、语义深度图、独立金线禁区及希瓦同款装饰。
  * ============================================================================ */
 (function (global) {
   'use strict';
@@ -69,6 +69,24 @@
 
     {
       id: 'varian-wrynn',
+      fullArtNonMetalZones: [ // sunset and warm clouds, excluding the armored torso
+        { x: 332, y: 150, rx: 440, ry: 160 },
+        { x: 146, y: 380, rx: 115, ry: 170 },
+        { x: 544, y: 366, rx: 100, ry: 170 }
+      ],
+      fullArt: 'assets/portraits/wow-runtime/varian-wrynn-imagegen-v1-full.webp',
+      fullArtThumb: 'assets/portraits/wow-runtime/varian-wrynn-imagegen-v1-thumb.webp',
+      fullArtHeight: 'assets/portraits/wow-runtime/varian-wrynn-imagegen-v1-aiheight.webp',
+      fullArtCropBottom: 0,
+      fullArtHeightSmoothing: 2,
+      goldLineParams: { moonRing: false, skipZones: [
+        { x: 350, y: 303, rx: 76, ry: 93 },
+        { x: 60, y: 490, rx: 87, ry: 245 },
+        { x: 606, y: 502, rx: 91, ry: 235 },
+        { x: 30, y: 750, rx: 98, ry: 155 },
+        { x: 636, y: 780, rx: 95, ry: 145 },
+        { x: 332, y: 998, rx: 440, ry: 112 }
+      ] },
       name:  { zh: '瓦里安·乌瑞恩', en: 'Varian Wrynn' },
       title: { zh: '暴风城国王', en: 'King of Stormwind' },
       faction: 'alliance',
@@ -83,6 +101,21 @@
 
     {
       id: 'anduin-wrynn',
+      fullArtNonMetalZones: [ { x: 332, y: 190, rx: 240, ry: 158 } ],
+      fullArt: 'assets/portraits/wow-runtime/anduin-wrynn-imagegen-v1-full.webp',
+      fullArtThumb: 'assets/portraits/wow-runtime/anduin-wrynn-imagegen-v1-thumb.webp',
+      fullArtHeight: 'assets/portraits/wow-runtime/anduin-wrynn-imagegen-v1-aiheight.webp',
+      fullArtCropBottom: 0,
+      fullArtHeightSmoothing: 2,
+      goldLineParams: { moonRing: false, minComp: 900, skipZones: [
+        { x: 331, y: 344, rx: 63, ry: 69 },
+        { x: 332, y: 196, rx: 182, ry: 110 },
+        { x: 32, y: 456, rx: 75, ry: 345 },
+        { x: 631, y: 463, rx: 79, ry: 350 },
+        { x: 151, y: 575, rx: 57, ry: 154 },
+        { x: 541, y: 584, rx: 62, ry: 155 },
+        { x: 332, y: 998, rx: 440, ry: 114 }
+      ] },
       name:  { zh: '安度因·乌瑞恩', en: 'Anduin Wrynn' },
       title: { zh: '至高王', en: 'High King of the Alliance' },
       faction: 'alliance',
@@ -97,6 +130,24 @@
 
     {
       id: 'uther-lightbringer',
+      fullArtNonMetalZones: [ // warm dawn clouds
+        { x: 332, y: 225, rx: 330, ry: 185 },
+        { x: 90, y: 650, rx: 110, ry: 170 },
+        { x: 600, y: 720, rx: 115, ry: 210 }
+      ],
+      fullArt: 'assets/portraits/wow-runtime/uther-lightbringer-imagegen-v1-full.webp',
+      fullArtThumb: 'assets/portraits/wow-runtime/uther-lightbringer-imagegen-v1-thumb.webp',
+      fullArtHeight: 'assets/portraits/wow-runtime/uther-lightbringer-imagegen-v1-aiheight.webp',
+      fullArtCropBottom: 0,
+      fullArtHeightSmoothing: 2,
+      goldLineParams: { moonRing: false, skipZones: [
+        { x: 331, y: 326, rx: 65, ry: 77 },
+        { x: 88, y: 548, rx: 102, ry: 178 },
+        { x: 602, y: 459, rx: 115, ry: 252 },
+        { x: 46, y: 799, rx: 118, ry: 137 },
+        { x: 618, y: 798, rx: 116, ry: 146 },
+        { x: 332, y: 998, rx: 440, ry: 110 }
+      ] },
       name:  { zh: '乌瑟尔·光明使者', en: 'Uther the Lightbringer' },
       title: { zh: '光明使者', en: 'The Lightbringer' },
       faction: 'alliance',
@@ -111,6 +162,19 @@
 
     {
       id: 'tyrande-whisperwind',
+      fullArt: 'assets/portraits/wow-runtime/tyrande-whisperwind-imagegen-v1-full.webp',
+      fullArtThumb: 'assets/portraits/wow-runtime/tyrande-whisperwind-imagegen-v1-thumb.webp',
+      fullArtHeight: 'assets/portraits/wow-runtime/tyrande-whisperwind-imagegen-v1-aiheight.webp',
+      fullArtCropBottom: 0.12,
+      fullArtHeightSmoothing: 2,
+      goldLineParams: { moonRing: false, minComp: 900, skipZones: [
+        { x: 331, y: 291, rx: 85, ry: 91 },
+        { x: 40, y: 529, rx: 86, ry: 280 },
+        { x: 637, y: 531, rx: 88, ry: 285 },
+        { x: 96, y: 832, rx: 150, ry: 119 },
+        { x: 584, y: 842, rx: 155, ry: 126 },
+        { x: 332, y: 1000, rx: 440, ry: 120 }
+      ] },
       name:  { zh: '泰兰德·语风', en: 'Tyrande Whisperwind' },
       title: { zh: '月之女祭司', en: 'High Priestess of Elune' },
       faction: 'alliance',
@@ -125,6 +189,21 @@
 
     {
       id: 'malfurion-stormrage',
+      fullArt: 'assets/portraits/wow-runtime/malfurion-stormrage-imagegen-v1-full.webp',
+      fullArtThumb: 'assets/portraits/wow-runtime/malfurion-stormrage-imagegen-v1-thumb.webp',
+      fullArtHeight: 'assets/portraits/wow-runtime/malfurion-stormrage-imagegen-v1-aiheight.webp',
+      fullArtCropBottom: 0,
+      fullArtHeightSmoothing: 2,
+      goldLineParams: { moonRing: false, minComp: 900, skipZones: [
+        { x: 331, y: 379, rx: 90, ry: 86 },
+        { x: 38, y: 437, rx: 93, ry: 310 },
+        { x: 621, y: 464, rx: 105, ry: 342 },
+        { x: 128, y: 265, rx: 93, ry: 113 },
+        { x: 203, y: 390, rx: 61, ry: 52 },
+        { x: 107, y: 823, rx: 142, ry: 147 },
+        { x: 590, y: 830, rx: 115, ry: 144 },
+        { x: 332, y: 1000, rx: 440, ry: 110 }
+      ] },
       name:  { zh: '玛法里奥·怒风', en: 'Malfurion Stormrage' },
       title: { zh: '大德鲁伊', en: 'The Archdruid' },
       faction: 'alliance',
@@ -139,6 +218,20 @@
 
     {
       id: 'alleria-windrunner',
+      fullArt: 'assets/portraits/wow-runtime/alleria-windrunner-imagegen-v1-full.webp',
+      fullArtThumb: 'assets/portraits/wow-runtime/alleria-windrunner-imagegen-v1-thumb.webp',
+      fullArtHeight: 'assets/portraits/wow-runtime/alleria-windrunner-imagegen-v1-aiheight.webp',
+      fullArtCropBottom: 0,
+      fullArtHeightSmoothing: 2,
+      goldLineParams: { moonRing: false, minComp: 900, skipZones: [
+        { x: 332, y: 331, rx: 64, ry: 72 },
+        { x: 138, y: 423, rx: 78, ry: 161 },
+        { x: 552, y: 388, rx: 79, ry: 206 },
+        { x: 443, y: 465, rx: 54, ry: 85 },
+        { x: 32, y: 738, rx: 114, ry: 152 },
+        { x: 620, y: 766, rx: 121, ry: 162 },
+        { x: 332, y: 1000, rx: 440, ry: 116 }
+      ] },
       name:  { zh: '奥蕾莉亚·风行者', en: 'Alleria Windrunner' },
       title: { zh: '游侠将军', en: 'Ranger-General of Silvermoon' },
       faction: 'alliance',
@@ -153,6 +246,25 @@
 
     {
       id: 'turalyon',
+      fullArtNonMetalZones: [ // emissive crystal, space vista and reflected light on the deck
+        { x: 332, y: 145, rx: 440, ry: 178 },
+        { x: 110, y: 438, rx: 110, ry: 310 },
+        { x: 564, y: 492, rx: 150, ry: 285 },
+        { x: 332, y: 945, rx: 470, ry: 175 }
+      ],
+      fullArt: 'assets/portraits/wow-runtime/turalyon-imagegen-v1-full.webp',
+      fullArtThumb: 'assets/portraits/wow-runtime/turalyon-imagegen-v1-thumb.webp',
+      fullArtHeight: 'assets/portraits/wow-runtime/turalyon-imagegen-v1-aiheight.webp',
+      fullArtCropBottom: 0,
+      fullArtHeightSmoothing: 2,
+      goldLineParams: { moonRing: false, minComp: 900, skipZones: [
+        { x: 301, y: 334, rx: 69, ry: 74 },
+        { x: 198, y: 255, rx: 132, ry: 175 },
+        { x: 537, y: 513, rx: 143, ry: 210 },
+        { x: 56, y: 676, rx: 118, ry: 246 },
+        { x: 626, y: 788, rx: 93, ry: 164 },
+        { x: 332, y: 1000, rx: 440, ry: 116 }
+      ] },
       name:  { zh: '图拉扬', en: 'Turalyon' },
       title: { zh: '洛萨之子', en: 'Son of Lothar' },
       faction: 'alliance',
@@ -167,6 +279,19 @@
 
     {
       id: 'khadgar',
+      fullArt: 'assets/portraits/wow-runtime/khadgar-imagegen-v1-full.webp',
+      fullArtThumb: 'assets/portraits/wow-runtime/khadgar-imagegen-v1-thumb.webp',
+      fullArtHeight: 'assets/portraits/wow-runtime/khadgar-imagegen-v1-aiheight.webp',
+      fullArtCropBottom: 0,
+      fullArtHeightSmoothing: 2,
+      goldLineParams: { moonRing: false, minComp: 900, skipZones: [
+        { x: 333, y: 304, rx: 63, ry: 77 },
+        { x: 99, y: 457, rx: 65, ry: 195 },
+        { x: 605, y: 425, rx: 79, ry: 241 },
+        { x: 30, y: 751, rx: 119, ry: 123 },
+        { x: 602, y: 748, rx: 103, ry: 145 },
+        { x: 332, y: 1000, rx: 440, ry: 118 }
+      ] },
       name:  { zh: '卡德加', en: 'Khadgar' },
       title: { zh: '守护者之徒', en: 'Apprentice of the Guardian' },
       faction: 'alliance',
@@ -226,6 +351,22 @@
 
     {
       id: 'cairne-bloodhoof',
+      fullArtNonMetalZones: [ // wooden totem, fur, leather, prairie and sunset; applied gold ridges remain metallic
+        { x: 332, y: 512, rx: 850, ry: 1200 }
+      ],
+      fullArt: 'assets/portraits/wow-runtime/cairne-bloodhoof-imagegen-v1-full.webp',
+      fullArtThumb: 'assets/portraits/wow-runtime/cairne-bloodhoof-imagegen-v1-thumb.webp',
+      fullArtHeight: 'assets/portraits/wow-runtime/cairne-bloodhoof-imagegen-v1-aiheight.webp',
+      fullArtCropBottom: 0,
+      fullArtHeightSmoothing: 2,
+      goldLineParams: { moonRing: false, minComp: 1200, skipZones: [
+        { x: 333, y: 410, rx: 96, ry: 92 },
+        { x: 89, y: 659, rx: 102, ry: 136 },
+        { x: 572, y: 661, rx: 77, ry: 142 },
+        { x: 40, y: 838, rx: 115, ry: 170 },
+        { x: 622, y: 845, rx: 101, ry: 157 },
+        { x: 332, y: 1000, rx: 440, ry: 108 }
+      ] },
       name:  { zh: '凯恩·血蹄', en: 'Cairne Bloodhoof' },
       title: { zh: '牛头人酋长', en: 'High Chieftain of the Tauren' },
       faction: 'horde',
@@ -240,6 +381,26 @@
 
     {
       id: 'baine-bloodhoof',
+      fullArtNonMetalZones: [ // fur and leather, sunrise, sandstone and grass
+        { x: 332, y: 200, rx: 520, ry: 290 },
+        { x: 341, y: 582, rx: 190, ry: 255 },
+        { x: 62, y: 636, rx: 140, ry: 270 },
+        { x: 610, y: 666, rx: 145, ry: 340 },
+        { x: 332, y: 971, rx: 460, ry: 133 }
+      ],
+      fullArt: 'assets/portraits/wow-runtime/baine-bloodhoof-imagegen-v1-full.webp',
+      fullArtThumb: 'assets/portraits/wow-runtime/baine-bloodhoof-imagegen-v1-thumb.webp',
+      fullArtHeight: 'assets/portraits/wow-runtime/baine-bloodhoof-imagegen-v1-aiheight.webp',
+      fullArtCropBottom: 0,
+      fullArtHeightSmoothing: 2,
+      goldLineParams: { moonRing: false, minComp: 900, skipZones: [
+        { x: 333, y: 371, rx: 97, ry: 101 },
+        { x: 75, y: 505, rx: 93, ry: 153 },
+        { x: 577, y: 689, rx: 114, ry: 180 },
+        { x: 36, y: 819, rx: 112, ry: 131 },
+        { x: 622, y: 840, rx: 92, ry: 122 },
+        { x: 332, y: 1000, rx: 440, ry: 105 }
+      ] },
       name:  { zh: '贝恩·血蹄', en: 'Baine Bloodhoof' },
       title: { zh: '至高酋长', en: 'High Chieftain' },
       faction: 'horde',
@@ -254,6 +415,19 @@
 
     {
       id: 'voljin',
+      fullArt: 'assets/portraits/wow-runtime/voljin-imagegen-v1-full.webp',
+      fullArtThumb: 'assets/portraits/wow-runtime/voljin-imagegen-v1-thumb.webp',
+      fullArtHeight: 'assets/portraits/wow-runtime/voljin-imagegen-v1-aiheight.webp',
+      fullArtCropBottom: 0,
+      fullArtHeightSmoothing: 2,
+      goldLineParams: { moonRing: false, minComp: 900, skipZones: [
+        { x: 312, y: 373, rx: 86, ry: 113 },
+        { x: 558, y: 480, rx: 107, ry: 190 },
+        { x: 592, y: 659, rx: 123, ry: 148 },
+        { x: 90, y: 695, rx: 126, ry: 99 },
+        { x: 638, y: 918, rx: 84, ry: 117 },
+        { x: 332, y: 1000, rx: 440, ry: 106 }
+      ] },
       name:  { zh: '沃金', en: "Vol'jin" },
       title: { zh: '暗影猎手', en: 'Shadow Hunter' },
       faction: 'horde',
@@ -268,6 +442,19 @@
 
     {
       id: 'rexxar',
+      fullArt: 'assets/portraits/wow-runtime/rexxar-imagegen-v1-full.webp',
+      fullArtThumb: 'assets/portraits/wow-runtime/rexxar-imagegen-v1-thumb.webp',
+      fullArtHeight: 'assets/portraits/wow-runtime/rexxar-imagegen-v1-aiheight.webp',
+      fullArtCropBottom: 0,
+      fullArtHeightSmoothing: 2,
+      goldLineParams: { moonRing: false, minComp: 900, skipZones: [
+        { x: 323, y: 354, rx: 83, ry: 86 },
+        { x: 46, y: 412, rx: 92, ry: 278 },
+        { x: 620, y: 362, rx: 80, ry: 248 },
+        { x: 558, y: 644, rx: 98, ry: 119 },
+        { x: 41, y: 765, rx: 104, ry: 152 },
+        { x: 332, y: 1000, rx: 440, ry: 110 }
+      ] },
       name:  { zh: '雷克萨', en: 'Rexxar' },
       title: { zh: '兽王', en: 'The Beastmaster' },
       faction: 'horde',
@@ -282,6 +469,19 @@
 
     {
       id: 'grommash-hellscream',
+      fullArt: 'assets/portraits/wow-runtime/grommash-hellscream-imagegen-v1-full.webp',
+      fullArtThumb: 'assets/portraits/wow-runtime/grommash-hellscream-imagegen-v1-thumb.webp',
+      fullArtHeight: 'assets/portraits/wow-runtime/grommash-hellscream-imagegen-v1-aiheight.webp',
+      fullArtCropBottom: 0,
+      fullArtHeightSmoothing: 2,
+      goldLineParams: { moonRing: false, minComp: 900, skipZones: [
+        { x: 321, y: 335, rx: 77, ry: 87 },
+        { x: 81, y: 487, rx: 94, ry: 271 },
+        { x: 621, y: 361, rx: 81, ry: 248 },
+        { x: 554, y: 778, rx: 112, ry: 137 },
+        { x: 55, y: 832, rx: 114, ry: 100 },
+        { x: 332, y: 1000, rx: 440, ry: 110 }
+      ] },
       name:  { zh: '格罗玛什·地狱咆哮', en: 'Grommash Hellscream' },
       title: { zh: '战歌酋长', en: 'Chieftain of the Warsong' },
       faction: 'horde',
@@ -296,6 +496,19 @@
 
     {
       id: 'garrosh-hellscream',
+      fullArt: 'assets/portraits/wow-runtime/garrosh-hellscream-imagegen-v1-full.webp',
+      fullArtThumb: 'assets/portraits/wow-runtime/garrosh-hellscream-imagegen-v1-thumb.webp',
+      fullArtHeight: 'assets/portraits/wow-runtime/garrosh-hellscream-imagegen-v1-aiheight.webp',
+      fullArtCropBottom: 0,
+      fullArtHeightSmoothing: 2,
+      goldLineParams: { moonRing: false, minComp: 900, skipZones: [
+        { x: 322, y: 309, rx: 71, ry: 79 },
+        { x: 61, y: 377, rx: 113, ry: 315 },
+        { x: 593, y: 517, rx: 104, ry: 130 },
+        { x: 43, y: 791, rx: 119, ry: 172 },
+        { x: 633, y: 838, rx: 96, ry: 121 },
+        { x: 332, y: 1000, rx: 440, ry: 106 }
+      ] },
       name:  { zh: '加尔鲁什·地狱咆哮', en: 'Garrosh Hellscream' },
       title: { zh: '部落大酋长', en: 'Warchief of the Horde' },
       faction: 'horde',
@@ -367,6 +580,19 @@
 
     {
       id: 'medivh',
+      fullArt: 'assets/portraits/wow-runtime/medivh-imagegen-v1-full.webp',
+      fullArtThumb: 'assets/portraits/wow-runtime/medivh-imagegen-v1-thumb.webp',
+      fullArtHeight: 'assets/portraits/wow-runtime/medivh-imagegen-v1-aiheight.webp',
+      fullArtCropBottom: 0,
+      fullArtHeightSmoothing: 2,
+      goldLineParams: { moonRing: false, minComp: 900, skipZones: [
+        { x: 330, y: 347, rx: 80, ry: 87 },
+        { x: 64, y: 454, rx: 77, ry: 186 },
+        { x: 578, y: 466, rx: 97, ry: 204 },
+        { x: 101, y: 655, rx: 110, ry: 121 },
+        { x: 600, y: 634, rx: 67, ry: 68 },
+        { x: 332, y: 1000, rx: 440, ry: 115 }
+      ] },
       name:  { zh: '麦迪文', en: 'Medivh' },
       title: { zh: '最后的守护者', en: 'The Last Guardian' },
       faction: 'neutral',
@@ -381,6 +607,19 @@
 
     {
       id: 'guldan',
+      fullArt: 'assets/portraits/wow-runtime/guldan-imagegen-v1-full.webp',
+      fullArtThumb: 'assets/portraits/wow-runtime/guldan-imagegen-v1-thumb.webp',
+      fullArtHeight: 'assets/portraits/wow-runtime/guldan-imagegen-v1-aiheight.webp',
+      fullArtCropBottom: 0,
+      fullArtHeightSmoothing: 2,
+      goldLineParams: { moonRing: false, minComp: 900, skipZones: [
+        { x: 326, y: 409, rx: 82, ry: 101 },
+        { x: 63, y: 585, rx: 110, ry: 182 },
+        { x: 618, y: 556, rx: 111, ry: 230 },
+        { x: 30, y: 822, rx: 107, ry: 184 },
+        { x: 638, y: 842, rx: 110, ry: 157 },
+        { x: 332, y: 1000, rx: 440, ry: 105 }
+      ] },
       name:  { zh: '古尔丹', en: "Gul'dan" },
       title: { zh: '第一位术士', en: 'The First Warlock' },
       faction: 'neutral',
@@ -395,6 +634,27 @@
 
     {
       id: 'kaelthas-sunstrider',
+      fullArtNonMetalZones: [ // solar glow, clouds and sunlit stone; central gold armor stays metallic
+        { x: 332, y: 120, rx: 440, ry: 225 },
+        { x: 55, y: 535, rx: 125, ry: 330 },
+        { x: 600, y: 540, rx: 145, ry: 350 },
+        { x: 332, y: 1024, rx: 450, ry: 120 }
+      ],
+      fullArt: 'assets/portraits/wow-runtime/kaelthas-sunstrider-imagegen-v1-full.webp',
+      fullArtThumb: 'assets/portraits/wow-runtime/kaelthas-sunstrider-imagegen-v1-thumb.webp',
+      fullArtHeight: 'assets/portraits/wow-runtime/kaelthas-sunstrider-imagegen-v1-aiheight.webp',
+      fullArtCropBottom: 0,
+      fullArtHeightSmoothing: 2,
+      goldLineParams: { moonRing: false, minComp: 900, skipZones: [
+        { x: 345, y: 284, rx: 76, ry: 87 },
+        { x: 250, y: 234, rx: 28, ry: 27 },
+        { x: 464, y: 296, rx: 28, ry: 28 },
+        { x: 179, y: 368, rx: 25, ry: 26 },
+        { x: 142, y: 384, rx: 64, ry: 74 },
+        { x: 57, y: 588, rx: 103, ry: 241 },
+        { x: 609, y: 574, rx: 84, ry: 287 },
+        { x: 332, y: 1000, rx: 440, ry: 103 }
+      ] },
       name:  { zh: '凯尔萨斯·逐日者', en: "Kael'thas Sunstrider" },
       title: { zh: '血精灵王子', en: 'Prince of the Blood Elves' },
       faction: 'neutral',
@@ -409,6 +669,19 @@
 
     {
       id: 'kelthuzad',
+      fullArt: 'assets/portraits/wow-runtime/kelthuzad-imagegen-v1-full.webp',
+      fullArtThumb: 'assets/portraits/wow-runtime/kelthuzad-imagegen-v1-thumb.webp',
+      fullArtHeight: 'assets/portraits/wow-runtime/kelthuzad-imagegen-v1-aiheight.webp',
+      fullArtCropBottom: 0,
+      fullArtHeightSmoothing: 2,
+      goldLineParams: { moonRing: false, minComp: 900, skipZones: [
+        { x: 326, y: 310, rx: 64, ry: 97 },
+        { x: 75, y: 487, rx: 96, ry: 342 },
+        { x: 628, y: 541, rx: 82, ry: 329 },
+        { x: 82, y: 823, rx: 143, ry: 119 },
+        { x: 571, y: 829, rx: 134, ry: 123 },
+        { x: 332, y: 1000, rx: 440, ry: 118 }
+      ] },
       name:  { zh: '克尔苏加德', en: "Kel'Thuzad" },
       title: { zh: '大巫妖', en: 'The Archlich' },
       faction: 'neutral',
@@ -423,6 +696,19 @@
 
     {
       id: 'maiev-shadowsong',
+      fullArt: 'assets/portraits/wow-runtime/maiev-shadowsong-imagegen-v1-full.webp',
+      fullArtThumb: 'assets/portraits/wow-runtime/maiev-shadowsong-imagegen-v1-thumb.webp',
+      fullArtHeight: 'assets/portraits/wow-runtime/maiev-shadowsong-imagegen-v1-aiheight.webp',
+      fullArtCropBottom: 0.16,
+      fullArtHeightSmoothing: 2,
+      goldLineParams: { moonRing: false, minComp: 900, skipZones: [
+        { x: 328, y: 339, rx: 78, ry: 119 },
+        { x: 15, y: 522, rx: 105, ry: 365 },
+        { x: 661, y: 498, rx: 83, ry: 333 },
+        { x: 579, y: 596, rx: 58, ry: 161 },
+        { x: 628, y: 937, rx: 138, ry: 139 },
+        { x: 332, y: 1010, rx: 440, ry: 98 }
+      ] },
       name:  { zh: '玛维·影歌', en: 'Maiev Shadowsong' },
       title: { zh: '守望者', en: 'The Warden' },
       faction: 'neutral',

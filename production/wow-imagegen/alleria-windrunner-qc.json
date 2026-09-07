@@ -1,0 +1,42 @@
+{
+  "id": "alleria-windrunner",
+  "nativeDimensions": [
+    1024,
+    1536
+  ],
+  "textureDimensions": [
+    1329,
+    2048
+  ],
+  "layout": "warcraft-default",
+  "styleReference": "sylvanas-windrunner",
+  "cropBottom": 0,
+  "renderMs": 679,
+  "goldLines": {
+    "seeds": 29153,
+    "comps": 15,
+    "moon": null,
+    "ms": 314
+  },
+  "legacy": {
+    "heightGradientP50": 2,
+    "heightGradientP99": 509,
+    "roughMidPercent": 56.79,
+    "normalActiveMean": 54.91,
+    "normalP99": 119,
+    "roughPass": true,
+    "normalPass": false
+  },
+  "optimized": {
+    "heightGradientP50": 1.5,
+    "heightGradientP99": 540,
+    "roughMidPercent": 56.69,
+    "normalActiveMean": 35.29,
+    "normalP99": 99,
+    "roughPass": true,
+    "normalPass": true
+  },
+  "lightPixelDelta": 20.643,
+  "thumbBytes": 123284,
+  "noUpscalingAtEncoding": true
+}

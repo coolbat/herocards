@@ -39,17 +39,54 @@
       ],
       "thumbnail": {
         "output": "assets/portraits/wow-runtime/jaina-proudmoore-imagegen-v1-thumb.webp",
-        "sha256": "6a8b42d15b6dad3466e7640f031a6337feb9f3d8d31c3fe1a3b976f0c7c478ca",
-        "bytes": 73184,
+        "sha256": "0b9e3cf6abc8bec20c66babeb9178134bcbbb6b9ffb23bbbe143c522f3809608",
+        "bytes": 149346,
         "dimensions": [
-          400,
-          616
+          640,
+          986
         ]
       },
       "qc": "production/wow-imagegen/jaina-proudmoore-qc.json",
       "heightSmoothingLogicalPixels": 2,
       "layout": "warcraft-default",
-      "styleReference": "sylvanas-windrunner"
+      "styleReference": "sylvanas-windrunner",
+      "qcSha256": "2f45f267e0c1198a91ccec850907ad853bd2d0b0d9746771b713a4e23844bd4b",
+      "goldLineParams": {
+        "moonRing": false,
+        "skipZones": [
+          {
+            "x": 335,
+            "y": 269,
+            "rx": 95,
+            "ry": 94
+          },
+          {
+            "x": 527,
+            "y": 460,
+            "rx": 69,
+            "ry": 60
+          },
+          {
+            "x": 7,
+            "y": 563,
+            "rx": 110,
+            "ry": 350
+          },
+          {
+            "x": 661,
+            "y": 700,
+            "rx": 144,
+            "ry": 375
+          },
+          {
+            "x": 332,
+            "y": 1060,
+            "rx": 550,
+            "ry": 120
+          }
+        ]
+      },
+      "nonMetalZones": []
     },
     "arthas-menethil": {
       "generator": "built-in image_gen",
@@ -89,17 +126,61 @@
       ],
       "thumbnail": {
         "output": "assets/portraits/wow-runtime/arthas-menethil-imagegen-v1-thumb.webp",
-        "sha256": "4601a807f9e454a56d6f74ca66f7f18b81a7aa7a23609337d45101ac7f39cee6",
-        "bytes": 74864,
+        "sha256": "5604a60744c74c7e9bcc6fef94c5144ffcde2e46f0685bcbaa4c26f627e08153",
+        "bytes": 158880,
         "dimensions": [
-          400,
-          616
+          640,
+          986
         ]
       },
       "qc": "production/wow-imagegen/arthas-menethil-qc.json",
       "heightSmoothingLogicalPixels": 2,
       "layout": "warcraft-default",
-      "styleReference": "sylvanas-windrunner"
+      "styleReference": "sylvanas-windrunner",
+      "qcSha256": "2c2160913f9791652437b8e209d7d57e493c5109f6db90f4662d7aa0e1f8be64",
+      "goldLineParams": {
+        "moonRing": false,
+        "minComp": 900,
+        "skipZones": [
+          {
+            "x": 330,
+            "y": 238,
+            "rx": 68,
+            "ry": 72
+          },
+          {
+            "x": 65,
+            "y": 440,
+            "rx": 105,
+            "ry": 260
+          },
+          {
+            "x": 575,
+            "y": 343,
+            "rx": 100,
+            "ry": 270
+          },
+          {
+            "x": 332,
+            "y": 997,
+            "rx": 425,
+            "ry": 108
+          },
+          {
+            "x": 90,
+            "y": 855,
+            "rx": 140,
+            "ry": 105
+          },
+          {
+            "x": 590,
+            "y": 855,
+            "rx": 130,
+            "ry": 105
+          }
+        ]
+      },
+      "nonMetalZones": []
     },
     "illidan-stormrage": {
       "generator": "built-in image_gen",
@@ -139,17 +220,66 @@
       ],
       "thumbnail": {
         "output": "assets/portraits/wow-runtime/illidan-stormrage-imagegen-v1-thumb.webp",
-        "sha256": "3a1308e055089e78b58b61fb35493fcccb56a410841d2dbbde54f5f37a1e0c5c",
-        "bytes": 65232,
+        "sha256": "b37a2067f0ae5aa502b385855f8287fc46b755216dceca4ca3eee0edaa3a81f3",
+        "bytes": 137270,
         "dimensions": [
-          400,
-          616
+          640,
+          986
         ]
       },
       "qc": "production/wow-imagegen/illidan-stormrage-qc.json",
       "heightSmoothingLogicalPixels": 2,
       "layout": "warcraft-default",
-      "styleReference": "sylvanas-windrunner"
+      "styleReference": "sylvanas-windrunner",
+      "qcSha256": "aea4b799e84f1d0dddb199182c0fe0d6562dd5b140eb044581ec7da47bf9ec70",
+      "goldLineParams": {
+        "moonRing": false,
+        "skipZones": [
+          {
+            "x": 332,
+            "y": 255,
+            "rx": 116,
+            "ry": 107
+          },
+          {
+            "x": 140,
+            "y": 435,
+            "rx": 105,
+            "ry": 210
+          },
+          {
+            "x": 525,
+            "y": 448,
+            "rx": 100,
+            "ry": 208
+          },
+          {
+            "x": 30,
+            "y": 438,
+            "rx": 56,
+            "ry": 320
+          },
+          {
+            "x": 633,
+            "y": 438,
+            "rx": 56,
+            "ry": 320
+          },
+          {
+            "x": 332,
+            "y": 170,
+            "rx": 115,
+            "ry": 55
+          },
+          {
+            "x": 332,
+            "y": 997,
+            "rx": 430,
+            "ry": 110
+          }
+        ]
+      },
+      "nonMetalZones": []
     },
     "thrall": {
       "generator": "built-in image_gen",
@@ -189,18 +319,2016 @@
       ],
       "thumbnail": {
         "output": "assets/portraits/wow-runtime/thrall-imagegen-v1-thumb.webp",
-        "sha256": "21390b03cc4e803e9162df760d28560012469e0374442541015d799b97f775af",
-        "bytes": 70902,
+        "sha256": "14abb052d200f64d35385d5c2824dec0cf014f9d664f2e056b14d57c3c53b7a3",
+        "bytes": 151660,
         "dimensions": [
-          400,
-          616
+          640,
+          986
         ]
       },
       "qc": "production/wow-imagegen/thrall-qc.json",
       "heightSmoothingLogicalPixels": 2,
       "layout": "warcraft-default",
-      "styleReference": "sylvanas-windrunner"
+      "styleReference": "sylvanas-windrunner",
+      "qcSha256": "9a1e48dbec7e419190b436c11238556d429217c15f0da41db21ef35376df4285",
+      "goldLineParams": {
+        "moonRing": false,
+        "skipZones": [
+          {
+            "x": 320,
+            "y": 243,
+            "rx": 64,
+            "ry": 80
+          },
+          {
+            "x": 75,
+            "y": 405,
+            "rx": 73,
+            "ry": 245
+          },
+          {
+            "x": 605,
+            "y": 654,
+            "rx": 85,
+            "ry": 225
+          },
+          {
+            "x": 332,
+            "y": 110,
+            "rx": 360,
+            "ry": 155
+          },
+          {
+            "x": 332,
+            "y": 998,
+            "rx": 430,
+            "ry": 102
+          }
+        ]
+      },
+      "nonMetalZones": []
+    },
+    "varian-wrynn": {
+      "generator": "built-in image_gen",
+      "recipe": "production/wow-imagegen-v1.json",
+      "cropBottom": 0,
+      "outputs": [
+        {
+          "source": "assets/portraits/wow-masters/varian-wrynn-imagegen-v1.png",
+          "sourceSha256": "8ca6f1b6f2f3607cbf15765ab16925064632821685ddf3bf78e850b58afbe43e",
+          "output": "assets/portraits/wow-runtime/varian-wrynn-imagegen-v1-full.webp",
+          "outputSha256": "7e77c34efd2d2a9b035761439192989de6019b79ecc92d37b4f68f46ac5b8769",
+          "dimensions": [
+            1024,
+            1536
+          ],
+          "bytes": 376470,
+          "encoding": {
+            "quality": 94,
+            "method": 6
+          }
+        },
+        {
+          "source": "assets/portraits/wow-masters/varian-wrynn-depth-v2.png",
+          "sourceSha256": "0c04ffb195763b00dcd96427751e7f755391eb1ebd458ee31774897c59191eb7",
+          "output": "assets/portraits/wow-runtime/varian-wrynn-imagegen-v1-aiheight.webp",
+          "outputSha256": "96246df5ca922052b6a48170456cae204bf931ead57ae38371f85ce5fb4d46a3",
+          "dimensions": [
+            1024,
+            1536
+          ],
+          "bytes": 297666,
+          "encoding": {
+            "lossless": true,
+            "method": 6
+          }
+        }
+      ],
+      "heightSmoothingLogicalPixels": 2,
+      "layout": "warcraft-default",
+      "styleReference": "sylvanas-windrunner",
+      "thumbnail": {
+        "output": "assets/portraits/wow-runtime/varian-wrynn-imagegen-v1-thumb.webp",
+        "sha256": "e061c4c10605f8f5b938e3efe9a17638dde3d6a6376082ae8a99fca430172641",
+        "bytes": 136010,
+        "dimensions": [
+          640,
+          986
+        ]
+      },
+      "qc": "production/wow-imagegen/varian-wrynn-qc.json",
+      "qcSha256": "d83ed9c370db32ac74567f3e32bff83b1f4b949ec34fcb0142b4a027670728ce",
+      "goldLineParams": {
+        "moonRing": false,
+        "skipZones": [
+          {
+            "x": 350,
+            "y": 303,
+            "rx": 76,
+            "ry": 93
+          },
+          {
+            "x": 60,
+            "y": 490,
+            "rx": 87,
+            "ry": 245
+          },
+          {
+            "x": 606,
+            "y": 502,
+            "rx": 91,
+            "ry": 235
+          },
+          {
+            "x": 30,
+            "y": 750,
+            "rx": 98,
+            "ry": 155
+          },
+          {
+            "x": 636,
+            "y": 780,
+            "rx": 95,
+            "ry": 145
+          },
+          {
+            "x": 332,
+            "y": 998,
+            "rx": 440,
+            "ry": 112
+          }
+        ]
+      },
+      "nonMetalZones": [
+        {
+          "x": 332,
+          "y": 150,
+          "rx": 440,
+          "ry": 160
+        },
+        {
+          "x": 146,
+          "y": 380,
+          "rx": 115,
+          "ry": 170
+        },
+        {
+          "x": 544,
+          "y": 366,
+          "rx": 100,
+          "ry": 170
+        }
+      ]
+    },
+    "anduin-wrynn": {
+      "generator": "built-in image_gen",
+      "recipe": "production/wow-imagegen-v1.json",
+      "cropBottom": 0,
+      "outputs": [
+        {
+          "source": "assets/portraits/wow-masters/anduin-wrynn-imagegen-v1.png",
+          "sourceSha256": "dd629bf64e4435e8449fd61ee5a6d340d099b2d3c9ea48690fa04aeee4d0297b",
+          "output": "assets/portraits/wow-runtime/anduin-wrynn-imagegen-v1-full.webp",
+          "outputSha256": "09e1140b1e56d997c578c2a7d892d8fbadf2885c6743c47f98217b16de491050",
+          "dimensions": [
+            1024,
+            1536
+          ],
+          "bytes": 360878,
+          "encoding": {
+            "quality": 94,
+            "method": 6
+          }
+        },
+        {
+          "source": "assets/portraits/wow-masters/anduin-wrynn-depth-v2.png",
+          "sourceSha256": "01f3aa92c272941c96b7ae8009c72719d60536ef953aa97f23d9c8a9f7085963",
+          "output": "assets/portraits/wow-runtime/anduin-wrynn-imagegen-v1-aiheight.webp",
+          "outputSha256": "2bcc623e4b6bd93abc365b538cf63f8fb23943a59854c72afe4c05f91d77f47b",
+          "dimensions": [
+            1024,
+            1536
+          ],
+          "bytes": 349772,
+          "encoding": {
+            "lossless": true,
+            "method": 6
+          }
+        }
+      ],
+      "heightSmoothingLogicalPixels": 2,
+      "layout": "warcraft-default",
+      "styleReference": "sylvanas-windrunner",
+      "thumbnail": {
+        "output": "assets/portraits/wow-runtime/anduin-wrynn-imagegen-v1-thumb.webp",
+        "sha256": "cb6b2867e3fb63e0dbe6f2f238ae31b39101eccf0305ab0b677825a9f038fac4",
+        "bytes": 137600,
+        "dimensions": [
+          640,
+          986
+        ]
+      },
+      "qc": "production/wow-imagegen/anduin-wrynn-qc.json",
+      "qcSha256": "c1b06c6a85d59771c7444fb2ab2ba42543a2b878ca83818140cb227dd4904d0e",
+      "goldLineParams": {
+        "moonRing": false,
+        "minComp": 900,
+        "skipZones": [
+          {
+            "x": 331,
+            "y": 344,
+            "rx": 63,
+            "ry": 69
+          },
+          {
+            "x": 332,
+            "y": 196,
+            "rx": 182,
+            "ry": 110
+          },
+          {
+            "x": 32,
+            "y": 456,
+            "rx": 75,
+            "ry": 345
+          },
+          {
+            "x": 631,
+            "y": 463,
+            "rx": 79,
+            "ry": 350
+          },
+          {
+            "x": 151,
+            "y": 575,
+            "rx": 57,
+            "ry": 154
+          },
+          {
+            "x": 541,
+            "y": 584,
+            "rx": 62,
+            "ry": 155
+          },
+          {
+            "x": 332,
+            "y": 998,
+            "rx": 440,
+            "ry": 114
+          }
+        ]
+      },
+      "nonMetalZones": [
+        {
+          "x": 332,
+          "y": 190,
+          "rx": 240,
+          "ry": 158
+        }
+      ]
+    },
+    "uther-lightbringer": {
+      "generator": "built-in image_gen",
+      "recipe": "production/wow-imagegen-v1.json",
+      "cropBottom": 0,
+      "outputs": [
+        {
+          "source": "assets/portraits/wow-masters/uther-lightbringer-imagegen-v1.png",
+          "sourceSha256": "3087dbce6df325a259c2ab6de475155735e56df45204b401beec7cf62277a0fe",
+          "output": "assets/portraits/wow-runtime/uther-lightbringer-imagegen-v1-full.webp",
+          "outputSha256": "babeda9214f8687f410792089b78689a33c1cda8ad6b08b15d15aaa7f1a6f394",
+          "dimensions": [
+            1024,
+            1536
+          ],
+          "bytes": 401960,
+          "encoding": {
+            "quality": 94,
+            "method": 6
+          }
+        },
+        {
+          "source": "assets/portraits/wow-masters/uther-lightbringer-depth-v2.png",
+          "sourceSha256": "df508cddaef906796cd2e3fdc30a87931f89b7bc609ccd10a55aab8b869ab199",
+          "output": "assets/portraits/wow-runtime/uther-lightbringer-imagegen-v1-aiheight.webp",
+          "outputSha256": "96eaba921bb2a1b5ba26ec0136eccafb79bb08dc81e291fea4a002748e40c6f2",
+          "dimensions": [
+            1024,
+            1536
+          ],
+          "bytes": 280876,
+          "encoding": {
+            "lossless": true,
+            "method": 6
+          }
+        }
+      ],
+      "heightSmoothingLogicalPixels": 2,
+      "layout": "warcraft-default",
+      "styleReference": "sylvanas-windrunner",
+      "thumbnail": {
+        "output": "assets/portraits/wow-runtime/uther-lightbringer-imagegen-v1-thumb.webp",
+        "sha256": "c8654173ff62e8b6ffa65627918fdb7b4cc7f7f86c3ba9ff38a8248e4bdb62e9",
+        "bytes": 142912,
+        "dimensions": [
+          640,
+          986
+        ]
+      },
+      "qc": "production/wow-imagegen/uther-lightbringer-qc.json",
+      "qcSha256": "9934bb8504c4c8f95237761bfc6ff85581dedb586c029c8a251d7c2f2cf6780c",
+      "goldLineParams": {
+        "moonRing": false,
+        "skipZones": [
+          {
+            "x": 331,
+            "y": 326,
+            "rx": 65,
+            "ry": 77
+          },
+          {
+            "x": 88,
+            "y": 548,
+            "rx": 102,
+            "ry": 178
+          },
+          {
+            "x": 602,
+            "y": 459,
+            "rx": 115,
+            "ry": 252
+          },
+          {
+            "x": 46,
+            "y": 799,
+            "rx": 118,
+            "ry": 137
+          },
+          {
+            "x": 618,
+            "y": 798,
+            "rx": 116,
+            "ry": 146
+          },
+          {
+            "x": 332,
+            "y": 998,
+            "rx": 440,
+            "ry": 110
+          }
+        ]
+      },
+      "nonMetalZones": [
+        {
+          "x": 332,
+          "y": 225,
+          "rx": 330,
+          "ry": 185
+        },
+        {
+          "x": 90,
+          "y": 650,
+          "rx": 110,
+          "ry": 170
+        },
+        {
+          "x": 600,
+          "y": 720,
+          "rx": 115,
+          "ry": 210
+        }
+      ]
+    },
+    "tyrande-whisperwind": {
+      "generator": "built-in image_gen",
+      "recipe": "production/wow-imagegen-v1.json",
+      "cropBottom": 0.12,
+      "outputs": [
+        {
+          "source": "assets/portraits/wow-masters/tyrande-whisperwind-imagegen-v1.png",
+          "sourceSha256": "cf87c3ed6210cd9805b60b15c3a94593bd292a0b346b1161cff329ffa2d7a395",
+          "output": "assets/portraits/wow-runtime/tyrande-whisperwind-imagegen-v1-full.webp",
+          "outputSha256": "b919f75ec8b451b29a68d789f710728150c88209c4c2b24e0f99f5dc32c19b54",
+          "dimensions": [
+            1024,
+            1536
+          ],
+          "bytes": 390204,
+          "encoding": {
+            "quality": 94,
+            "method": 6
+          }
+        },
+        {
+          "source": "assets/portraits/wow-masters/tyrande-whisperwind-depth-v2.png",
+          "sourceSha256": "da7e854fa36264d455e05ed4311e587d3ddab5be9ae02d4b2d483125a682faf3",
+          "output": "assets/portraits/wow-runtime/tyrande-whisperwind-imagegen-v1-aiheight.webp",
+          "outputSha256": "347002a0b3924d1c713204aa952357003c67fc3e8dc4681c3683423355bf8957",
+          "dimensions": [
+            1024,
+            1536
+          ],
+          "bytes": 385266,
+          "encoding": {
+            "lossless": true,
+            "method": 6
+          }
+        }
+      ],
+      "heightSmoothingLogicalPixels": 2,
+      "layout": "warcraft-default",
+      "styleReference": "sylvanas-windrunner",
+      "thumbnail": {
+        "output": "assets/portraits/wow-runtime/tyrande-whisperwind-imagegen-v1-thumb.webp",
+        "sha256": "755a217ad97dd60c158e099e95bbb4aab40687e06078d7024f5c522b21f985fe",
+        "bytes": 138166,
+        "dimensions": [
+          640,
+          986
+        ]
+      },
+      "qc": "production/wow-imagegen/tyrande-whisperwind-qc.json",
+      "qcSha256": "fc801f3e2f90953d22d388b48c2681e48bcf55306fc796ed4fa6c1e69c4a1dfa",
+      "goldLineParams": {
+        "moonRing": false,
+        "minComp": 900,
+        "skipZones": [
+          {
+            "x": 331,
+            "y": 291,
+            "rx": 85,
+            "ry": 91
+          },
+          {
+            "x": 40,
+            "y": 529,
+            "rx": 86,
+            "ry": 280
+          },
+          {
+            "x": 637,
+            "y": 531,
+            "rx": 88,
+            "ry": 285
+          },
+          {
+            "x": 96,
+            "y": 832,
+            "rx": 150,
+            "ry": 119
+          },
+          {
+            "x": 584,
+            "y": 842,
+            "rx": 155,
+            "ry": 126
+          },
+          {
+            "x": 332,
+            "y": 1000,
+            "rx": 440,
+            "ry": 120
+          }
+        ]
+      },
+      "nonMetalZones": []
+    },
+    "malfurion-stormrage": {
+      "generator": "built-in image_gen",
+      "recipe": "production/wow-imagegen-v1.json",
+      "cropBottom": 0,
+      "outputs": [
+        {
+          "source": "assets/portraits/wow-masters/malfurion-stormrage-imagegen-v1.png",
+          "sourceSha256": "e5d329a69591bb89d5c8c841515fd79c3538dbd088d83468fa8bbfd77740ffef",
+          "output": "assets/portraits/wow-runtime/malfurion-stormrage-imagegen-v1-full.webp",
+          "outputSha256": "182d67d611e50f7affee0590c769ed5c177a1668a6d93f0ae300d5405e2a1eb2",
+          "dimensions": [
+            1024,
+            1536
+          ],
+          "bytes": 370572,
+          "encoding": {
+            "quality": 94,
+            "method": 6
+          }
+        },
+        {
+          "source": "assets/portraits/wow-masters/malfurion-stormrage-depth-v2.png",
+          "sourceSha256": "324abc23e959b3f1e771657a752a896edb7044b5a45a6d8da591fa25f7e5f662",
+          "output": "assets/portraits/wow-runtime/malfurion-stormrage-imagegen-v1-aiheight.webp",
+          "outputSha256": "f6f68577aaccabc6069934a926da56e546bcd07180d6bdecf6303f68f9f1da49",
+          "dimensions": [
+            1024,
+            1536
+          ],
+          "bytes": 389592,
+          "encoding": {
+            "lossless": true,
+            "method": 6
+          }
+        }
+      ],
+      "heightSmoothingLogicalPixels": 2,
+      "layout": "warcraft-default",
+      "styleReference": "sylvanas-windrunner",
+      "thumbnail": {
+        "output": "assets/portraits/wow-runtime/malfurion-stormrage-imagegen-v1-thumb.webp",
+        "sha256": "eb861b5d39ea8c1b85850c7e6279f67d57fa43c24fd77c5032547fe736431917",
+        "bytes": 143524,
+        "dimensions": [
+          640,
+          986
+        ]
+      },
+      "qc": "production/wow-imagegen/malfurion-stormrage-qc.json",
+      "qcSha256": "e57d54ee5bdb9b8dec17fd46a6045010084c05c987651f3acd8de1e4e94eaf7c",
+      "goldLineParams": {
+        "moonRing": false,
+        "minComp": 900,
+        "skipZones": [
+          {
+            "x": 331,
+            "y": 379,
+            "rx": 90,
+            "ry": 86
+          },
+          {
+            "x": 38,
+            "y": 437,
+            "rx": 93,
+            "ry": 310
+          },
+          {
+            "x": 621,
+            "y": 464,
+            "rx": 105,
+            "ry": 342
+          },
+          {
+            "x": 128,
+            "y": 265,
+            "rx": 93,
+            "ry": 113
+          },
+          {
+            "x": 203,
+            "y": 390,
+            "rx": 61,
+            "ry": 52
+          },
+          {
+            "x": 107,
+            "y": 823,
+            "rx": 142,
+            "ry": 147
+          },
+          {
+            "x": 590,
+            "y": 830,
+            "rx": 115,
+            "ry": 144
+          },
+          {
+            "x": 332,
+            "y": 1000,
+            "rx": 440,
+            "ry": 110
+          }
+        ]
+      },
+      "nonMetalZones": []
+    },
+    "alleria-windrunner": {
+      "generator": "built-in image_gen",
+      "recipe": "production/wow-imagegen-v1.json",
+      "cropBottom": 0,
+      "outputs": [
+        {
+          "source": "assets/portraits/wow-masters/alleria-windrunner-imagegen-v1.png",
+          "sourceSha256": "881ac3f0e53fb3fb3fc8219df8675e3fc206078ac5714f0ede57dcb49a0d75ec",
+          "output": "assets/portraits/wow-runtime/alleria-windrunner-imagegen-v1-full.webp",
+          "outputSha256": "16c90b3acf96e3093dda25b98e6ac7f4cbf3e5976d9334e9a495249f00a8dc7f",
+          "dimensions": [
+            1024,
+            1536
+          ],
+          "bytes": 305392,
+          "encoding": {
+            "quality": 94,
+            "method": 6
+          }
+        },
+        {
+          "source": "assets/portraits/wow-masters/alleria-windrunner-depth-v2.png",
+          "sourceSha256": "73a0380eeb838b614fe64acb393e7c58b37134c710a5e57f892951824378bd89",
+          "output": "assets/portraits/wow-runtime/alleria-windrunner-imagegen-v1-aiheight.webp",
+          "outputSha256": "1b4bc16ea82165b0d147db9769e48e4a9d08ec5209ae4abc3a06f6001133c047",
+          "dimensions": [
+            1024,
+            1536
+          ],
+          "bytes": 287898,
+          "encoding": {
+            "lossless": true,
+            "method": 6
+          }
+        }
+      ],
+      "heightSmoothingLogicalPixels": 2,
+      "layout": "warcraft-default",
+      "styleReference": "sylvanas-windrunner",
+      "thumbnail": {
+        "output": "assets/portraits/wow-runtime/alleria-windrunner-imagegen-v1-thumb.webp",
+        "sha256": "39dffe60436bb48bf1906dd5d7fe0459f5c451d47241a093dce9db43ddf294da",
+        "bytes": 123266,
+        "dimensions": [
+          640,
+          986
+        ]
+      },
+      "qc": "production/wow-imagegen/alleria-windrunner-qc.json",
+      "qcSha256": "3633fbd94c9711ce991961740cc4a21fbbc2526e6687d35e6cf6ee3668746306",
+      "goldLineParams": {
+        "moonRing": false,
+        "minComp": 900,
+        "skipZones": [
+          {
+            "x": 332,
+            "y": 331,
+            "rx": 64,
+            "ry": 72
+          },
+          {
+            "x": 138,
+            "y": 423,
+            "rx": 78,
+            "ry": 161
+          },
+          {
+            "x": 552,
+            "y": 388,
+            "rx": 79,
+            "ry": 206
+          },
+          {
+            "x": 443,
+            "y": 465,
+            "rx": 54,
+            "ry": 85
+          },
+          {
+            "x": 32,
+            "y": 738,
+            "rx": 114,
+            "ry": 152
+          },
+          {
+            "x": 620,
+            "y": 766,
+            "rx": 121,
+            "ry": 162
+          },
+          {
+            "x": 332,
+            "y": 1000,
+            "rx": 440,
+            "ry": 116
+          }
+        ]
+      },
+      "nonMetalZones": []
+    },
+    "turalyon": {
+      "generator": "built-in image_gen",
+      "recipe": "production/wow-imagegen-v1.json",
+      "cropBottom": 0,
+      "outputs": [
+        {
+          "source": "assets/portraits/wow-masters/turalyon-imagegen-v1.png",
+          "sourceSha256": "22b6a9e628121d9db8c39b439c5af5f5937f84a3ca87fcb7630db32660e09513",
+          "output": "assets/portraits/wow-runtime/turalyon-imagegen-v1-full.webp",
+          "outputSha256": "02bcdd5ee112c3089ea4faceb8d1fb2b87194c184a55cc815a335b61fa830cdd",
+          "dimensions": [
+            1024,
+            1536
+          ],
+          "bytes": 389472,
+          "encoding": {
+            "quality": 94,
+            "method": 6
+          }
+        },
+        {
+          "source": "assets/portraits/wow-masters/turalyon-depth-v2.png",
+          "sourceSha256": "506ba543c331942905fad31b486ad0748dbe9eebe9e18046220750c33d754fdc",
+          "output": "assets/portraits/wow-runtime/turalyon-imagegen-v1-aiheight.webp",
+          "outputSha256": "16d5f750e9315a2ab454ad8a7cfcbea848944fa11388145fd8a889cd7edfeecd",
+          "dimensions": [
+            1024,
+            1536
+          ],
+          "bytes": 334318,
+          "encoding": {
+            "lossless": true,
+            "method": 6
+          }
+        }
+      ],
+      "heightSmoothingLogicalPixels": 2,
+      "layout": "warcraft-default",
+      "styleReference": "sylvanas-windrunner",
+      "thumbnail": {
+        "output": "assets/portraits/wow-runtime/turalyon-imagegen-v1-thumb.webp",
+        "sha256": "122550789b289de09ca3e5b4bb888490dac6ad59e0fe5df24c529c401b0371bb",
+        "bytes": 126528,
+        "dimensions": [
+          640,
+          986
+        ]
+      },
+      "qc": "production/wow-imagegen/turalyon-qc.json",
+      "qcSha256": "c47c0129aa4ecbe42a3ab63d7c990250ac7a951378146edd8e721b88399866a6",
+      "goldLineParams": {
+        "moonRing": false,
+        "minComp": 900,
+        "skipZones": [
+          {
+            "x": 301,
+            "y": 334,
+            "rx": 69,
+            "ry": 74
+          },
+          {
+            "x": 198,
+            "y": 255,
+            "rx": 132,
+            "ry": 175
+          },
+          {
+            "x": 537,
+            "y": 513,
+            "rx": 143,
+            "ry": 210
+          },
+          {
+            "x": 56,
+            "y": 676,
+            "rx": 118,
+            "ry": 246
+          },
+          {
+            "x": 626,
+            "y": 788,
+            "rx": 93,
+            "ry": 164
+          },
+          {
+            "x": 332,
+            "y": 1000,
+            "rx": 440,
+            "ry": 116
+          }
+        ]
+      },
+      "nonMetalZones": [
+        {
+          "x": 332,
+          "y": 145,
+          "rx": 440,
+          "ry": 178
+        },
+        {
+          "x": 110,
+          "y": 438,
+          "rx": 110,
+          "ry": 310
+        },
+        {
+          "x": 564,
+          "y": 492,
+          "rx": 150,
+          "ry": 285
+        },
+        {
+          "x": 332,
+          "y": 945,
+          "rx": 470,
+          "ry": 175
+        }
+      ]
+    },
+    "khadgar": {
+      "generator": "built-in image_gen",
+      "recipe": "production/wow-imagegen-v1.json",
+      "cropBottom": 0,
+      "outputs": [
+        {
+          "source": "assets/portraits/wow-masters/khadgar-imagegen-v1.png",
+          "sourceSha256": "3cdec8ec3fe361f9464f8dd72b4dcf0c1ccca3d1f3c752bb2dc1e29431f8fc26",
+          "output": "assets/portraits/wow-runtime/khadgar-imagegen-v1-full.webp",
+          "outputSha256": "4df4e53c5af1a92986b8f8b2ffe8e4d691561ce20f6f3b102850272d0a32f5f2",
+          "dimensions": [
+            1024,
+            1536
+          ],
+          "bytes": 337174,
+          "encoding": {
+            "quality": 94,
+            "method": 6
+          }
+        },
+        {
+          "source": "assets/portraits/wow-masters/khadgar-depth-v2.png",
+          "sourceSha256": "fea5fa48e7fa54edf3a909ec6717a5593b0b21bbc48c2f8600cb8e07552cadaf",
+          "output": "assets/portraits/wow-runtime/khadgar-imagegen-v1-aiheight.webp",
+          "outputSha256": "cfe1a7bb030b89b00a08eac5279d64c199007ebb9e1e692640aa526cc16e6d21",
+          "dimensions": [
+            1024,
+            1536
+          ],
+          "bytes": 317284,
+          "encoding": {
+            "lossless": true,
+            "method": 6
+          }
+        }
+      ],
+      "heightSmoothingLogicalPixels": 2,
+      "layout": "warcraft-default",
+      "styleReference": "sylvanas-windrunner",
+      "thumbnail": {
+        "output": "assets/portraits/wow-runtime/khadgar-imagegen-v1-thumb.webp",
+        "sha256": "e089e56a948b6ad5d06e2b12e0137c412045d4cda2e8fe223ed4e19c5692f650",
+        "bytes": 118916,
+        "dimensions": [
+          640,
+          986
+        ]
+      },
+      "qc": "production/wow-imagegen/khadgar-qc.json",
+      "qcSha256": "b97341b3be628f2b26165a0d815f4ea9b165a9fcf5317bc160f2c19acdef2a5f",
+      "goldLineParams": {
+        "moonRing": false,
+        "minComp": 900,
+        "skipZones": [
+          {
+            "x": 333,
+            "y": 304,
+            "rx": 63,
+            "ry": 77
+          },
+          {
+            "x": 99,
+            "y": 457,
+            "rx": 65,
+            "ry": 195
+          },
+          {
+            "x": 605,
+            "y": 425,
+            "rx": 79,
+            "ry": 241
+          },
+          {
+            "x": 30,
+            "y": 751,
+            "rx": 119,
+            "ry": 123
+          },
+          {
+            "x": 602,
+            "y": 748,
+            "rx": 103,
+            "ry": 145
+          },
+          {
+            "x": 332,
+            "y": 1000,
+            "rx": 440,
+            "ry": 118
+          }
+        ]
+      },
+      "nonMetalZones": []
+    },
+    "cairne-bloodhoof": {
+      "generator": "built-in image_gen",
+      "recipe": "production/wow-imagegen-v1.json",
+      "cropBottom": 0,
+      "outputs": [
+        {
+          "source": "assets/portraits/wow-masters/cairne-bloodhoof-imagegen-v1.png",
+          "sourceSha256": "7784c06eae230ac621feed29a93f43484f7dc0eb230d36675bca42f0cb7f3ca9",
+          "output": "assets/portraits/wow-runtime/cairne-bloodhoof-imagegen-v1-full.webp",
+          "outputSha256": "157042759d5a0a27ffc684b043e38535a64a51d34df0db92d86fbd5224266145",
+          "dimensions": [
+            1024,
+            1536
+          ],
+          "bytes": 422652,
+          "encoding": {
+            "quality": 94,
+            "method": 6
+          }
+        },
+        {
+          "source": "assets/portraits/wow-masters/cairne-bloodhoof-depth-v2.png",
+          "sourceSha256": "a67a7b323ee726a2275be679653694dc1d40e6387178f86672ba23875d52d7e1",
+          "output": "assets/portraits/wow-runtime/cairne-bloodhoof-imagegen-v1-aiheight.webp",
+          "outputSha256": "2a5743efa8975cdf4ef26abf918fcfbe967e3f878551ed0ec004cca9ef340a03",
+          "dimensions": [
+            1024,
+            1536
+          ],
+          "bytes": 342546,
+          "encoding": {
+            "lossless": true,
+            "method": 6
+          }
+        }
+      ],
+      "heightSmoothingLogicalPixels": 2,
+      "layout": "warcraft-default",
+      "styleReference": "sylvanas-windrunner",
+      "thumbnail": {
+        "output": "assets/portraits/wow-runtime/cairne-bloodhoof-imagegen-v1-thumb.webp",
+        "sha256": "8bb3030d9911ba7761c228adbec49f03f8a19055e5322ac7e752b0d46d2f00c3",
+        "bytes": 119698,
+        "dimensions": [
+          640,
+          986
+        ]
+      },
+      "qc": "production/wow-imagegen/cairne-bloodhoof-qc.json",
+      "qcSha256": "b00c05fb77d5acbe5c685454b88621cf39601eacb24df57f7b59f8835dc2ea5b",
+      "goldLineParams": {
+        "moonRing": false,
+        "minComp": 1200,
+        "skipZones": [
+          {
+            "x": 333,
+            "y": 410,
+            "rx": 96,
+            "ry": 92
+          },
+          {
+            "x": 89,
+            "y": 659,
+            "rx": 102,
+            "ry": 136
+          },
+          {
+            "x": 572,
+            "y": 661,
+            "rx": 77,
+            "ry": 142
+          },
+          {
+            "x": 40,
+            "y": 838,
+            "rx": 115,
+            "ry": 170
+          },
+          {
+            "x": 622,
+            "y": 845,
+            "rx": 101,
+            "ry": 157
+          },
+          {
+            "x": 332,
+            "y": 1000,
+            "rx": 440,
+            "ry": 108
+          }
+        ]
+      },
+      "nonMetalZones": [
+        {
+          "x": 332,
+          "y": 512,
+          "rx": 850,
+          "ry": 1200
+        }
+      ]
+    },
+    "baine-bloodhoof": {
+      "generator": "built-in image_gen",
+      "recipe": "production/wow-imagegen-v1.json",
+      "cropBottom": 0,
+      "outputs": [
+        {
+          "source": "assets/portraits/wow-masters/baine-bloodhoof-imagegen-v1.png",
+          "sourceSha256": "add0a90a350d038b238a4cf3b43d51612e6b0d6b3a018b94930347f25efe81a6",
+          "output": "assets/portraits/wow-runtime/baine-bloodhoof-imagegen-v1-full.webp",
+          "outputSha256": "c06d20bf294e2e1069907296c6d7bc442110dbeae41ddcd18392f2a1ee4e1390",
+          "dimensions": [
+            1024,
+            1536
+          ],
+          "bytes": 365604,
+          "encoding": {
+            "quality": 94,
+            "method": 6
+          }
+        },
+        {
+          "source": "assets/portraits/wow-masters/baine-bloodhoof-depth-v2.png",
+          "sourceSha256": "e01d5639849c42d90e25389d690de6fe8b63ae35c3ae40b250bb2f29eed63c6b",
+          "output": "assets/portraits/wow-runtime/baine-bloodhoof-imagegen-v1-aiheight.webp",
+          "outputSha256": "cea8d8a2ecef501bdda4636f3476083da77445fcd0eef4a392fefed5cfed4f69",
+          "dimensions": [
+            1024,
+            1536
+          ],
+          "bytes": 353182,
+          "encoding": {
+            "lossless": true,
+            "method": 6
+          }
+        }
+      ],
+      "heightSmoothingLogicalPixels": 2,
+      "layout": "warcraft-default",
+      "styleReference": "sylvanas-windrunner",
+      "thumbnail": {
+        "output": "assets/portraits/wow-runtime/baine-bloodhoof-imagegen-v1-thumb.webp",
+        "sha256": "683338a74ad4c70ebd1d7453cfd63c86a05893acfefa838900772bc1f2b24215",
+        "bytes": 121496,
+        "dimensions": [
+          640,
+          986
+        ]
+      },
+      "qc": "production/wow-imagegen/baine-bloodhoof-qc.json",
+      "qcSha256": "e84e14c250a751d2e5e0b24e864f24b1acf86c13f2b5a0abeceafe7f73778397",
+      "goldLineParams": {
+        "moonRing": false,
+        "minComp": 900,
+        "skipZones": [
+          {
+            "x": 333,
+            "y": 371,
+            "rx": 97,
+            "ry": 101
+          },
+          {
+            "x": 75,
+            "y": 505,
+            "rx": 93,
+            "ry": 153
+          },
+          {
+            "x": 577,
+            "y": 689,
+            "rx": 114,
+            "ry": 180
+          },
+          {
+            "x": 36,
+            "y": 819,
+            "rx": 112,
+            "ry": 131
+          },
+          {
+            "x": 622,
+            "y": 840,
+            "rx": 92,
+            "ry": 122
+          },
+          {
+            "x": 332,
+            "y": 1000,
+            "rx": 440,
+            "ry": 105
+          }
+        ]
+      },
+      "nonMetalZones": [
+        {
+          "x": 332,
+          "y": 200,
+          "rx": 520,
+          "ry": 290
+        },
+        {
+          "x": 341,
+          "y": 582,
+          "rx": 190,
+          "ry": 255
+        },
+        {
+          "x": 62,
+          "y": 636,
+          "rx": 140,
+          "ry": 270
+        },
+        {
+          "x": 610,
+          "y": 666,
+          "rx": 145,
+          "ry": 340
+        },
+        {
+          "x": 332,
+          "y": 971,
+          "rx": 460,
+          "ry": 133
+        }
+      ]
+    },
+    "voljin": {
+      "generator": "built-in image_gen",
+      "recipe": "production/wow-imagegen-v1.json",
+      "cropBottom": 0,
+      "outputs": [
+        {
+          "source": "assets/portraits/wow-masters/voljin-imagegen-v1.png",
+          "sourceSha256": "c3973cea395b36d854bf49ca3313027cdcf7d1960f9e13c86914f42b5b2bf8d4",
+          "output": "assets/portraits/wow-runtime/voljin-imagegen-v1-full.webp",
+          "outputSha256": "8ed2517af636a0f3343079a64a844343795cc5486d9d5040bd4eab96bec117cc",
+          "dimensions": [
+            1024,
+            1536
+          ],
+          "bytes": 286976,
+          "encoding": {
+            "quality": 94,
+            "method": 6
+          }
+        },
+        {
+          "source": "assets/portraits/wow-masters/voljin-depth-v2.png",
+          "sourceSha256": "0f4abd165caf812f470ecbd62f25cff774e939c8214ff35262386e73ad6d170a",
+          "output": "assets/portraits/wow-runtime/voljin-imagegen-v1-aiheight.webp",
+          "outputSha256": "dfd83d8c5ce1c6861b5959314c855f2c8eb81ff7704cd293d0d4c6f62d050555",
+          "dimensions": [
+            1024,
+            1536
+          ],
+          "bytes": 350996,
+          "encoding": {
+            "lossless": true,
+            "method": 6
+          }
+        }
+      ],
+      "heightSmoothingLogicalPixels": 2,
+      "layout": "warcraft-default",
+      "styleReference": "sylvanas-windrunner",
+      "thumbnail": {
+        "output": "assets/portraits/wow-runtime/voljin-imagegen-v1-thumb.webp",
+        "sha256": "e6b75842d0ac7b50bebe415d79c40d81b21cb2558047d2f381217800aa81cc23",
+        "bytes": 107684,
+        "dimensions": [
+          640,
+          986
+        ]
+      },
+      "qc": "production/wow-imagegen/voljin-qc.json",
+      "qcSha256": "692ba9cc4a3e9f223f3d8b3b99b28304fe178c420969961223b7ac03c1e051de",
+      "goldLineParams": {
+        "moonRing": false,
+        "minComp": 900,
+        "skipZones": [
+          {
+            "x": 312,
+            "y": 373,
+            "rx": 86,
+            "ry": 113
+          },
+          {
+            "x": 558,
+            "y": 480,
+            "rx": 107,
+            "ry": 190
+          },
+          {
+            "x": 592,
+            "y": 659,
+            "rx": 123,
+            "ry": 148
+          },
+          {
+            "x": 90,
+            "y": 695,
+            "rx": 126,
+            "ry": 99
+          },
+          {
+            "x": 638,
+            "y": 918,
+            "rx": 84,
+            "ry": 117
+          },
+          {
+            "x": 332,
+            "y": 1000,
+            "rx": 440,
+            "ry": 106
+          }
+        ]
+      },
+      "nonMetalZones": []
+    },
+    "rexxar": {
+      "generator": "built-in image_gen",
+      "recipe": "production/wow-imagegen-v1.json",
+      "cropBottom": 0,
+      "outputs": [
+        {
+          "source": "assets/portraits/wow-masters/rexxar-imagegen-v1.png",
+          "sourceSha256": "2ff76fcb7f57a0c1d3b7f405147de498ce85034408a87fcbf5c49a8730c73254",
+          "output": "assets/portraits/wow-runtime/rexxar-imagegen-v1-full.webp",
+          "outputSha256": "025fb97865233eee581443c416ec3de5932333db2de7af04e98c049f47e59010",
+          "dimensions": [
+            1024,
+            1536
+          ],
+          "bytes": 385968,
+          "encoding": {
+            "quality": 94,
+            "method": 6
+          }
+        },
+        {
+          "source": "assets/portraits/wow-masters/rexxar-depth-v2.png",
+          "sourceSha256": "92a554a8736ba392593454624786ffd5fd2d1077bdbfe6091775881a10fc9486",
+          "output": "assets/portraits/wow-runtime/rexxar-imagegen-v1-aiheight.webp",
+          "outputSha256": "4c809c0e1051ded8f9c7876e707473ec6038c5e86dd632f3473157926bb9219b",
+          "dimensions": [
+            1024,
+            1536
+          ],
+          "bytes": 346968,
+          "encoding": {
+            "lossless": true,
+            "method": 6
+          }
+        }
+      ],
+      "heightSmoothingLogicalPixels": 2,
+      "layout": "warcraft-default",
+      "styleReference": "sylvanas-windrunner",
+      "thumbnail": {
+        "output": "assets/portraits/wow-runtime/rexxar-imagegen-v1-thumb.webp",
+        "sha256": "e30b9de2efd386df795b8df144eeac7a29fa428abd9beb23e50b89e1e210700f",
+        "bytes": 117770,
+        "dimensions": [
+          640,
+          986
+        ]
+      },
+      "qc": "production/wow-imagegen/rexxar-qc.json",
+      "qcSha256": "ff5e51f16a57e874d48f8ff99369967d7634b6a2cfc3e659f896fc32d6192029",
+      "goldLineParams": {
+        "moonRing": false,
+        "minComp": 900,
+        "skipZones": [
+          {
+            "x": 323,
+            "y": 354,
+            "rx": 83,
+            "ry": 86
+          },
+          {
+            "x": 46,
+            "y": 412,
+            "rx": 92,
+            "ry": 278
+          },
+          {
+            "x": 620,
+            "y": 362,
+            "rx": 80,
+            "ry": 248
+          },
+          {
+            "x": 558,
+            "y": 644,
+            "rx": 98,
+            "ry": 119
+          },
+          {
+            "x": 41,
+            "y": 765,
+            "rx": 104,
+            "ry": 152
+          },
+          {
+            "x": 332,
+            "y": 1000,
+            "rx": 440,
+            "ry": 110
+          }
+        ]
+      },
+      "nonMetalZones": []
+    },
+    "grommash-hellscream": {
+      "generator": "built-in image_gen",
+      "recipe": "production/wow-imagegen-v1.json",
+      "cropBottom": 0,
+      "outputs": [
+        {
+          "source": "assets/portraits/wow-masters/grommash-hellscream-imagegen-v1.png",
+          "sourceSha256": "35cbf45c80bc2bb498755df824ddfa8aed5a013f2d20384de2987aacc2e26215",
+          "output": "assets/portraits/wow-runtime/grommash-hellscream-imagegen-v1-full.webp",
+          "outputSha256": "491a9d3ba4b3fa68d14bdb7a0acb8afc0d170d0c953e0f3cdffdfb7d5076c86d",
+          "dimensions": [
+            1024,
+            1536
+          ],
+          "bytes": 328716,
+          "encoding": {
+            "quality": 94,
+            "method": 6
+          }
+        },
+        {
+          "source": "assets/portraits/wow-masters/grommash-hellscream-depth-v2.png",
+          "sourceSha256": "e34f0093efac454b038577e2590427087f24147d22863fad9046002dc5cbe787",
+          "output": "assets/portraits/wow-runtime/grommash-hellscream-imagegen-v1-aiheight.webp",
+          "outputSha256": "cb694d18943d3cffebf76c18823ff4d5553839eefce38e21c1bdf5d002e7b769",
+          "dimensions": [
+            1024,
+            1536
+          ],
+          "bytes": 360678,
+          "encoding": {
+            "lossless": true,
+            "method": 6
+          }
+        }
+      ],
+      "heightSmoothingLogicalPixels": 2,
+      "layout": "warcraft-default",
+      "styleReference": "sylvanas-windrunner",
+      "thumbnail": {
+        "output": "assets/portraits/wow-runtime/grommash-hellscream-imagegen-v1-thumb.webp",
+        "sha256": "2b7bc7bbb1e07cce013a4059ce3f0eab99ba092a5e722b745d15840de5119820",
+        "bytes": 123028,
+        "dimensions": [
+          640,
+          986
+        ]
+      },
+      "qc": "production/wow-imagegen/grommash-hellscream-qc.json",
+      "qcSha256": "613cfcec1b9ee4aafe4b4ab83190cedbacc70326f26c1bda93bffaade8f1cd53",
+      "goldLineParams": {
+        "moonRing": false,
+        "minComp": 900,
+        "skipZones": [
+          {
+            "x": 321,
+            "y": 335,
+            "rx": 77,
+            "ry": 87
+          },
+          {
+            "x": 81,
+            "y": 487,
+            "rx": 94,
+            "ry": 271
+          },
+          {
+            "x": 621,
+            "y": 361,
+            "rx": 81,
+            "ry": 248
+          },
+          {
+            "x": 554,
+            "y": 778,
+            "rx": 112,
+            "ry": 137
+          },
+          {
+            "x": 55,
+            "y": 832,
+            "rx": 114,
+            "ry": 100
+          },
+          {
+            "x": 332,
+            "y": 1000,
+            "rx": 440,
+            "ry": 110
+          }
+        ]
+      },
+      "nonMetalZones": []
+    },
+    "garrosh-hellscream": {
+      "generator": "built-in image_gen",
+      "recipe": "production/wow-imagegen-v1.json",
+      "cropBottom": 0,
+      "outputs": [
+        {
+          "source": "assets/portraits/wow-masters/garrosh-hellscream-imagegen-v1.png",
+          "sourceSha256": "37d491aa85fbc902b51a6820750f1e51bdb8c2502fadad393f03b5e12ffa7356",
+          "output": "assets/portraits/wow-runtime/garrosh-hellscream-imagegen-v1-full.webp",
+          "outputSha256": "3e4b17f1fbc812cb98df0b6baa615d14944487b88aba168e04b63950b8d272af",
+          "dimensions": [
+            1024,
+            1536
+          ],
+          "bytes": 382092,
+          "encoding": {
+            "quality": 94,
+            "method": 6
+          }
+        },
+        {
+          "source": "assets/portraits/wow-masters/garrosh-hellscream-depth-v2.png",
+          "sourceSha256": "47bcbe141168283f24c8fa8c6d0ade3b918fffda023688d0d3acbc14807932cb",
+          "output": "assets/portraits/wow-runtime/garrosh-hellscream-imagegen-v1-aiheight.webp",
+          "outputSha256": "cb999d2214c01baee3f7d7abf0902041bffb46eeacb8ab06ea3286ea186cc74b",
+          "dimensions": [
+            1024,
+            1536
+          ],
+          "bytes": 338174,
+          "encoding": {
+            "lossless": true,
+            "method": 6
+          }
+        }
+      ],
+      "heightSmoothingLogicalPixels": 2,
+      "layout": "warcraft-default",
+      "styleReference": "sylvanas-windrunner",
+      "thumbnail": {
+        "output": "assets/portraits/wow-runtime/garrosh-hellscream-imagegen-v1-thumb.webp",
+        "sha256": "c1839dcd65e1c3da4e65618958adee4bf2766c83075918e9073f85927a4c9e55",
+        "bytes": 121418,
+        "dimensions": [
+          640,
+          986
+        ]
+      },
+      "qc": "production/wow-imagegen/garrosh-hellscream-qc.json",
+      "qcSha256": "5e72e77b7edbe93ff6747618b059ac15b3124aa90d411754e304c8736e5e6446",
+      "goldLineParams": {
+        "moonRing": false,
+        "minComp": 900,
+        "skipZones": [
+          {
+            "x": 322,
+            "y": 309,
+            "rx": 71,
+            "ry": 79
+          },
+          {
+            "x": 61,
+            "y": 377,
+            "rx": 113,
+            "ry": 315
+          },
+          {
+            "x": 593,
+            "y": 517,
+            "rx": 104,
+            "ry": 130
+          },
+          {
+            "x": 43,
+            "y": 791,
+            "rx": 119,
+            "ry": 172
+          },
+          {
+            "x": 633,
+            "y": 838,
+            "rx": 96,
+            "ry": 121
+          },
+          {
+            "x": 332,
+            "y": 1000,
+            "rx": 440,
+            "ry": 106
+          }
+        ]
+      },
+      "nonMetalZones": []
+    },
+    "medivh": {
+      "generator": "built-in image_gen",
+      "recipe": "production/wow-imagegen-v1.json",
+      "cropBottom": 0,
+      "outputs": [
+        {
+          "source": "assets/portraits/wow-masters/medivh-imagegen-v1.png",
+          "sourceSha256": "78a9183c564461e1256c49dcf59f111b6b757e3f50bf3839c89f5de3c2eb266a",
+          "output": "assets/portraits/wow-runtime/medivh-imagegen-v1-full.webp",
+          "outputSha256": "7567ea9367462fd2884918354c4bd60ab64d2743f1b611fe3ee79c957bf7f7a5",
+          "dimensions": [
+            1024,
+            1536
+          ],
+          "bytes": 310080,
+          "encoding": {
+            "quality": 94,
+            "method": 6
+          }
+        },
+        {
+          "source": "assets/portraits/wow-masters/medivh-depth-v2.png",
+          "sourceSha256": "4cf336f1ff52d2112e7cbd6b6f5c5ab0c389f8ee7d32983da62cc9548443ae77",
+          "output": "assets/portraits/wow-runtime/medivh-imagegen-v1-aiheight.webp",
+          "outputSha256": "2af6431f7a1f8f9738e0449001f388b4838b4d2d8528713e85eee09a310db17b",
+          "dimensions": [
+            1024,
+            1536
+          ],
+          "bytes": 337038,
+          "encoding": {
+            "lossless": true,
+            "method": 6
+          }
+        }
+      ],
+      "heightSmoothingLogicalPixels": 2,
+      "layout": "warcraft-default",
+      "styleReference": "sylvanas-windrunner",
+      "thumbnail": {
+        "output": "assets/portraits/wow-runtime/medivh-imagegen-v1-thumb.webp",
+        "sha256": "d5e624c94fc43fbb5382e934db102fd5ef9e7350f647964b6a73fe3d0b59fd67",
+        "bytes": 116608,
+        "dimensions": [
+          640,
+          986
+        ]
+      },
+      "qc": "production/wow-imagegen/medivh-qc.json",
+      "qcSha256": "4b4a314a9a4d9eb9e119f60d796547770f6448657c9f506037ded303932850c1",
+      "goldLineParams": {
+        "moonRing": false,
+        "minComp": 900,
+        "skipZones": [
+          {
+            "x": 330,
+            "y": 347,
+            "rx": 80,
+            "ry": 87
+          },
+          {
+            "x": 64,
+            "y": 454,
+            "rx": 77,
+            "ry": 186
+          },
+          {
+            "x": 578,
+            "y": 466,
+            "rx": 97,
+            "ry": 204
+          },
+          {
+            "x": 101,
+            "y": 655,
+            "rx": 110,
+            "ry": 121
+          },
+          {
+            "x": 600,
+            "y": 634,
+            "rx": 67,
+            "ry": 68
+          },
+          {
+            "x": 332,
+            "y": 1000,
+            "rx": 440,
+            "ry": 115
+          }
+        ]
+      },
+      "nonMetalZones": []
+    },
+    "guldan": {
+      "generator": "built-in image_gen",
+      "recipe": "production/wow-imagegen-v1.json",
+      "cropBottom": 0,
+      "outputs": [
+        {
+          "source": "assets/portraits/wow-masters/guldan-imagegen-v1.png",
+          "sourceSha256": "01faf7e138f2c3703f2987ddd5bdb875c0681e12afaf9ca5057a5c22d4b07d97",
+          "output": "assets/portraits/wow-runtime/guldan-imagegen-v1-full.webp",
+          "outputSha256": "e15db94b07786232161f4c87e25f45ddc539d0da8447496940e355881d14ed1a",
+          "dimensions": [
+            1024,
+            1536
+          ],
+          "bytes": 292548,
+          "encoding": {
+            "quality": 94,
+            "method": 6
+          }
+        },
+        {
+          "source": "assets/portraits/wow-masters/guldan-depth-v2.png",
+          "sourceSha256": "a77c20609b8d872699fa98a2285b11b55999557ef9a945273c57313a227e629a",
+          "output": "assets/portraits/wow-runtime/guldan-imagegen-v1-aiheight.webp",
+          "outputSha256": "c207693656100329cca3903e6647bde9fee223d6c5984e1e817fb34d61151c42",
+          "dimensions": [
+            1024,
+            1536
+          ],
+          "bytes": 375294,
+          "encoding": {
+            "lossless": true,
+            "method": 6
+          }
+        }
+      ],
+      "heightSmoothingLogicalPixels": 2,
+      "layout": "warcraft-default",
+      "styleReference": "sylvanas-windrunner",
+      "thumbnail": {
+        "output": "assets/portraits/wow-runtime/guldan-imagegen-v1-thumb.webp",
+        "sha256": "2fdb149022feb83907878211ec6bd200f7e36cc3ec8469b19b4d6a4929d4965d",
+        "bytes": 119912,
+        "dimensions": [
+          640,
+          986
+        ]
+      },
+      "qc": "production/wow-imagegen/guldan-qc.json",
+      "qcSha256": "03246ae41488fccb9a85dbbec92d2b48ee425ba976e817b06aa2a95de6df085e",
+      "goldLineParams": {
+        "moonRing": false,
+        "minComp": 900,
+        "skipZones": [
+          {
+            "x": 326,
+            "y": 409,
+            "rx": 82,
+            "ry": 101
+          },
+          {
+            "x": 63,
+            "y": 585,
+            "rx": 110,
+            "ry": 182
+          },
+          {
+            "x": 618,
+            "y": 556,
+            "rx": 111,
+            "ry": 230
+          },
+          {
+            "x": 30,
+            "y": 822,
+            "rx": 107,
+            "ry": 184
+          },
+          {
+            "x": 638,
+            "y": 842,
+            "rx": 110,
+            "ry": 157
+          },
+          {
+            "x": 332,
+            "y": 1000,
+            "rx": 440,
+            "ry": 105
+          }
+        ]
+      },
+      "nonMetalZones": []
+    },
+    "kaelthas-sunstrider": {
+      "generator": "built-in image_gen",
+      "recipe": "production/wow-imagegen-v1.json",
+      "cropBottom": 0,
+      "outputs": [
+        {
+          "source": "assets/portraits/wow-masters/kaelthas-sunstrider-imagegen-v1.png",
+          "sourceSha256": "1dc9e878f9b11f5158484c929f51bd2b2328486771ca5004eac1793e9aa5bbb0",
+          "output": "assets/portraits/wow-runtime/kaelthas-sunstrider-imagegen-v1-full.webp",
+          "outputSha256": "295c3d31ea5f55a7022cbfae75879386f7b548f807ae3e0128cff728108394d0",
+          "dimensions": [
+            1024,
+            1536
+          ],
+          "bytes": 430534,
+          "encoding": {
+            "quality": 94,
+            "method": 6
+          }
+        },
+        {
+          "source": "assets/portraits/wow-masters/kaelthas-sunstrider-depth-v2.png",
+          "sourceSha256": "a7ef9118f7350334a080e6ffb558036f6de3940bd52ab6f764d43d1fa040deda",
+          "output": "assets/portraits/wow-runtime/kaelthas-sunstrider-imagegen-v1-aiheight.webp",
+          "outputSha256": "83b82b0195cb7cb1275b7fff282c8c531eeb6779d3dd398c86b93facb563c8d4",
+          "dimensions": [
+            1024,
+            1536
+          ],
+          "bytes": 339052,
+          "encoding": {
+            "lossless": true,
+            "method": 6
+          }
+        }
+      ],
+      "heightSmoothingLogicalPixels": 2,
+      "layout": "warcraft-default",
+      "styleReference": "sylvanas-windrunner",
+      "thumbnail": {
+        "output": "assets/portraits/wow-runtime/kaelthas-sunstrider-imagegen-v1-thumb.webp",
+        "sha256": "fe693257e5824c660104a6ac84593e5b01b88e577af7a5d7f655fc4f0346e641",
+        "bytes": 136166,
+        "dimensions": [
+          640,
+          986
+        ]
+      },
+      "qc": "production/wow-imagegen/kaelthas-sunstrider-qc.json",
+      "qcSha256": "28c3317e89bf17aeec121e009bb2061a1acace569a6ac3b98172204a46c3cdf2",
+      "goldLineParams": {
+        "moonRing": false,
+        "minComp": 900,
+        "skipZones": [
+          {
+            "x": 345,
+            "y": 284,
+            "rx": 76,
+            "ry": 87
+          },
+          {
+            "x": 250,
+            "y": 234,
+            "rx": 28,
+            "ry": 27
+          },
+          {
+            "x": 464,
+            "y": 296,
+            "rx": 28,
+            "ry": 28
+          },
+          {
+            "x": 179,
+            "y": 368,
+            "rx": 25,
+            "ry": 26
+          },
+          {
+            "x": 142,
+            "y": 384,
+            "rx": 64,
+            "ry": 74
+          },
+          {
+            "x": 57,
+            "y": 588,
+            "rx": 103,
+            "ry": 241
+          },
+          {
+            "x": 609,
+            "y": 574,
+            "rx": 84,
+            "ry": 287
+          },
+          {
+            "x": 332,
+            "y": 1000,
+            "rx": 440,
+            "ry": 103
+          }
+        ]
+      },
+      "nonMetalZones": [
+        {
+          "x": 332,
+          "y": 120,
+          "rx": 440,
+          "ry": 225
+        },
+        {
+          "x": 55,
+          "y": 535,
+          "rx": 125,
+          "ry": 330
+        },
+        {
+          "x": 600,
+          "y": 540,
+          "rx": 145,
+          "ry": 350
+        },
+        {
+          "x": 332,
+          "y": 1024,
+          "rx": 450,
+          "ry": 120
+        }
+      ]
+    },
+    "kelthuzad": {
+      "generator": "built-in image_gen",
+      "recipe": "production/wow-imagegen-v1.json",
+      "cropBottom": 0,
+      "outputs": [
+        {
+          "source": "assets/portraits/wow-masters/kelthuzad-imagegen-v1.png",
+          "sourceSha256": "3ef54e68870cde1999a042dd0c99d17a90e7734d67fd9ac77ec8d9a67453eaff",
+          "output": "assets/portraits/wow-runtime/kelthuzad-imagegen-v1-full.webp",
+          "outputSha256": "93b3bbb781422644817d02fe49dd07df27b7f955fae03578669369c686dce400",
+          "dimensions": [
+            1024,
+            1536
+          ],
+          "bytes": 406806,
+          "encoding": {
+            "quality": 94,
+            "method": 6
+          }
+        },
+        {
+          "source": "assets/portraits/wow-masters/kelthuzad-depth-v2.png",
+          "sourceSha256": "4f504b6307d776e2650190798cc317347bd77a01d7ea837f93cb3c6ce4402ebe",
+          "output": "assets/portraits/wow-runtime/kelthuzad-imagegen-v1-aiheight.webp",
+          "outputSha256": "a5c8c3b251c7e433b9b890fe36c10dc42abaceb9aadf98cb274327a56b6cc4c1",
+          "dimensions": [
+            1024,
+            1536
+          ],
+          "bytes": 355724,
+          "encoding": {
+            "lossless": true,
+            "method": 6
+          }
+        }
+      ],
+      "heightSmoothingLogicalPixels": 2,
+      "layout": "warcraft-default",
+      "styleReference": "sylvanas-windrunner",
+      "thumbnail": {
+        "output": "assets/portraits/wow-runtime/kelthuzad-imagegen-v1-thumb.webp",
+        "sha256": "f0c8da69b76c49c2971bb3b5a34faf721268238b60288cb5b024a8f44ced4e9a",
+        "bytes": 136214,
+        "dimensions": [
+          640,
+          986
+        ]
+      },
+      "qc": "production/wow-imagegen/kelthuzad-qc.json",
+      "qcSha256": "bb41261a317472cb9b8b71df924264810eb0bbe0390fd994eb86d328282644cd",
+      "goldLineParams": {
+        "moonRing": false,
+        "minComp": 900,
+        "skipZones": [
+          {
+            "x": 326,
+            "y": 310,
+            "rx": 64,
+            "ry": 97
+          },
+          {
+            "x": 75,
+            "y": 487,
+            "rx": 96,
+            "ry": 342
+          },
+          {
+            "x": 628,
+            "y": 541,
+            "rx": 82,
+            "ry": 329
+          },
+          {
+            "x": 82,
+            "y": 823,
+            "rx": 143,
+            "ry": 119
+          },
+          {
+            "x": 571,
+            "y": 829,
+            "rx": 134,
+            "ry": 123
+          },
+          {
+            "x": 332,
+            "y": 1000,
+            "rx": 440,
+            "ry": 118
+          }
+        ]
+      },
+      "nonMetalZones": []
+    },
+    "maiev-shadowsong": {
+      "generator": "built-in image_gen",
+      "recipe": "production/wow-imagegen-v1.json",
+      "cropBottom": 0.16,
+      "outputs": [
+        {
+          "source": "assets/portraits/wow-masters/maiev-shadowsong-imagegen-v1.png",
+          "sourceSha256": "fb5c514e89d6ba347b7cb0128d895fc9218a1d1367ed686a4aee78a6d4fb0840",
+          "output": "assets/portraits/wow-runtime/maiev-shadowsong-imagegen-v1-full.webp",
+          "outputSha256": "c6a7f78274e0097898048db1fa57e158b6e0bf330e20ee83b4df9995a82d4010",
+          "dimensions": [
+            1024,
+            1536
+          ],
+          "bytes": 356104,
+          "encoding": {
+            "quality": 94,
+            "method": 6
+          }
+        },
+        {
+          "source": "assets/portraits/wow-masters/maiev-shadowsong-depth-v2.png",
+          "sourceSha256": "ee8b82084cd77441431ae1f7580de29ab028dbb85236650d6388ae702e7acc84",
+          "output": "assets/portraits/wow-runtime/maiev-shadowsong-imagegen-v1-aiheight.webp",
+          "outputSha256": "176db099c983ab5e00dac8566a6159369c0e5fe301a7b03f4c203fd1ada4267a",
+          "dimensions": [
+            1024,
+            1536
+          ],
+          "bytes": 346818,
+          "encoding": {
+            "lossless": true,
+            "method": 6
+          }
+        }
+      ],
+      "heightSmoothingLogicalPixels": 2,
+      "layout": "warcraft-default",
+      "styleReference": "sylvanas-windrunner",
+      "thumbnail": {
+        "output": "assets/portraits/wow-runtime/maiev-shadowsong-imagegen-v1-thumb.webp",
+        "sha256": "5d4e6787c1b4c3e56799bfd1bd70900b91f7b6bdd28555b19001b0073a57ce8f",
+        "bytes": 119294,
+        "dimensions": [
+          640,
+          986
+        ]
+      },
+      "qc": "production/wow-imagegen/maiev-shadowsong-qc.json",
+      "qcSha256": "7c575d0c615522c243144f52cfcab969ae99e3a174b8f1f81f262fc618f858b2",
+      "goldLineParams": {
+        "moonRing": false,
+        "minComp": 900,
+        "skipZones": [
+          {
+            "x": 328,
+            "y": 339,
+            "rx": 78,
+            "ry": 119
+          },
+          {
+            "x": 15,
+            "y": 522,
+            "rx": 105,
+            "ry": 365
+          },
+          {
+            "x": 661,
+            "y": 498,
+            "rx": 83,
+            "ry": 333
+          },
+          {
+            "x": 579,
+            "y": 596,
+            "rx": 58,
+            "ry": 161
+          },
+          {
+            "x": 628,
+            "y": 937,
+            "rx": 138,
+            "ry": 139
+          },
+          {
+            "x": 332,
+            "y": 1010,
+            "rx": 440,
+            "ry": 98
+          }
+        ]
+      },
+      "nonMetalZones": []
     }
   },
-  "cardArtSha256": "15ca6ee0b692153036fb59c517001f73e34e6edd1e8ba90a271ef5f5384ec4f9"
+  "cardArtSha256": "0f041514fd5537d662c04f51f64aafbabff12aa9aa7f055571d7d075467f9e4d",
+  "heroDataSha256": "8505b58ee0b8c8041460857f1cc09e880f16fb95cb0945a995441fac5912a250",
+  "qcScriptSha256": "42c52fd7de6792debaeeea5a17b692656e767d60043e04e76b8303b840dbcb14",
+  "coverage": {
+    "totalHeroes": 24,
+    "fullArtHeroes": 24,
+    "imagegenHeroes": 23,
+    "baseline": "sylvanas-windrunner"
+  }
 }

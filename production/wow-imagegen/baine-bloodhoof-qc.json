@@ -1,0 +1,42 @@
+{
+  "id": "baine-bloodhoof",
+  "nativeDimensions": [
+    1024,
+    1536
+  ],
+  "textureDimensions": [
+    1329,
+    2048
+  ],
+  "layout": "warcraft-default",
+  "styleReference": "sylvanas-windrunner",
+  "cropBottom": 0,
+  "renderMs": 704,
+  "goldLines": {
+    "seeds": 28086,
+    "comps": 10,
+    "moon": null,
+    "ms": 324
+  },
+  "legacy": {
+    "heightGradientP50": 2,
+    "heightGradientP99": 458,
+    "roughMidPercent": 30.07,
+    "normalActiveMean": 48.62,
+    "normalP99": 111,
+    "roughPass": false,
+    "normalPass": false
+  },
+  "optimized": {
+    "heightGradientP50": 0,
+    "heightGradientP99": 464.75,
+    "roughMidPercent": 55.79,
+    "normalActiveMean": 37.39,
+    "normalP99": 91,
+    "roughPass": true,
+    "normalPass": true
+  },
+  "lightPixelDelta": 21.507,
+  "thumbBytes": 121514,
+  "noUpscalingAtEncoding": true
+}

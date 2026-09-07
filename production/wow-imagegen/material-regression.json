@@ -1,0 +1,21 @@
+{
+  "id": "varian-wrynn",
+  "changedPixels": {
+    "diffuse": 0,
+    "height": 0,
+    "normal": 0,
+    "rough": 609953
+  },
+  "sky": {
+    "before": 42,
+    "after": 145
+  },
+  "armor": {
+    "before": 215,
+    "after": 215
+  },
+  "frame": {
+    "before": 24,
+    "after": 24
+  }
+}

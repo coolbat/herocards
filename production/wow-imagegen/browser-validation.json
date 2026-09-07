@@ -15,13 +15,221 @@
   "reducedMotion": true,
   "escapeClose": true,
   "factionFilter": true,
-  "allFiveFullArtDetails": true,
+  "allFullArtDetails": [
+    {
+      "id": "jaina-proudmoore",
+      "sum": 3815421194,
+      "width": 980,
+      "height": 1512,
+      "error": 0
+    },
+    {
+      "id": "varian-wrynn",
+      "sum": 3488316441,
+      "width": 980,
+      "height": 1512,
+      "error": 0
+    },
+    {
+      "id": "anduin-wrynn",
+      "sum": 3016140064,
+      "width": 980,
+      "height": 1512,
+      "error": 0
+    },
+    {
+      "id": "uther-lightbringer",
+      "sum": 184365994,
+      "width": 980,
+      "height": 1512,
+      "error": 0
+    },
+    {
+      "id": "tyrande-whisperwind",
+      "sum": 3273753166,
+      "width": 980,
+      "height": 1512,
+      "error": 0
+    },
+    {
+      "id": "malfurion-stormrage",
+      "sum": 1013519163,
+      "width": 980,
+      "height": 1512,
+      "error": 0
+    },
+    {
+      "id": "alleria-windrunner",
+      "sum": 2898473510,
+      "width": 980,
+      "height": 1512,
+      "error": 0
+    },
+    {
+      "id": "turalyon",
+      "sum": 275072940,
+      "width": 980,
+      "height": 1512,
+      "error": 0
+    },
+    {
+      "id": "khadgar",
+      "sum": 395621809,
+      "width": 980,
+      "height": 1512,
+      "error": 0
+    },
+    {
+      "id": "thrall",
+      "sum": 1663343562,
+      "width": 980,
+      "height": 1512,
+      "error": 0
+    },
+    {
+      "id": "sylvanas-windrunner",
+      "sum": 1965265035,
+      "width": 980,
+      "height": 1512,
+      "error": 0
+    },
+    {
+      "id": "cairne-bloodhoof",
+      "sum": 347915696,
+      "width": 980,
+      "height": 1512,
+      "error": 0
+    },
+    {
+      "id": "baine-bloodhoof",
+      "sum": 839038334,
+      "width": 980,
+      "height": 1512,
+      "error": 0
+    },
+    {
+      "id": "voljin",
+      "sum": 3823205971,
+      "width": 980,
+      "height": 1512,
+      "error": 0
+    },
+    {
+      "id": "rexxar",
+      "sum": 928580725,
+      "width": 980,
+      "height": 1512,
+      "error": 0
+    },
+    {
+      "id": "grommash-hellscream",
+      "sum": 1485091307,
+      "width": 980,
+      "height": 1512,
+      "error": 0
+    },
+    {
+      "id": "garrosh-hellscream",
+      "sum": 3413771012,
+      "width": 980,
+      "height": 1512,
+      "error": 0
+    },
+    {
+      "id": "illidan-stormrage",
+      "sum": 1928204535,
+      "width": 980,
+      "height": 1512,
+      "error": 0
+    },
+    {
+      "id": "arthas-menethil",
+      "sum": 1482946148,
+      "width": 980,
+      "height": 1512,
+      "error": 0
+    },
+    {
+      "id": "medivh",
+      "sum": 2073618531,
+      "width": 980,
+      "height": 1512,
+      "error": 0
+    },
+    {
+      "id": "guldan",
+      "sum": 2301458957,
+      "width": 980,
+      "height": 1512,
+      "error": 0
+    },
+    {
+      "id": "kaelthas-sunstrider",
+      "sum": 2035309405,
+      "width": 980,
+      "height": 1512,
+      "error": 0
+    },
+    {
+      "id": "kelthuzad",
+      "sum": 1093283761,
+      "width": 980,
+      "height": 1512,
+      "error": 0
+    },
+    {
+      "id": "maiev-shadowsong",
+      "sum": 943411278,
+      "width": 980,
+      "height": 1512,
+      "error": 0
+    }
+  ],
+  "galleryCards": 24,
   "mobile390Dpr3": {
     "sum": 3419490809,
     "width": 858,
     "height": 1323,
-    "error": 0
+    "error": 0,
+    "details": [
+      {
+        "id": "varian-wrynn",
+        "sum": 2831119090,
+        "width": 858,
+        "height": 1323,
+        "error": 0
+      },
+      {
+        "id": "tyrande-whisperwind",
+        "sum": 1511967145,
+        "width": 858,
+        "height": 1323,
+        "error": 0
+      },
+      {
+        "id": "cairne-bloodhoof",
+        "sum": 3374350896,
+        "width": 858,
+        "height": 1323,
+        "error": 0
+      },
+      {
+        "id": "kaelthas-sunstrider",
+        "sum": 1395831618,
+        "width": 858,
+        "height": 1323,
+        "error": 0
+      },
+      {
+        "id": "maiev-shadowsong",
+        "sum": 4105449233,
+        "width": 858,
+        "height": 1323,
+        "error": 0
+      }
+    ]
   },
   "webglUnavailableFallback": true,
-  "pageErrors": []
+  "pageErrors": [],
+  "failedResponses": []
 }

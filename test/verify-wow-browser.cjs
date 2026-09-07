@@ -2,8 +2,13 @@
 async (page) => {
   const base = await page.evaluate(() => location.origin);
   const errors = [];
+  const failedResponses = [];
   const onError = error => errors.push(String(error));
+  const onResponse = response => {
+    if (response.url().startsWith(base) && response.status() >= 400) failedResponses.push({url:response.url(),status:response.status()});
+  };
   page.on('pageerror', onError);
+  page.on('response', onResponse);
   const ensure = (value, message) => { if (!value) throw new Error(message); };
   const ready = async p => p.waitForFunction(() => {
     const c=document.getElementById('cardLighting'); return c && !c.hidden;
@@ -57,21 +62,41 @@ async (page) => {
   await page.getByRole('button',{name:'部落',exact:true}).click();
   ensure(await page.locator('#wowCount').textContent()==='8 位英雄','Horde filter failed');
   await page.getByRole('button',{name:'全部',exact:true}).click();
-  for(const name of ['萨尔 · 世界萨满','阿尔萨斯·米奈希尔 · 巫妖王','伊利丹·怒风 · 背叛者','希尔瓦娜斯·风行者 · 女妖之王']){
+  const heroes=await page.evaluate(()=>WOW_HEROES.map(h=>({id:h.id,name:h.name.zh+' · '+h.title.zh})));
+  ensure(heroes.length===24,'Warcraft roster is incomplete');
+  const desktopDetails=[];
+  for(const {id,name} of heroes){
     await page.getByRole('button',{name,exact:true}).click();await ready(page);
-    ensure((await checksum(page)).error===0,name+' failed rendering');
+    const metrics=await checksum(page);
+    ensure(metrics.error===0 && metrics.sum!==0,name+' failed rendering');
+    desktopDetails.push({id,...metrics});
     await page.keyboard.press('Escape');
   }
+  for (const cell of await page.locator('#wowGrid .cell').all()) await cell.scrollIntoViewIfNeeded();
+  await page.waitForFunction(()=>document.querySelectorAll('#wowGrid .is-pending').length===0);
+  ensure(await page.locator('#wowGrid canvas').count()===24,'Missing gallery cards');
+  await page.evaluate(()=>{document.activeElement.blur();window.scrollTo(0,0);});
+  await page.screenshot({path:'output/playwright/wow-all-24.png',fullPage:true});
   const mobileContext=await page.context().browser().newContext({viewport:{width:390,height:844},deviceScaleFactor:3});
   let mobileMetrics;
   try {
-  const mobile=await mobileContext.newPage();mobile.on('pageerror',onError);
+  const mobile=await mobileContext.newPage();mobile.on('pageerror',onError);mobile.on('response',onResponse);
   await mobile.goto(base+'/wow.html#hero=illidan-stormrage');await ready(mobile);
   mobileMetrics=await checksum(mobile);
   ensure(await mobile.evaluate(()=>document.documentElement.scrollWidth<=390),'Mobile horizontal overflow');
   const expectedWidth=await mobile.locator('#cardLighting').evaluate(el=>Math.round(el.clientWidth*Math.min(Math.max(devicePixelRatio,2),2.5)));
   ensure(mobileMetrics.width===expectedWidth && mobileMetrics.error===0,'High-DPR buffer does not match display size');
   await mobile.screenshot({path:'output/playwright/wow-mobile-390-dpr3.png'});
+  mobileMetrics.details=[];
+  for (const id of ['varian-wrynn','tyrande-whisperwind','cairne-bloodhoof','kaelthas-sunstrider','maiev-shadowsong']) {
+    await mobile.keyboard.press('Escape');
+    await mobile.getByRole('button',{name:heroes.find(hero=>hero.id===id).name,exact:true}).click();await ready(mobile);
+    const metrics=await checksum(mobile);
+    ensure(metrics.error===0 && metrics.sum!==0,'Mobile detail failed: '+id);
+    ensure(await mobile.evaluate(()=>document.documentElement.scrollWidth<=390),'Mobile overflow: '+id);
+    mobileMetrics.details.push({id,...metrics});
+  }
+  await mobile.screenshot({path:'output/playwright/wow-mobile-maiev-390-dpr3.png'});
   } finally { await mobileContext.close(); }
 
   const fallbackContext=await page.context().browser().newContext();
@@ -80,8 +105,8 @@ async (page) => {
     const original=HTMLCanvasElement.prototype.getContext;
     HTMLCanvasElement.prototype.getContext=function(type,...args){return type==='webgl2'?null:original.call(this,type,...args);};
   });
-  const fallback=await fallbackContext.newPage();fallback.on('pageerror',onError);
-  await fallback.goto(base+'/wow.html#hero=jaina-proudmoore');
+  const fallback=await fallbackContext.newPage();fallback.on('pageerror',onError);fallback.on('response',onResponse);
+  await fallback.goto(base+'/wow.html#hero=kaelthas-sunstrider');
   await fallback.waitForFunction(()=>{
     const c=document.getElementById('cardCanvas');
     return !document.getElementById('view').hidden && c.getContext('2d').getImageData(500,500,1,1).data[3]>0;
@@ -110,10 +135,12 @@ async (page) => {
     ensure(await heritage.locator('#view').evaluate(el=>el.hidden) && await heritage.evaluate(()=>!location.hash),'Heritage return did not restore the wall');
   } finally { await heritageContext.close(); }
   page.off('pageerror',onError);
+  page.off('response',onResponse);
   ensure(errors.length===0,'Page errors: '+errors.join('; '));
+  ensure(failedResponses.length===0,'HTTP errors: '+JSON.stringify(failedResponses));
   const report={fullPageDetail:true,heritageGalleryAndMap:true,pointerLight:true,desktopSupersampling:before,stableBufferOnTilt:true,diffuseDetailSampling:true,contextLossSupported,contextRestored:contextLossSupported,
-    reducedMotion:true,escapeClose:true,factionFilter:true,allFiveFullArtDetails:true,
-    mobile390Dpr3:mobileMetrics,webglUnavailableFallback:true,pageErrors:errors};
+    reducedMotion:true,escapeClose:true,factionFilter:true,allFullArtDetails:desktopDetails,galleryCards:24,
+    mobile390Dpr3:mobileMetrics,webglUnavailableFallback:true,pageErrors:errors,failedResponses};
   // Export through the browser so the CLI runner needs no filesystem capability.
   const pending=page.waitForEvent('download');
   await page.evaluate(report=>{

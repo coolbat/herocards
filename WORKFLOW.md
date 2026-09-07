@@ -300,7 +300,7 @@ dreamina image2image --model_version=4.7 --ratio=2:3 --resolution_type=2k \
 - `fullArtHeightSmoothing: 2`：AI 深度融合前做 2 逻辑像素半径的三轮盒式平滑，抑制硬轮廓法线跳变。
 - 装饰布局统一沿用希尔瓦娜斯 v7 默认：顶部铭牌／称号、中下部绶带、三枚属性圆章、底部双徽章。用户在网页预览后指定以希尔瓦娜斯实施；此前 compact 试验已撤回，不再设置 `fullArtLayout`，后续英雄也沿用同一模板。
 - `goldLineParams`：独立脸部/场景禁区；本批不用程序拟合月环；阿尔萨斯 `minComp: 900`，其余沿用 450。
-- `fullArtThumb`：由已验收成卡导出的 400×616 WebP，卡墙无需现场构建四张大贴图。
+- `fullArtThumb`：由已验收成卡导出的 640×986 WebP（对齐卡墙 Retina 渲染上限 640 宽；旧 400×616 在 DPR≥2 屏上放大发虚，2026-09-07 重新烘焙），卡墙无需现场构建四张大贴图。
 
 原画和深度母版在 `assets/portraits/wow-masters/`。运行图由
 `python3 production/build-wow-runtime.py [hero-id ...]` 从母版一次编码：
@@ -327,3 +327,19 @@ WebGL 不可用时的 2D 降级和 reduced-motion。此模块未接入国风主�
 详情最少 2 倍／最多 2.5 倍采样、未倾斜布局尺寸作为缓冲依据、卡墙按屏幕 DPR 绘制。
 原画无水印的裁剪和逐卡金线禁区继续按具体画面配置，装饰层直接复用希尔瓦娜斯默认路径。
 版式变更后必须重新导出四卡缩略图、刷新清单中的缩略图与渲染器哈希，并在网页检查五卡并排效果。
+
+### 2026-09-08：剩余 19 位全幅量产完成
+
+名册现为 **24/24 全幅卡**：希尔瓦娜斯基准 + 23 套 ImageGen 原画/语义深度。
+本轮 19 套均为原生 1024×1536；23 张 ImageGen 成卡缩略图统一 640×986。
+全部沿用希尔瓦娜斯默认装饰模板，逐卡禁区见 `js/heroes-data-wow.js`。
+新增 `fullArtNonMetalZones` 仅排除暖天空、皮毛、木石等非金属区域，改变底图粗糙度，
+不改变原画、深度、法线或后续装饰金脊。泰兰德/玛维裁底分别为 0.12/0.16，其余新卡为 0。
+
+烘焙脚本现在默认处理全部 23 张，入口 URL 的 `?ids=id1,id2` 可限定批次；
+烘焙后执行 `python3 production/finalize-wow-manifest.py` 核对尺寸/哈希/主材质 QC 并记录最终资产。
+新增 `test/verify-wow-materials.cjs` 检查非金属区域只影响粗糙度；
+`test/verify-wow-browser.cjs` 扩展至全 24 张详情与多张新卡手机回归。
+主材质门槛通过，高度梯度参考偏差仍如实保留，不能宣称全部历史指标达标。
+完整名单、逐卡数值、原生分辨率限制及复现步骤见
+[`docs/wow-remaining-heroes-2026-09-08.md`](docs/wow-remaining-heroes-2026-09-08.md)。

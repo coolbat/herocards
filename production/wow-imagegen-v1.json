@@ -1,7 +1,7 @@
 {
   "version": 1,
   "provider": "built-in image_gen",
-  "status": "four-art-and-depth-pairs-integrated",
+  "status": "complete-24-full-art-heroes",
   "style": "Premium Warcraft collectible illustration, painterly realism with crisp focal edges and broad calm shadow shapes; restrained antique-gold material accents, not gold outlines. Vertical 2:3 image. Entire standing figure and equipment inside the canvas, head near 27% height, feet near 80% height. Character occupies about 55% image height, with clear separation from background. Top 10% is calm dark atmosphere for a program-rendered ribbon, bottom 17% is quiet ground for a program-rendered nameplate. Keep face, hands and weapon sharp. Background has three readable depth planes and only two or three characteristic objects, softened by atmosphere. One dominant luminous shape behind the upper body; any weapon glow remains subordinate. Rich but controlled color, no blown-out white areas. Full-bleed artwork ONLY: no card border, typography, letters, numbers, signature, logo, watermark or interface. No extra people, no dense particles, no gold tracery over the face or background. Highest available native detail, ideally 1536x2304 or larger; do not sacrifice framing for detail.",
   "heightPrompt": "Convert the supplied illustration into a perfectly registered grayscale sculptural HEIGHT MAP for the same card, preserving the exact canvas aspect ratio, camera, silhouette, body proportions, face position, fingers, weapon shape, scene layout and every object location. This is a technical displacement map, not a grayscale photograph: depth determines value, illumination and material color do not. Dark background sky 15-30, distant buildings 40-65, middle-ground scenery 70-100, ground smoothly receding, main character body 155-205, nose/knuckles/front armor up to 225, weapon at the same depth as the hands. The entire main figure must be clearly raised even where its original clothing was dark. Smooth modeled anatomical volumes and broad rounded cloth folds, no painted highlights, no cast shadows, no fine scratches, no rim light. The moon or luminous opening is a shallow low dome around 45-65, behind the character, never brighter than the body. Transparent magic, mist and sparks stay near their background depth and are not solid protrusions. Smooth transitions, deep readable relief, strictly neutral grayscale, no color, no text, no border. Output exactly the same composition, not a newly imagined painting.",
   "heroes": [
@@ -24,6 +24,101 @@
       "id": "illidan-stormrage",
       "name": "伊利丹·怒风",
       "prompt": "Illidan Stormrage from Warcraft, the Betrayer, iconic adult night-elf demon hunter with violet skin, muscular torso bearing broad luminous green tattoos, black blindfold, long dark hair, two distinctive swept-back curved horns, pointed ears, dark leather war skirt and cloven hooves. Full body posed on the summit of the Black Temple. Exactly two recognizably curved twin-bladed Warglaives of Azzinoth held low and angled alongside the body so both complete weapons fit within the central 80% width. Two folded batlike wings behind the shoulders form a contained silhouette, without filling the whole sky. Head, horn tips, both hands and both hooves fully inside frame. One broad diffuse sickly-green opening through distant storm clouds behind upper body, not a geometric ring. Midground: two obsidian temple pillars and a broken stone balustrade with faint distant Outland floating rocks. Foreground: broad dark basalt steps and a few very dim fel cracks. Deep aubergine, obsidian, violet skin, controlled emerald glow, sparse aged bronze accents. Face and tattooed torso have clean readable planes, bright enough to see, no neon wash. No second halo, no moon, no minions, no crowd, no fire rain, no gold outlines, no weapons crossing the face. Hooves at 80% image height, clear ground below."
+    },
+    {
+      "id": "varian-wrynn",
+      "name": "瓦里安·乌瑞恩",
+      "prompt": "Varian Wrynn, adult human King of Stormwind, rugged clean-shaven face with a vertical scar, long dark hair tied in a high ponytail, blue-and-gold lion plate armor, sculpted lion shoulder, blue cloak. Holding one joined Shalamayne sword diagonally down alongside the body, whole blade visible and below face. Stormwind battlement at sunset, one enormous muted orange sun behind upper body. Two pale stone towers and one blue lion banner in the misty midground; clear weathered stone foreground. Cobalt, antique gold, slate, burnt orange. Resolute veteran, recognizable face, no crown, no beard, no extra swords."
+    },
+    {
+      "id": "anduin-wrynn",
+      "name": "安度因·乌瑞恩",
+      "prompt": "Anduin Wrynn, young adult human High King in his Battle for Azeroth era, shoulder-length golden blond hair, clean-shaven compassionate face, blue eyes, blue-and-silver lion plate armor with restrained gold trim and white cloak. Shalamayne held vertically point down in one hand, a small restrained warm Light in his other open hand. Standing in Stormwind Cathedral, one large softly luminous blue-and-gold rose window behind upper body, two broad stone columns and a distant altar, empty marble floor. Ivory, cobalt, aged gold, warm gray. No crown, no helmet, no glowing eyes, no soldiers, no dense candles."
+    },
+    {
+      "id": "uther-lightbringer",
+      "name": "乌瑟尔·光明使者",
+      "prompt": "Uther the Lightbringer, living older human paladin, square compassionate face, silver hair and full trimmed white beard, silver-and-blue heavy paladin armor, blue tabard, solid heavy boots. Both gauntleted hands hold a single large square-headed two-handed paladin warhammer before the lower torso, head and shaft wholly visible. A ruined rural Lordaeron chapel at dawn. One broad warm opening in heavy clouds behind his upper body. Midground broken stone arch and a quiet Silver Hand banner; low ivy and a few white flowers along the outer ground. Silver, muted blue, pale warm gold, moss green. Living human, no ghost, no wings, no crowd."
+    },
+    {
+      "id": "tyrande-whisperwind",
+      "name": "泰兰德·语风",
+      "prompt": "Tyrande Whisperwind, adult night elf High Priestess of Elune before Night Warrior transformation, lavender skin, long teal hair, long pointed ears, glowing silver eyes, silver crescent circlet, dignified moon-white and silver priestess gown with layered armor accents. Holding one ornate crescent-shaped night-elf longbow low beside her, no drawn arrow crossing face. Standing on a marble moonwell terrace at night. ONE large soft silver moon behind upper body. Midground two pale temple columns and a shallow quiet moonwell, distant purple forest haze; sparse silver leaves at ground edges. Moon-white, indigo, silver, teal. No second moon, no other person, no tiger, no revealing costume."
+    },
+    {
+      "id": "malfurion-stormrage",
+      "name": "玛法里奥·怒风",
+      "prompt": "Malfurion Stormrage, adult male night elf archdruid, violet skin, long green beard and green hair, amber eyes, broad branchlike deer antlers, feathered arms, bark leather and leaf armor with a long natural-fiber skirt and visible feet. Holding one gnarled oak staff beside him. Full antlers and staff fit inside frame; highest antler tips at 18% and face centered near 33% canvas height. Moonlit Moonglade forest, one broad emerald luminous clearing behind shoulders. Two immense ancient trunks recede into mist, a narrow stream and mossy stone steps at the sides. Deep emerald, bark brown, teal, muted amber. No animal transformation, no other beings, no multiple halos."
+    },
+    {
+      "id": "alleria-windrunner",
+      "name": "奥蕾莉亚·风行者",
+      "prompt": "Alleria Windrunner, adult high-elf ranger after her return from Argus, pale skin, long golden blond hair, sharply pointed ears, distinct dark blue ranger face markings, focused blue eyes. Refined deep-green and midnight-blue leather ranger armor with restrained silver trim, green hood lowered behind neck. One complete ornate elven bow held beside her, small restrained violet void shimmer by her free hand, quiver on back. On a broken Outland stone causeway, one broad diffuse violet void opening behind upper body. Two floating broken stone columns and distant rock islands softened in purple haze, clear cracked foreground. Green, midnight blue, pale gold hair, violet. No white hair, no tentacles over face, no extra people."
+    },
+    {
+      "id": "turalyon",
+      "name": "图拉扬",
+      "prompt": "Turalyon, adult older human High Exarch of the Army of the Light, short silver-blond hair and close-cropped beard, dignified weathered face, warm eyes. White-and-gold Lightforged heavy plate armor, ivory cloak, both hands resting on a long paladin greatsword held point down. All sword and boots visible. Standing on a quiet golden draenei starship deck. ONE large warm luminous crystal recessed behind upper body as the light anchor; two curving metal ribs and a dark window onto distant green Argus, broad quiet deck plates. Ivory, aged gold, midnight blue, small subdued green. No wings, no helmet, no soldiers, no multiple floating crystals."
+    },
+    {
+      "id": "khadgar",
+      "name": "卡德加",
+      "prompt": "Khadgar, adult human archmage as in the Legion era, short swept silver hair, recognizable clean-shaven mature face with strong eyebrows, warm intelligent expression. Layered blue, violet and dark leather archmage robes with understated metal clasps, high boots. One raven-topped Atiesh staff held upright beside him; free hand resting near a closed book on his belt. Standing on a Dalaran balcony above clouds. One broad violet arcane light opening behind upper body; two characteristic Dalaran spires and a stone balustrade in mist, uncluttered stone floor. Violet, indigo, slate, restrained gold. No beard, no pointed hat, no floating letters, no crowd, no second luminous orb."
+    },
+    {
+      "id": "cairne-bloodhoof",
+      "name": "凯恩·血蹄",
+      "prompt": "Cairne Bloodhoof, elderly male tauren high chieftain, huge bisonlike brown-furred body and bovine muzzle, weathered kind face, long pale mane and beard braids, large curved ivory horns, broad bare arms with leather bracers, traditional red-brown leather and bead armor. Holding one massive carved wooden ancestral totem in both hands angled low, whole object fits beside torso, no extra weapon. Whole standing figure including cloven hooves, horn tips below 22%, face near 32%. Mulgore prairie at dusk, ONE huge muted red-gold sun behind upper body. Two distant hide tents and one wooden totem recede into mist; sparse golden grasses at foreground edges. Earth brown, ochre, faded turquoise beads, soft orange. No herd, no other figures."
+    },
+    {
+      "id": "baine-bloodhoof",
+      "name": "贝恩·血蹄",
+      "prompt": "Baine Bloodhoof, adult young male tauren high chieftain, powerful dark-brown fur, broad bovine face and muzzle, cream horns with a few blue feathers, shorter dark mane, sturdy dignified posture, heavy leather shoulder guards with subdued red cloth and turquoise beadwork. Holding one large single-headed tribal warhammer low at his side. Full horn-to-hoof silhouette, face near 32% image height. Thunder Bluff plateau at morning, one broad gold sun softened by cloud behind upper body. A distant rope bridge linking red-stone mesas and one hide tent, clear rock foreground with sparse grass. Brown, red ochre, muted blue, morning gold. Visually younger than Cairne, no long white beard, no other beings."
+    },
+    {
+      "id": "voljin",
+      "name": "沃金",
+      "prompt": "Vol'jin, adult male Darkspear troll shadow hunter, lean tall blue skin, long upward-curving tusks, red mohawk crest, pointed ears, shrewd face, subtly hunched troll stance, long arms with anatomically correct three-digit troll hands and broad two-toed feet. Tribal leather armor with restrained feather and bone ornaments, one small voodoo mask hangs behind shoulder. Holding one serpentine-carved spear diagonally down, full spear inside frame and away from face. Echo Isles jungle coast at night, ONE large pale moon behind upper body. One carved voodoo totem and a palm-thatched hut in midground, quiet sand and one clay vessel at extreme edge. Deep blue, muted teal, rust red, bone ivory. No secondary fire halo, no snakes, no crowds."
+    },
+    {
+      "id": "rexxar",
+      "name": "雷克萨",
+      "prompt": "Rexxar, adult male half-orc half-ogre Mok'Nathal beastmaster, massive muscular brown-skinned hunter, lower tusks, rugged bearded face under his iconic black wolf-pelt hood, fur and leather harness with chainmail accents, broad bracers, heavy leather boots. Exactly two broad hunting axes held low at his sides, both complete. His brown bear companion Misha stands quietly behind his left side in the midground, smaller and softened, bear is the only secondary creature and does not overlap his face or hands. Blade's Edge wilderness, one broad dim amber sunset opening behind upper body, two blade-shaped rock spires and a distant ruined stone pillar. Rock brown, smoky purple, fur black, amber. Full body, no trophy gore, no other animals or people."
+    },
+    {
+      "id": "grommash-hellscream",
+      "name": "格罗玛什·地狱咆哮",
+      "prompt": "Grommash Hellscream, adult male green-skinned orc Warsong chieftain in Warcraft III era, long black hair in a high topknot, black tattoo over lower jaw and chin, prominent lower tusks, lean very muscular bare torso, red-brown leather battle harness and dark plate shoulder armor. Holds ONE iconic Gorehowl axe securely in both hands diagonally across lower body, complete axe blade kept below shoulder height. Ashenvale stone battle terrace, ONE broad muted blood-red setting sun behind upper body. One wolf-head carved war totem and a single great war drum, immense dark forest trunks in distant mist. Emerald skin, iron black, crimson, smoky forest green. No raised weapon into header, no gore, no demons, no extra characters."
+    },
+    {
+      "id": "garrosh-hellscream",
+      "name": "加尔鲁什·地狱咆哮",
+      "prompt": "Garrosh Hellscream, adult male brown-skinned Mag'har orc Warchief before sha corruption, bald head, broad grim face, large lower tusks, black jaw tattoo, immense muscular torso, iconic massive dark iron shoulder guards with curved tusks, red leather war belt and dark iron boots. Holding ONE Gorehowl axe in both hands low diagonally before him, complete blade and handle within frame. Orgrimmar iron fortress courtyard, ONE diffuse ember-red sun through dark smoke behind upper body. One steel forge wall and a distant spiked gate, broad dark stone ground with a few spent embers. Iron black, russet brown skin, red cloth, dim orange. No green skin, no glowing corruption, no extra weapons, no crowds, no lava ocean."
+    },
+    {
+      "id": "medivh",
+      "name": "麦迪文",
+      "prompt": "Medivh, adult human Last Guardian in prophetic raven-cloak guise, dark brown beard and long hair, intense wise face partly beneath a deep hood, black raven feathers over shoulders, burgundy and dark-violet robes, leather boots. Holding one raven-headed wooden staff beside him. Full body standing on Karazhan tower roof at night. ONE large muted violet moon behind upper body; two old stone tower turrets and a bronze armillary sphere in the midground. A single raven rests on a far-side balustrade; clean stone floor. Raven black, burgundy, smoky purple, antique bronze. No floating books or letters, no flock, no second orb, no giant bird transformation."
+    },
+    {
+      "id": "guldan",
+      "name": "古尔丹",
+      "prompt": "Gul'dan, elderly male green-skinned orc warlock, deeply hunched but fully visible standing body, bald head beneath a low dark hood, deeply lined sinister face, long thin white beard, lower tusks, dark tattered brown-black robes, heavy curved bone spines rising from shoulders and back. Holding one twisted staff tipped with a small dim green ember beside him, other long clawed hand open low. Shadowmoon ritual terrace, ONE broad sickly-green portal glow behind upper body, dim enough that the face is legible. Two dark altar stones and distant jagged volcanic hills, clear scorched rock foreground. Fel green, charcoal, bone ivory, dark umber. No minions, no crowd, no bones scattered on face, no extra halos, no readable runes."
+    },
+    {
+      "id": "kaelthas-sunstrider",
+      "name": "凯尔萨斯·逐日者",
+      "prompt": "Kael'thas Sunstrider, adult male blood elf prince, long golden blond hair, long pointed ears, proud refined face, green eyes, red-and-gold high-collared mage robes, broad phoenix-wing shaped shoulder guards with controlled antique-gold trim, green chest gem. Three small dim green verdant spheres float close to shoulders, clearly subordinate to ONE large golden sun behind upper body. One hand lifted in restrained fire-casting gesture with a small amber flame, other relaxed. Full body standing on Magisters' Terrace. Two elegant red-and-ivory sin'dorei arches and distant blue sea, clean marble ground. Crimson, aged gold, ivory, emerald accents, marine blue. No giant phoenix, no second person, no neon, no multiple solar halos."
+    },
+    {
+      "id": "kelthuzad",
+      "name": "克尔苏加德",
+      "prompt": "Kel'Thuzad, iconic male undead archlich of Warcraft, a skeletal floating sorcerer rather than a living hooded human. Skull face with subtle blue eye flames, tall dark-blue and bronze-gold horned lich headdress, enormous angular shoulder pieces, rib cage and long skeletal arms, blue-purple ceremonial robes tapering into three long floating cloth tails, a few heavy chains attached to waist. Entire floating silhouette contained from crown near 24% to robe tips at 80%; no human feet. Naxxramas frost hall, ONE broad dim icy-blue opening behind upper body. Two dark ice-crusted pillars and a distant stone dais, clear frost floor. Bone ivory, indigo, tarnished bronze, ice blue. No crowd, no minions, no floating green jars, no gore, no glow hiding skull."
+    },
+    {
+      "id": "maiev-shadowsong",
+      "name": "玛维·影歌",
+      "prompt": "Maiev Shadowsong, adult female night elf Warden, lavender skin only around narrow glowing eye slits, iconic silver owl-shaped full-face warden helmet with tall swept blade crests, dark green cloak and heavy silver-green armor with broad blade-shaped shoulders. Holds ONE complete circular crescent umbra glaive at her side, ring and handle clearly readable, weapon kept below shoulders and entirely inside canvas. Full standing body, boots visible, helmet crest begins below 22%, eyes near 32%. Vault of the Wardens, ONE broad shaft of pale moonlight through a broken ceiling behind upper body. Two massive gray-green prison pillars and a distant barred archway, clear wet stone floor with a short broken chain to one side. Deep jade, steel silver, slate, moon-white. No unmasked face, no other people, no unreadable glowing text."
     }
   ],
   "heightPromptV1Status": "rejected: lit clay relief is not depth data",
@@ -34,6 +129,14 @@
       "hero": "jaina-proudmoore",
       "path": "production/wow-imagegen/jaina-height-v1-rejected.png",
       "reason": "Lit clay relief, not unlit semantic depth; not used at runtime."
+    },
+    {
+      "hero": "turalyon",
+      "path": "production/wow-imagegen/turalyon-depth-size-rejected.png",
+      "reason": "Returned 1023x1537, mismatching the 1024x1536 artwork. Regenerated at exact native dimensions; rejected map is not used at runtime."
     }
-  ]
+  ],
+  "remainingBatchStyle": "Premium Warcraft collectible illustration, painterly realism with crisp focal edges and broad calm shadow shapes; restrained antique-gold material accents, not gold outlines. Vertical 2:3 image. Entire standing figure and equipment inside the canvas, face centered at 32% height, feet near 80% height. Character occupies about 55% image height, with clear separation from background. Top 22% is calm dark atmosphere for a program-rendered title, bottom 17% is quiet ground for a program-rendered nameplate. Keep face, hands and weapon sharp. Background has three readable depth planes and only two or three characteristic objects, softened by atmosphere. One dominant luminous shape behind the upper body; any weapon glow remains subordinate. Rich but controlled color, no blown-out white areas. Full-bleed artwork ONLY: no card border, typography, letters, numbers, signature, logo, watermark or interface. No extra people, no dense particles, no gold tracery over the face or background. Native 1024x1536 detail; do not sacrifice framing for detail. Head and face center around 30-33% canvas height, NEVER above 26%. Top 22% is reserved for the existing card title overlay: atmosphere only. Torso in middle third, equipment ends before bottom 17%. No painted card decorations. One complete illustration, not a sheet or collage. Generate at native 1024x1536, exact vertical 2:3 aspect ratio.",
+  "remainingBatchProvenance": "production/wow-imagegen/remaining-19-generation.json",
+  "completionReport": "docs/wow-remaining-heroes-2026-09-08.md"
 }

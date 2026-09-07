@@ -1,0 +1,42 @@
+{
+  "id": "uther-lightbringer",
+  "nativeDimensions": [
+    1024,
+    1536
+  ],
+  "textureDimensions": [
+    1329,
+    2048
+  ],
+  "layout": "warcraft-default",
+  "styleReference": "sylvanas-windrunner",
+  "cropBottom": 0,
+  "renderMs": 697,
+  "goldLines": {
+    "seeds": 34842,
+    "comps": 21,
+    "moon": null,
+    "ms": 311
+  },
+  "legacy": {
+    "heightGradientP50": 2,
+    "heightGradientP99": 460.5,
+    "roughMidPercent": 40.11,
+    "normalActiveMean": 43.64,
+    "normalP99": 100,
+    "roughPass": false,
+    "normalPass": false
+  },
+  "optimized": {
+    "heightGradientP50": 0,
+    "heightGradientP99": 462.5,
+    "roughMidPercent": 53.58,
+    "normalActiveMean": 36.84,
+    "normalP99": 86,
+    "roughPass": true,
+    "normalPass": true
+  },
+  "lightPixelDelta": 23.038,
+  "thumbBytes": 142931,
+  "noUpscalingAtEncoding": true
+}

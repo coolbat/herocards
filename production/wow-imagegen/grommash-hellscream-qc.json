@@ -1,0 +1,42 @@
+{
+  "id": "grommash-hellscream",
+  "nativeDimensions": [
+    1024,
+    1536
+  ],
+  "textureDimensions": [
+    1329,
+    2048
+  ],
+  "layout": "warcraft-default",
+  "styleReference": "sylvanas-windrunner",
+  "cropBottom": 0,
+  "renderMs": 666,
+  "goldLines": {
+    "seeds": 26452,
+    "comps": 13,
+    "moon": null,
+    "ms": 297
+  },
+  "legacy": {
+    "heightGradientP50": 2,
+    "heightGradientP99": 459.75,
+    "roughMidPercent": 56.69,
+    "normalActiveMean": 43.71,
+    "normalP99": 115,
+    "roughPass": true,
+    "normalPass": false
+  },
+  "optimized": {
+    "heightGradientP50": 1.5,
+    "heightGradientP99": 462.5,
+    "roughMidPercent": 56.12,
+    "normalActiveMean": 33.66,
+    "normalP99": 96,
+    "roughPass": true,
+    "normalPass": true
+  },
+  "lightPixelDelta": 20.952,
+  "thumbBytes": 123047,
+  "noUpscalingAtEncoding": true
+}

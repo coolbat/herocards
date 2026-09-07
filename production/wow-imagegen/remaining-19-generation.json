@@ -1,0 +1,216 @@
+{
+  "provider": "built-in image_gen",
+  "startedOn": "2026-09-07",
+  "finishedOn": "2026-09-08",
+  "heroes": [
+    {
+      "id": "varian-wrynn",
+      "art": {
+        "toolOutput": "/Users/coolbat/.codex/generated_images/01a07c28-2e79-7b02-8f01-ed91a75fd011/exec-b4c34c2e-df0e-477c-8fd3-07e25338ca5d.png",
+        "master": "/Users/coolbat/herocards/assets/portraits/wow-masters/varian-wrynn-imagegen-v1.png"
+      },
+      "depth": {
+        "toolOutput": "/Users/coolbat/.codex/generated_images/01a07c28-2e79-7b02-8f01-ed91a75fd011/exec-864e5fa0-0b98-4a27-84ac-7276d6c8d663.png",
+        "master": "/Users/coolbat/herocards/assets/portraits/wow-masters/varian-wrynn-depth-v2.png"
+      }
+    },
+    {
+      "id": "anduin-wrynn",
+      "art": {
+        "toolOutput": "/Users/coolbat/.codex/generated_images/01a07c28-2e79-7b02-8f01-ed91a75fd011/exec-b748a76d-b808-4b98-b512-eba718758250.png",
+        "master": "/Users/coolbat/herocards/assets/portraits/wow-masters/anduin-wrynn-imagegen-v1.png"
+      },
+      "depth": {
+        "toolOutput": "/Users/coolbat/.codex/generated_images/01a07c28-2e79-7b02-8f01-ed91a75fd011/exec-f43a3cd7-ea75-45c1-9f8f-fe74e0751e41.png",
+        "master": "/Users/coolbat/herocards/assets/portraits/wow-masters/anduin-wrynn-depth-v2.png"
+      }
+    },
+    {
+      "id": "uther-lightbringer",
+      "art": {
+        "toolOutput": "/Users/coolbat/.codex/generated_images/01a07c28-2e79-7b02-8f01-ed91a75fd011/exec-8a42f470-61f2-4962-a832-a1154880b2ab.png",
+        "master": "/Users/coolbat/herocards/assets/portraits/wow-masters/uther-lightbringer-imagegen-v1.png"
+      },
+      "depth": {
+        "toolOutput": "/Users/coolbat/.codex/generated_images/01a07c28-2e79-7b02-8f01-ed91a75fd011/exec-2feb8177-32e0-4e85-a4f2-0173a2a1fef5.png",
+        "master": "/Users/coolbat/herocards/assets/portraits/wow-masters/uther-lightbringer-depth-v2.png"
+      }
+    },
+    {
+      "id": "tyrande-whisperwind",
+      "art": {
+        "toolOutput": "/Users/coolbat/.codex/generated_images/01a07c28-2e79-7b02-8f01-ed91a75fd011/exec-88a76576-f282-4e5f-ad12-4c1350ba51e2.png",
+        "master": "/Users/coolbat/herocards/assets/portraits/wow-masters/tyrande-whisperwind-imagegen-v1.png"
+      },
+      "depth": {
+        "toolOutput": "/Users/coolbat/.codex/generated_images/01a07c28-2e79-7b02-8f01-ed91a75fd011/exec-b71de724-7495-4ab1-babe-cee8adf21f23.png",
+        "master": "/Users/coolbat/herocards/assets/portraits/wow-masters/tyrande-whisperwind-depth-v2.png"
+      }
+    },
+    {
+      "id": "malfurion-stormrage",
+      "art": {
+        "toolOutput": "/Users/coolbat/.codex/generated_images/01a07c28-2e79-7b02-8f01-ed91a75fd011/exec-af3ba194-eeae-4c17-a881-c3bbb790eadd.png",
+        "master": "/Users/coolbat/herocards/assets/portraits/wow-masters/malfurion-stormrage-imagegen-v1.png"
+      },
+      "depth": {
+        "toolOutput": "/Users/coolbat/.codex/generated_images/01a07c28-2e79-7b02-8f01-ed91a75fd011/exec-ca7ed10d-fa0f-4ca6-92f7-fb1c9e697f4e.png",
+        "master": "/Users/coolbat/herocards/assets/portraits/wow-masters/malfurion-stormrage-depth-v2.png"
+      }
+    },
+    {
+      "id": "alleria-windrunner",
+      "art": {
+        "toolOutput": "/Users/coolbat/.codex/generated_images/01a07c28-2e79-7b02-8f01-ed91a75fd011/exec-4fce9ac5-1c8b-4939-aa7e-4816abf3a733.png",
+        "master": "/Users/coolbat/herocards/assets/portraits/wow-masters/alleria-windrunner-imagegen-v1.png"
+      },
+      "depth": {
+        "toolOutput": "/Users/coolbat/.codex/generated_images/01a07c28-2e79-7b02-8f01-ed91a75fd011/exec-ef8814d6-de4f-442e-9cf1-f74bb4f91816.png",
+        "master": "/Users/coolbat/herocards/assets/portraits/wow-masters/alleria-windrunner-depth-v2.png"
+      }
+    },
+    {
+      "id": "turalyon",
+      "art": {
+        "toolOutput": "/Users/coolbat/.codex/generated_images/01a07c28-2e79-7b02-8f01-ed91a75fd011/exec-8e3c1454-5646-4527-8732-f39ccf8ab87b.png",
+        "master": "/Users/coolbat/herocards/assets/portraits/wow-masters/turalyon-imagegen-v1.png"
+      },
+      "depth": {
+        "toolOutput": "/Users/coolbat/.codex/generated_images/01a07c28-2e79-7b02-8f01-ed91a75fd011/exec-85f8e231-06cd-446e-91d6-d762a12931ff.png",
+        "master": "/Users/coolbat/herocards/assets/portraits/wow-masters/turalyon-depth-v2.png"
+      }
+    },
+    {
+      "id": "khadgar",
+      "art": {
+        "toolOutput": "/Users/coolbat/.codex/generated_images/01a07c28-2e79-7b02-8f01-ed91a75fd011/exec-2580be25-a718-4b5a-bbac-8c3d3c49e766.png",
+        "master": "/Users/coolbat/herocards/assets/portraits/wow-masters/khadgar-imagegen-v1.png"
+      },
+      "depth": {
+        "toolOutput": "/Users/coolbat/.codex/generated_images/01a07c28-2e79-7b02-8f01-ed91a75fd011/exec-d933a055-0d30-4849-932d-7644dd707fc2.png",
+        "master": "/Users/coolbat/herocards/assets/portraits/wow-masters/khadgar-depth-v2.png"
+      }
+    },
+    {
+      "id": "cairne-bloodhoof",
+      "art": {
+        "toolOutput": "/Users/coolbat/.codex/generated_images/01a07c28-2e79-7b02-8f01-ed91a75fd011/exec-1b1406ba-e32d-4d83-b649-8739a54b8da5.png",
+        "master": "/Users/coolbat/herocards/assets/portraits/wow-masters/cairne-bloodhoof-imagegen-v1.png"
+      },
+      "depth": {
+        "toolOutput": "/Users/coolbat/.codex/generated_images/01a07c28-2e79-7b02-8f01-ed91a75fd011/exec-037d2404-4ed0-406e-8615-3d8fff8ca243.png",
+        "master": "/Users/coolbat/herocards/assets/portraits/wow-masters/cairne-bloodhoof-depth-v2.png"
+      }
+    },
+    {
+      "id": "baine-bloodhoof",
+      "art": {
+        "toolOutput": "/Users/coolbat/.codex/generated_images/01a07c28-2e79-7b02-8f01-ed91a75fd011/exec-3313b4a7-7a94-4789-a53b-3821bc62062c.png",
+        "master": "/Users/coolbat/herocards/assets/portraits/wow-masters/baine-bloodhoof-imagegen-v1.png"
+      },
+      "depth": {
+        "toolOutput": "/Users/coolbat/.codex/generated_images/01a07c28-2e79-7b02-8f01-ed91a75fd011/exec-8a9fcda3-e6d3-4f48-aba4-ba46d67ca084.png",
+        "master": "/Users/coolbat/herocards/assets/portraits/wow-masters/baine-bloodhoof-depth-v2.png"
+      }
+    },
+    {
+      "id": "voljin",
+      "art": {
+        "toolOutput": "/Users/coolbat/.codex/generated_images/01a07c28-2e79-7b02-8f01-ed91a75fd011/exec-cefa12c4-d2a5-4671-ac7a-4ce153a1b8e0.png",
+        "master": "/Users/coolbat/herocards/assets/portraits/wow-masters/voljin-imagegen-v1.png"
+      },
+      "depth": {
+        "toolOutput": "/Users/coolbat/.codex/generated_images/01a07c28-2e79-7b02-8f01-ed91a75fd011/exec-ae45fc42-6c3f-430a-a341-e5400c7ff906.png",
+        "master": "/Users/coolbat/herocards/assets/portraits/wow-masters/voljin-depth-v2.png"
+      }
+    },
+    {
+      "id": "rexxar",
+      "art": {
+        "toolOutput": "/Users/coolbat/.codex/generated_images/01a07c28-2e79-7b02-8f01-ed91a75fd011/exec-f3682be9-3df3-42a6-b19b-e2fa6f122ca2.png",
+        "master": "/Users/coolbat/herocards/assets/portraits/wow-masters/rexxar-imagegen-v1.png"
+      },
+      "depth": {
+        "toolOutput": "/Users/coolbat/.codex/generated_images/01a07c28-2e79-7b02-8f01-ed91a75fd011/exec-d9c64b49-a36e-4c26-95d4-5e7323624dae.png",
+        "master": "/Users/coolbat/herocards/assets/portraits/wow-masters/rexxar-depth-v2.png"
+      }
+    },
+    {
+      "id": "grommash-hellscream",
+      "art": {
+        "toolOutput": "/Users/coolbat/.codex/generated_images/01a07c28-2e79-7b02-8f01-ed91a75fd011/exec-e6c7fef1-1ea6-409d-bbba-644479f9c059.png",
+        "master": "/Users/coolbat/herocards/assets/portraits/wow-masters/grommash-hellscream-imagegen-v1.png"
+      },
+      "depth": {
+        "toolOutput": "/Users/coolbat/.codex/generated_images/01a07c28-2e79-7b02-8f01-ed91a75fd011/exec-8d7e2c40-09c8-42ae-933f-39c873576ba2.png",
+        "master": "/Users/coolbat/herocards/assets/portraits/wow-masters/grommash-hellscream-depth-v2.png"
+      }
+    },
+    {
+      "id": "garrosh-hellscream",
+      "art": {
+        "toolOutput": "/Users/coolbat/.codex/generated_images/01a07c28-2e79-7b02-8f01-ed91a75fd011/exec-fa4dd12c-bcaa-4137-b76d-6099b79a1da9.png",
+        "master": "/Users/coolbat/herocards/assets/portraits/wow-masters/garrosh-hellscream-imagegen-v1.png"
+      },
+      "depth": {
+        "toolOutput": "/Users/coolbat/.codex/generated_images/01a07c28-2e79-7b02-8f01-ed91a75fd011/exec-4281d2a0-afe7-414f-be0a-9d460583d079.png",
+        "master": "/Users/coolbat/herocards/assets/portraits/wow-masters/garrosh-hellscream-depth-v2.png"
+      }
+    },
+    {
+      "id": "medivh",
+      "art": {
+        "toolOutput": "/Users/coolbat/.codex/generated_images/01a07c28-2e79-7b02-8f01-ed91a75fd011/exec-4e8371ad-ec85-4ad5-965b-92125df50d3b.png",
+        "master": "/Users/coolbat/herocards/assets/portraits/wow-masters/medivh-imagegen-v1.png"
+      },
+      "depth": {
+        "toolOutput": "/Users/coolbat/.codex/generated_images/01a07c28-2e79-7b02-8f01-ed91a75fd011/exec-3e5e0993-b0f2-4fff-8089-e18765d722c3.png",
+        "master": "/Users/coolbat/herocards/assets/portraits/wow-masters/medivh-depth-v2.png"
+      }
+    },
+    {
+      "id": "guldan",
+      "art": {
+        "toolOutput": "/Users/coolbat/.codex/generated_images/01a07c28-2e79-7b02-8f01-ed91a75fd011/exec-dee6c0be-2709-420f-af88-92aa63675767.png",
+        "master": "/Users/coolbat/herocards/assets/portraits/wow-masters/guldan-imagegen-v1.png"
+      },
+      "depth": {
+        "toolOutput": "/Users/coolbat/.codex/generated_images/01a07c28-2e79-7b02-8f01-ed91a75fd011/exec-583906c7-de51-47f3-b85d-6f2917104b66.png",
+        "master": "/Users/coolbat/herocards/assets/portraits/wow-masters/guldan-depth-v2.png"
+      }
+    },
+    {
+      "id": "kaelthas-sunstrider",
+      "art": {
+        "toolOutput": "/Users/coolbat/.codex/generated_images/01a07c28-2e79-7b02-8f01-ed91a75fd011/exec-35b15909-f37f-4370-8744-c90e244b5397.png",
+        "master": "/Users/coolbat/herocards/assets/portraits/wow-masters/kaelthas-sunstrider-imagegen-v1.png"
+      },
+      "depth": {
+        "toolOutput": "/Users/coolbat/.codex/generated_images/01a07c28-2e79-7b02-8f01-ed91a75fd011/exec-e5e20146-80b3-4a46-b938-1c76a1ad1b6f.png",
+        "master": "/Users/coolbat/herocards/assets/portraits/wow-masters/kaelthas-sunstrider-depth-v2.png"
+      }
+    },
+    {
+      "id": "kelthuzad",
+      "art": {
+        "toolOutput": "/Users/coolbat/.codex/generated_images/01a07c28-2e79-7b02-8f01-ed91a75fd011/exec-77962c18-deb3-4dc0-a76a-fc5753ec3a00.png",
+        "master": "/Users/coolbat/herocards/assets/portraits/wow-masters/kelthuzad-imagegen-v1.png"
+      },
+      "depth": {
+        "toolOutput": "/Users/coolbat/.codex/generated_images/01a07c28-2e79-7b02-8f01-ed91a75fd011/exec-49b4e12b-2e54-4636-b750-dbbb38612dcc.png",
+        "master": "/Users/coolbat/herocards/assets/portraits/wow-masters/kelthuzad-depth-v2.png"
+      }
+    },
+    {
+      "id": "maiev-shadowsong",
+      "art": {
+        "toolOutput": "/Users/coolbat/.codex/generated_images/01a07c28-2e79-7b02-8f01-ed91a75fd011/exec-1b86a36d-c41a-4fca-9371-a1dd967e65d2.png",
+        "master": "/Users/coolbat/herocards/assets/portraits/wow-masters/maiev-shadowsong-imagegen-v1.png"
+      },
+      "depth": {
+        "toolOutput": "/Users/coolbat/.codex/generated_images/01a07c28-2e79-7b02-8f01-ed91a75fd011/exec-54fa09cb-7703-40af-935c-a83b779158fe.png",
+        "master": "/Users/coolbat/herocards/assets/portraits/wow-masters/maiev-shadowsong-depth-v2.png"
+      }
+    }
+  ]
+}

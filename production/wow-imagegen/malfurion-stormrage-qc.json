@@ -1,0 +1,42 @@
+{
+  "id": "malfurion-stormrage",
+  "nativeDimensions": [
+    1024,
+    1536
+  ],
+  "textureDimensions": [
+    1329,
+    2048
+  ],
+  "layout": "warcraft-default",
+  "styleReference": "sylvanas-windrunner",
+  "cropBottom": 0,
+  "renderMs": 698,
+  "goldLines": {
+    "seeds": 33327,
+    "comps": 14,
+    "moon": null,
+    "ms": 333
+  },
+  "legacy": {
+    "heightGradientP50": 3.25,
+    "heightGradientP99": 510,
+    "roughMidPercent": 59.03,
+    "normalActiveMean": 46.56,
+    "normalP99": 128,
+    "roughPass": true,
+    "normalPass": false
+  },
+  "optimized": {
+    "heightGradientP50": 2,
+    "heightGradientP99": 494,
+    "roughMidPercent": 58.9,
+    "normalActiveMean": 33.56,
+    "normalP99": 97,
+    "roughPass": true,
+    "normalPass": true
+  },
+  "lightPixelDelta": 21.016,
+  "thumbBytes": 143543,
+  "noUpscalingAtEncoding": true
+}
