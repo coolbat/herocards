@@ -1,0 +1,42 @@
+{
+  "id": "jaina-proudmoore",
+  "nativeDimensions": [
+    1024,
+    1536
+  ],
+  "textureDimensions": [
+    1329,
+    2048
+  ],
+  "layout": "warcraft-default",
+  "styleReference": "sylvanas-windrunner",
+  "cropBottom": 0.2,
+  "renderMs": 740,
+  "goldLines": {
+    "seeds": 34249,
+    "comps": 30,
+    "moon": null,
+    "ms": 343
+  },
+  "legacy": {
+    "heightGradientP50": 2,
+    "heightGradientP99": 502.75,
+    "roughMidPercent": 56.63,
+    "normalActiveMean": 43.99,
+    "normalP99": 113,
+    "roughPass": true,
+    "normalPass": false
+  },
+  "optimized": {
+    "heightGradientP50": 1.5,
+    "heightGradientP99": 517,
+    "roughMidPercent": 55.34,
+    "normalActiveMean": 34.73,
+    "normalP99": 85,
+    "roughPass": true,
+    "normalPass": true
+  },
+  "lightPixelDelta": 21.817,
+  "thumbBytes": 73202,
+  "noUpscalingAtEncoding": true
+}

@@ -2270,6 +2270,13 @@
   var _portraits = new Map();   // hero.id → HTMLImageElement（null = 已探测无图）
   var _fullArt = new Map();     // hero.id → 全幅场景插画 Image（null = 已探测无图；数据驱动：hero.fullArt 字段）
   var _fullArtHeight = new Map();  // hero.id → 全幅 AI 高度图 Image（null = 无图；数据驱动：hero.fullArtHeight 字段）
+  var _cardThumbs = new Map();   // optional baked diffuse thumbnail; avoids full material rendering in galleries
+
+  function _loadPortrait(id) {
+    return _loadImageOnce('assets/portraits/' + encodeURIComponent(id) + '.webp').then(function (img) {
+      return img || _loadImageOnce('assets/portraits/' + encodeURIComponent(id) + '.png');
+    }).then(function (img) { _portraits.set(id, img || null); });
+  }
 
   function _loadImageOnce(src) {
     return new Promise(function (resolve) {
@@ -2305,14 +2312,7 @@
         _portraits.set(id, null);                         // 全幅英雄无需探测不存在的肖像窗资源
         return Promise.resolve();
       }
-      return _loadImageOnce('assets/portraits/' + encodeURIComponent(id) + '.webp')
-        .then(function (img) {
-          if (img) return img;
-          return _loadImageOnce('assets/portraits/' + encodeURIComponent(id) + '.png');
-        })
-        .then(function (img) {
-          _portraits.set(id, img || null);
-        })
+      return _loadPortrait(id)
         .catch(function () {
           _portraits.set(id, null);                      // 任何异常都吞掉：永不 reject
         });
@@ -2323,9 +2323,15 @@
       if (id && src && !_fullArt.has(id)) {              // 其他英雄零影响
         jobs.push(_loadImageOnce(src).then(function (img) {
           _fullArt.set(id, img || null);
+          // A failed full-art request must actually load the promised portrait fallback.
+          if (!img && !_portraits.get(id)) return _loadPortrait(id);
         }).catch(function () {
           _fullArt.set(id, null);                        // 异常吞掉：永不 reject
         }));
+      }
+      var thumb = h && typeof h.fullArtThumb === 'string' ? h.fullArtThumb : '';
+      if (id && thumb && !_cardThumbs.has(id)) {
+        jobs.push(_loadImageOnce(thumb).then(function (img) { _cardThumbs.set(id, img || null); }));
       }
       var hsrc = h && typeof h.fullArtHeight === 'string' ? h.fullArtHeight : '';
       if (id && hsrc && !_fullArtHeight.has(id)) {       // v5.1 AI 高度图（可选伴生）
@@ -2478,10 +2484,13 @@
    * diffuse（CTM 已挂 2×）传逻辑 LW×LH；外部贴图临时画布（无 CTM）
    * 传物理 W×H——两种调用最终落在同一物理像素网格，几何逐像素对齐。
    */
-  function drawFullArtCover(ctx, img, tw, th) {
+  function drawFullArtCover(ctx, img, tw, th, cropBottom) {
     var iw = img.naturalWidth || img.width;
     var ih = img.naturalHeight || img.height;
-    var srcH = Math.max(1, Math.round(ih * (1 - FULLART_CROP_BOTTOM)));
+    // Legacy assets keep their framing; native card art can explicitly retain its feet.
+    var bottom = typeof cropBottom === 'number' && isFinite(cropBottom)
+      ? clamp(cropBottom, 0, 0.25) : FULLART_CROP_BOTTOM;
+    var srcH = Math.max(1, Math.round(ih * (1 - bottom)));
     var scale = Math.max(tw / iw, th / srcH);
     var sw = iw * scale, sh = srcH * scale;
     ctx.drawImage(img, 0, 0, iw, srcH, (tw - sw) / 2, (th - sh) / 2, sw, sh);
@@ -3244,9 +3253,9 @@
    * 画布，灰度整体缩放到 ≤FULLART_RELIEF.hCap（画芯高度域，给叠加层让位），
    * 整体替换画芯高度。叠加层随后照旧精确覆写其上。
    */
-  function paintExternalHeight(P, img) {
+  function paintExternalHeight(P, img, cropBottom) {
     var c = mkCanvas(W, H);
-    drawFullArtCover(c.getContext('2d'), img, W, H);
+    drawFullArtCover(c.getContext('2d'), img, W, H, cropBottom);
     var src = c.getContext('2d').getImageData(0, 0, W, H).data;
     var hImg = P.h.createImageData(W, H);
     var hd = hImg.data, n = W * H, cap = FULLART_RELIEF.hCap;
@@ -3264,14 +3273,19 @@
    * + AI 中高频细节（自身低通差分：褶皱 / 铠甲肌理）×0.5，clamp 到画芯
    * 高度域。烫金脊随后照旧最后叠加（paintGoldLines）。
    */
-  function fuseExternalHeight(P, img) {
+  function fuseExternalHeight(P, img, cropBottom, heightSmoothing) {
     var c = mkCanvas(W, H);
-    drawFullArtCover(c.getContext('2d'), img, W, H);
+    drawFullArtCover(c.getContext('2d'), img, W, H, cropBottom);
     var src = c.getContext('2d').getImageData(0, 0, W, H).data;
     var n = W * H, cap = FULLART_RELIEF.hCap, p, i;
     var ai = new Float32Array(n);
     for (p = 0, i = 0; p < n; p++, i += 4) {
       ai[p] = (src[i] * 299 + src[i + 1] * 587 + src[i + 2] * 114) / 1000;
+    }
+    // Generated depth silhouettes can have hard pixel edges. Smooth before fusion/Sobel;
+    // preserve legacy assets unless their recipe explicitly opts in (logical pixel radius).
+    if (typeof heightSmoothing === 'number' && isFinite(heightSmoothing) && heightSmoothing > 0) {
+      ai = box3(ai, W, H, Math.max(1, Math.round(clamp(heightSmoothing, 0, 8) * SC)));
     }
     var rM = Math.max(1, Math.round(FULLART_RELIEF.rMid * SC));
     var aiLP = lowpassField(ai, W, H, FULLART_RELIEF.dsMid, rM);
@@ -3333,8 +3347,8 @@
    * 返回 { mode, goldCover }（goldCover 为放宽金域占比，供调参观测）。
    * 叠加层（边框 / 铭牌 / 宝石）随后按既有语义精确覆写其上。
    */
-  function paintFullArtBase(P, img, mode, externalMaps) {
-    drawFullArtCover(P.d, img, LW, LH);                    // diffuse：统一 cover 变换（逻辑坐标）
+  function paintFullArtBase(P, img, mode, externalMaps, cropBottom, heightSmoothing) {
+    drawFullArtCover(P.d, img, LW, LH, cropBottom);         // all maps share the same framing
 
     var G = FULLART_GOLD;
     var src = P.d.getImageData(0, 0, W, H).data;
@@ -3413,12 +3427,12 @@
     var extN = null;
     if (mode === 'relief' && externalMaps) {
       if (externalMaps.height) {
-        if (externalMaps.fuseHeight) fuseExternalHeight(P, externalMaps.height);
-        else paintExternalHeight(P, externalMaps.height);
+        if (externalMaps.fuseHeight) fuseExternalHeight(P, externalMaps.height, cropBottom, heightSmoothing);
+        else paintExternalHeight(P, externalMaps.height, cropBottom);
       }
       if (externalMaps.normal) {
         extN = mkCanvas(W, H);
-        drawFullArtCover(extN.getContext('2d'), externalMaps.normal, W, H);
+        drawFullArtCover(extN.getContext('2d'), externalMaps.normal, W, H, cropBottom);
       }
     }
     return { mode: mode, goldCover: goldCover, extNormal: extN, lumA: lumA };
@@ -3454,11 +3468,14 @@
     // 名牌→称号→边框→底部双章（魔兽旧卡路径零改动）。
     var reqMode = (opts && opts.mode) || 'relief';       // relief 为全幅卡默认
     var extMaps = (opts && opts.externalMaps) || null;   // { normal, height, fuseHeight } 试验贴图
-    var artInfo = paintFullArtBase(P, artImage, reqMode, extMaps);
+    var cropBottom = opts && opts.cropBottom != null ? opts.cropBottom : hero.fullArtCropBottom;
+    var heightSmoothing = opts && opts.heightSmoothing != null ? opts.heightSmoothing : hero.fullArtHeightSmoothing;
+    var artInfo = paintFullArtBase(P, artImage, reqMode, extMaps, cropBottom, heightSmoothing);
     /* v5.1 烫金刻线层：relief 模式默认开启（opts.goldLines === false 可关），
        落在叠加层之前——边框 / 名牌等照旧覆写其上 */
     if (artInfo.mode === 'relief' && (!opts || opts.goldLines !== false)) {
-      artInfo.goldLines = paintGoldLines(P, artInfo.lumA, opts && opts.goldLineParams);
+      artInfo.goldLines = paintGoldLines(P, artInfo.lumA,
+        (opts && opts.goldLineParams) || hero.goldLineParams);
     }
     if (info.theme === 'guofeng') {
       paintGuofengPlaque(P, info);
@@ -3729,6 +3746,13 @@
 
     var c = mkCanvas(w, h);
     var ctx = c.getContext('2d');
+
+    var bakedThumb = _cardThumbs.get(String(hero.id != null ? hero.id : ''));
+    if (bakedThumb) {
+      ctx.imageSmoothingQuality = 'high';
+      ctx.drawImage(bakedThumb, 0, 0, w, h);
+      return c;
+    }
 
     /* 数据驱动：fullArt 英雄的图鉴缩略卡直接用全幅成卡 diffuse 缩绘
        （paintFace 走 LRU，与主卡面共享渲染结果，零重复开销）；

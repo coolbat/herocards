@@ -1,0 +1,42 @@
+{
+  "id": "thrall",
+  "nativeDimensions": [
+    1024,
+    1536
+  ],
+  "textureDimensions": [
+    1329,
+    2048
+  ],
+  "layout": "warcraft-default",
+  "styleReference": "sylvanas-windrunner",
+  "cropBottom": 0,
+  "renderMs": 747,
+  "goldLines": {
+    "seeds": 30679,
+    "comps": 27,
+    "moon": null,
+    "ms": 338
+  },
+  "legacy": {
+    "heightGradientP50": 2,
+    "heightGradientP99": 512,
+    "roughMidPercent": 56,
+    "normalActiveMean": 47.94,
+    "normalP99": 114,
+    "roughPass": true,
+    "normalPass": false
+  },
+  "optimized": {
+    "heightGradientP50": 1.5,
+    "heightGradientP99": 508,
+    "roughMidPercent": 56.71,
+    "normalActiveMean": 38.07,
+    "normalP99": 91,
+    "roughPass": true,
+    "normalPass": true
+  },
+  "lightPixelDelta": 20.314,
+  "thumbBytes": 70919,
+  "noUpscalingAtEncoding": true
+}

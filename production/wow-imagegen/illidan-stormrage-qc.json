@@ -1,0 +1,42 @@
+{
+  "id": "illidan-stormrage",
+  "nativeDimensions": [
+    1024,
+    1536
+  ],
+  "textureDimensions": [
+    1329,
+    2048
+  ],
+  "layout": "warcraft-default",
+  "styleReference": "sylvanas-windrunner",
+  "cropBottom": 0,
+  "renderMs": 738,
+  "goldLines": {
+    "seeds": 26511,
+    "comps": 20,
+    "moon": null,
+    "ms": 322
+  },
+  "legacy": {
+    "heightGradientP50": 2.75,
+    "heightGradientP99": 521.75,
+    "roughMidPercent": 58.23,
+    "normalActiveMean": 49.84,
+    "normalP99": 130,
+    "roughPass": true,
+    "normalPass": false
+  },
+  "optimized": {
+    "heightGradientP50": 2,
+    "heightGradientP99": 475.75,
+    "roughMidPercent": 58.55,
+    "normalActiveMean": 33.73,
+    "normalP99": 93,
+    "roughPass": true,
+    "normalPass": true
+  },
+  "lightPixelDelta": 20.946,
+  "thumbBytes": 65249,
+  "noUpscalingAtEncoding": true
+}

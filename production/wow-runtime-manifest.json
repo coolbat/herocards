@@ -1,0 +1,206 @@
+{
+  "version": 1,
+  "heroes": {
+    "jaina-proudmoore": {
+      "generator": "built-in image_gen",
+      "recipe": "production/wow-imagegen-v1.json",
+      "cropBottom": 0.2,
+      "outputs": [
+        {
+          "source": "assets/portraits/wow-masters/jaina-proudmoore-imagegen-v1.png",
+          "sourceSha256": "ba6be2c6acfb058ab628fe1a1b6fe041bef468174d6d1125da7e12bb28c2aaa7",
+          "output": "assets/portraits/wow-runtime/jaina-proudmoore-imagegen-v1-full.webp",
+          "outputSha256": "32c84f49144da1e913d61fdf5097195f61ac32a16072fb662e3fa94f89ce6148",
+          "dimensions": [
+            1024,
+            1536
+          ],
+          "bytes": 415224,
+          "encoding": {
+            "quality": 94,
+            "method": 6
+          }
+        },
+        {
+          "source": "assets/portraits/wow-masters/jaina-proudmoore-depth-v2.png",
+          "sourceSha256": "214b1fb539d38f44b2e54e5ca94f036872ad695066dba9f9525190ee2450f75b",
+          "output": "assets/portraits/wow-runtime/jaina-proudmoore-imagegen-v1-aiheight.webp",
+          "outputSha256": "d2b58ad6dd7873a4dfb9ebc76c84277fef886505363ec9fd7773772b7980fbd1",
+          "dimensions": [
+            1024,
+            1536
+          ],
+          "bytes": 360592,
+          "encoding": {
+            "lossless": true,
+            "method": 6
+          }
+        }
+      ],
+      "thumbnail": {
+        "output": "assets/portraits/wow-runtime/jaina-proudmoore-imagegen-v1-thumb.webp",
+        "sha256": "6a8b42d15b6dad3466e7640f031a6337feb9f3d8d31c3fe1a3b976f0c7c478ca",
+        "bytes": 73184,
+        "dimensions": [
+          400,
+          616
+        ]
+      },
+      "qc": "production/wow-imagegen/jaina-proudmoore-qc.json",
+      "heightSmoothingLogicalPixels": 2,
+      "layout": "warcraft-default",
+      "styleReference": "sylvanas-windrunner"
+    },
+    "arthas-menethil": {
+      "generator": "built-in image_gen",
+      "recipe": "production/wow-imagegen-v1.json",
+      "cropBottom": 0,
+      "outputs": [
+        {
+          "source": "assets/portraits/wow-masters/arthas-menethil-imagegen-v1.png",
+          "sourceSha256": "49f890ed1b07f0db8e71b08603a803e162ceb076c782f760d0103e86be351723",
+          "output": "assets/portraits/wow-runtime/arthas-menethil-imagegen-v1-full.webp",
+          "outputSha256": "a48fca0e994728c40584dad442846cccd6065845e0f24d5c8e1dcb2c31ff2cc2",
+          "dimensions": [
+            1024,
+            1536
+          ],
+          "bytes": 459884,
+          "encoding": {
+            "quality": 94,
+            "method": 6
+          }
+        },
+        {
+          "source": "assets/portraits/wow-masters/arthas-menethil-depth-v2.png",
+          "sourceSha256": "90cbbae857b4ea22001561d9b2a3abb302e283cb0ee7f8b479ef50ab92ba15eb",
+          "output": "assets/portraits/wow-runtime/arthas-menethil-imagegen-v1-aiheight.webp",
+          "outputSha256": "26c01d4dc5e4d85ffdd8949479c0c5b1611217a8ac0d5a79b68da6fcd61d1dab",
+          "dimensions": [
+            1024,
+            1536
+          ],
+          "bytes": 355080,
+          "encoding": {
+            "lossless": true,
+            "method": 6
+          }
+        }
+      ],
+      "thumbnail": {
+        "output": "assets/portraits/wow-runtime/arthas-menethil-imagegen-v1-thumb.webp",
+        "sha256": "4601a807f9e454a56d6f74ca66f7f18b81a7aa7a23609337d45101ac7f39cee6",
+        "bytes": 74864,
+        "dimensions": [
+          400,
+          616
+        ]
+      },
+      "qc": "production/wow-imagegen/arthas-menethil-qc.json",
+      "heightSmoothingLogicalPixels": 2,
+      "layout": "warcraft-default",
+      "styleReference": "sylvanas-windrunner"
+    },
+    "illidan-stormrage": {
+      "generator": "built-in image_gen",
+      "recipe": "production/wow-imagegen-v1.json",
+      "cropBottom": 0,
+      "outputs": [
+        {
+          "source": "assets/portraits/wow-masters/illidan-stormrage-imagegen-v1.png",
+          "sourceSha256": "f0630f4bd5a5405044994aede8f8a5bed46ac47ce3250f1cfa531d0309d12de8",
+          "output": "assets/portraits/wow-runtime/illidan-stormrage-imagegen-v1-full.webp",
+          "outputSha256": "f2b69c4373191981bb972a2a20b0a8218233d243797d07e9dee04cb57a6ad2f5",
+          "dimensions": [
+            1024,
+            1536
+          ],
+          "bytes": 318492,
+          "encoding": {
+            "quality": 94,
+            "method": 6
+          }
+        },
+        {
+          "source": "assets/portraits/wow-masters/illidan-stormrage-depth-v2.png",
+          "sourceSha256": "5fb07294511f317ecef40420d64ce32209b11760df30addc1821f85bc4144fa6",
+          "output": "assets/portraits/wow-runtime/illidan-stormrage-imagegen-v1-aiheight.webp",
+          "outputSha256": "317cb6e7688fc5df6164d5a5a24265ffc0c4e660204f73b8a1a024d056bb525a",
+          "dimensions": [
+            1024,
+            1536
+          ],
+          "bytes": 354132,
+          "encoding": {
+            "lossless": true,
+            "method": 6
+          }
+        }
+      ],
+      "thumbnail": {
+        "output": "assets/portraits/wow-runtime/illidan-stormrage-imagegen-v1-thumb.webp",
+        "sha256": "3a1308e055089e78b58b61fb35493fcccb56a410841d2dbbde54f5f37a1e0c5c",
+        "bytes": 65232,
+        "dimensions": [
+          400,
+          616
+        ]
+      },
+      "qc": "production/wow-imagegen/illidan-stormrage-qc.json",
+      "heightSmoothingLogicalPixels": 2,
+      "layout": "warcraft-default",
+      "styleReference": "sylvanas-windrunner"
+    },
+    "thrall": {
+      "generator": "built-in image_gen",
+      "recipe": "production/wow-imagegen-v1.json",
+      "cropBottom": 0,
+      "outputs": [
+        {
+          "source": "assets/portraits/wow-masters/thrall-imagegen-v1.png",
+          "sourceSha256": "385cb04fbf439f54301260b97b357e6ee630bfd07baf6df52ab6af2b8110c314",
+          "output": "assets/portraits/wow-runtime/thrall-imagegen-v1-full.webp",
+          "outputSha256": "ff75c320708fc762d504cfceed563f76881cafa74e978b0d76d931cd57b5bee8",
+          "dimensions": [
+            1024,
+            1536
+          ],
+          "bytes": 450642,
+          "encoding": {
+            "quality": 94,
+            "method": 6
+          }
+        },
+        {
+          "source": "assets/portraits/wow-masters/thrall-depth-v2.png",
+          "sourceSha256": "f79fda07e46c917f1d3ff8f77711952f9d201f18854746baad8d495fb6d70fbe",
+          "output": "assets/portraits/wow-runtime/thrall-imagegen-v1-aiheight.webp",
+          "outputSha256": "64552a7b37f7dba6eae54073a06fdd426ed3541f56b5009f2deafc584043fa1d",
+          "dimensions": [
+            1024,
+            1536
+          ],
+          "bytes": 324456,
+          "encoding": {
+            "lossless": true,
+            "method": 6
+          }
+        }
+      ],
+      "thumbnail": {
+        "output": "assets/portraits/wow-runtime/thrall-imagegen-v1-thumb.webp",
+        "sha256": "21390b03cc4e803e9162df760d28560012469e0374442541015d799b97f775af",
+        "bytes": 70902,
+        "dimensions": [
+          400,
+          616
+        ]
+      },
+      "qc": "production/wow-imagegen/thrall-qc.json",
+      "heightSmoothingLogicalPixels": 2,
+      "layout": "warcraft-default",
+      "styleReference": "sylvanas-windrunner"
+    }
+  },
+  "cardArtSha256": "15ca6ee0b692153036fb59c517001f73e34e6edd1e8ba90a271ef5f5384ec4f9"
+}

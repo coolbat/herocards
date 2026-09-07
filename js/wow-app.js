@@ -27,6 +27,11 @@
   var tilt = document.getElementById('wowTilt');
   var stage = document.getElementById('wowStage');
   var cardCanvas = document.getElementById('wowCardCanvas');
+  var lightingCanvas = document.getElementById('wowCardLighting');
+  var lighting = null;
+  var pointerFrame = 0;
+  var pendingPointer = null;
+  var detailEpoch = 0;
 
   var hasArt = !!(window.CardArt && typeof CardArt.paintMini === 'function');
   var rendered = {};   // hero.id → 已渲染缩略卡
@@ -64,12 +69,21 @@
   function renderMini(cell) {
     var hero = byId(cell.dataset.id);
     if (!hero || rendered[hero.id] || !hasArt) return;
-    rendered[hero.id] = true;
     try {
-      var mini = CardArt.paintMini(hero, 300, 464);
       var canvas = cell.querySelector('canvas');
-      canvas.getContext('2d').drawImage(mini, 0, 0, 300, 464);
+      // Match the screen density instead of reducing every card to 300px first.
+      // Baked cards retain their available 400px detail; legacy vector cards can
+      // render above that. Bound the buffers for narrow/very high-DPR screens.
+      var dpr = Math.min(window.devicePixelRatio || 1, 2.5);
+      var width = Math.max(300, Math.min(640, Math.ceil((cell.clientWidth || 200) * dpr)));
+      var height = Math.round(width * 464 / 300);
+      var mini = CardArt.paintMini(hero, width, height);
+      canvas.width = width;
+      canvas.height = height;
+      var ctx = canvas.getContext('2d');
+      ctx.drawImage(mini, 0, 0);
       cell.classList.remove('is-pending');
+      rendered[hero.id] = true;
     } catch (err) {
       console.warn('[wow] 缩略卡渲染失败：' + hero.id, err);
     }
@@ -122,7 +136,10 @@
 
   /* ------------------------------------------------------------ 详情 */
   function openHero(hero) {
+    var epoch = ++detailEpoch;
     currentHero = hero;
+    if (lighting) { lighting.dispose(); lighting = null; }
+    cardCanvas.getContext('2d').clearRect(0, 0, cardCanvas.width, cardCanvas.height);
     overlay.hidden = false;
     document.body.style.overflow = 'hidden';
     try { history.replaceState(null, '', '#hero=' + hero.id); } catch (e) { /* file:// 忽略 */ }
@@ -177,11 +194,15 @@
        rAF 在无显示链路环境（headless）可能不派发，setTimeout 兜底。 */
     var painted = false;
     var paintDetail = function () {
-      if (painted || currentHero !== hero || !hasArt) return;
+      if (painted || epoch !== detailEpoch || currentHero !== hero || !hasArt) return;
       painted = true;
       try {
         var set = CardArt.paintFace(hero);
         cardCanvas.getContext('2d').drawImage(set.diffuse, 0, 0);
+        if (window.CardLighting && lightingCanvas) {
+          lighting = CardLighting.create(lightingCanvas);
+          if (lighting) lighting.setMaps(set);
+        }
       } catch (err) {
         console.warn('[wow] 详情卡渲染失败：' + hero.id, err);
       }
@@ -191,10 +212,15 @@
   }
 
   function closeHero() {
+    detailEpoch++;
+    if (lighting) { lighting.dispose(); lighting = null; }
+    if (pointerFrame) cancelAnimationFrame(pointerFrame);
+    pointerFrame = 0;
+    pendingPointer = null;
     currentHero = null;
     overlay.hidden = true;
     document.body.style.overflow = '';
-    try { history.replaceState(null, '', ' '); } catch (e) { /* ignore */ }
+    try { history.replaceState(null, '', location.pathname + location.search); } catch (e) { /* ignore */ }
   }
 
   closeBtn.addEventListener('click', closeHero);
@@ -212,10 +238,20 @@
       'rotateY(' + ((px - 0.5) * 14).toFixed(2) + 'deg) rotateX(' + ((0.5 - py) * 10).toFixed(2) + 'deg)';
     tilt.style.setProperty('--sx', (px * 100).toFixed(1) + '%');
     tilt.style.setProperty('--sy', (py * 100).toFixed(1) + '%');
+    pendingPointer = [Math.max(0, Math.min(1, px)), 1 - Math.max(0, Math.min(1, py))];
+    if (!pointerFrame) pointerFrame = requestAnimationFrame(function () {
+      pointerFrame = 0;
+      if (lighting) lighting.draw(pendingPointer);
+    });
   });
   stage.addEventListener('pointerleave', function () {
     tilt.style.transform = '';
+    pendingPointer = null;
+    if (pointerFrame) cancelAnimationFrame(pointerFrame);
+    pointerFrame = 0;
+    if (lighting) lighting.draw(null);
   });
+  window.addEventListener('resize', function () { if (lighting) lighting.resize(); });
 
   /* ------------------------------------------------------------ 启动 */
   buildGrid();

@@ -1,0 +1,42 @@
+{
+  "id": "arthas-menethil",
+  "nativeDimensions": [
+    1024,
+    1536
+  ],
+  "textureDimensions": [
+    1329,
+    2048
+  ],
+  "layout": "warcraft-default",
+  "styleReference": "sylvanas-windrunner",
+  "cropBottom": 0,
+  "renderMs": 724,
+  "goldLines": {
+    "seeds": 32067,
+    "comps": 23,
+    "moon": null,
+    "ms": 339
+  },
+  "legacy": {
+    "heightGradientP50": 2,
+    "heightGradientP99": 426,
+    "roughMidPercent": 53.14,
+    "normalActiveMean": 33.24,
+    "normalP99": 93,
+    "roughPass": true,
+    "normalPass": true
+  },
+  "optimized": {
+    "heightGradientP50": 1.5,
+    "heightGradientP99": 417,
+    "roughMidPercent": 53.28,
+    "normalActiveMean": 27.32,
+    "normalP99": 77,
+    "roughPass": true,
+    "normalPass": true
+  },
+  "lightPixelDelta": 21.041,
+  "thumbBytes": 74882,
+  "noUpscalingAtEncoding": true
+}

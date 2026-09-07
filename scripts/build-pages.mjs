@@ -12,6 +12,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import vm from 'node:vm';
 
 const repoDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const outputDir = path.join(repoDir, 'dist/pages');
@@ -25,6 +26,7 @@ const copies = [
   ['css/wow.css', 'css/wow.css'],
   ['js/heroes-data.js', 'js/heroes-data.js'],
   ['js/card-art.js', 'js/card-art.js'],
+  ['js/card-lighting.js', 'js/card-lighting.js'],
   ['js/atlas-data.js', 'js/atlas-data.js'],
   ['js/map-geometry.js', 'js/map-geometry.js'],
   ['js/atlas-map.js', 'js/atlas-map.js'],
@@ -71,6 +73,14 @@ fs.writeFileSync(path.join(outputDir, '.nojekyll'), '');
 
 // 引用完整性：三个 HTML 的 src/href 与 url() 相对引用必须全部存在
 const fileSet = new Set(copies.map(([, target]) => target));
+// Hero assets live in data scripts, so HTML-only reference checking cannot catch a missing card.
+const heroContext = { window: {} };
+vm.runInNewContext(fs.readFileSync(path.join(repoDir, 'js/heroes-data-wow.js'), 'utf8'), heroContext);
+for (const hero of heroContext.window.WOW_HEROES) {
+  for (const key of ['fullArt', 'fullArtHeight', 'fullArtThumb']) {
+    if (hero[key] && !fileSet.has(hero[key])) throw new Error(`${hero.id}: 未打包 ${key}: ${hero[key]}`);
+  }
+}
 for (const page of ['index.html', 'app.html', 'wow.html']) {
   const html = fs.readFileSync(path.join(outputDir, page), 'utf8');
   const refs = [

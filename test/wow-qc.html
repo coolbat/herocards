@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<base href="../"><title>魔兽卡面生成 QC</title>
+<link rel="icon" href="assets/icon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Jost:wght@400;500&family=Noto+Serif+SC:wght@400;700&display=swap">
+<style>
+  *{box-sizing:border-box} [hidden]{display:none!important} body{background:#10141a;color:#dfd6c5;margin:24px;font:14px system-ui}
+  h1{font-size:22px} .row{display:flex;gap:20px;flex-wrap:wrap} figure{margin:0} figcaption{margin:10px 0;color:#bda779}
+  .card{display:block;width:266px;height:410px} .map{width:150px;height:auto} #zoom{width:360px;height:300px}
+  pre{white-space:pre-wrap;font-size:12px} button{padding:10px 18px;margin:12px 10px 12px 0}
+</style></head><body>
+<h1 id="title">正在渲染…</h1>
+<p>统一采用希尔瓦娜斯的铭牌、绶带、三枚属性圆章与双徽章。对比默认裁剪／材质与逐卡适配参数；移动光源使用实际生产光照模块。</p>
+<div class="row">
+  <figure><canvas id="card0" class="card"></canvas><figcaption>基准布局 · 默认裁剪／材质</figcaption></figure>
+  <figure><canvas id="card1" class="card"></canvas><figcaption>同款布局 · 逐卡适配 · 默认光</figcaption></figure>
+  <figure><canvas id="card2" class="card"></canvas><figcaption>同款布局 · 左上光</figcaption></figure>
+  <figure><canvas id="card3" class="card"></canvas><figcaption>同款布局 · 右下光</figcaption></figure>
+</div>
+<div class="row">
+  <figure><canvas id="zoom" width="360" height="300"></canvas><figcaption>脸部 · 100% 贴图像素</figcaption></figure>
+  <figure><canvas id="diffuse" class="map" width="266" height="410"></canvas><figcaption>色彩</figcaption></figure>
+  <figure><canvas id="height" class="map" width="266" height="410"></canvas><figcaption>合成高度</figcaption></figure>
+  <figure><canvas id="normal" class="map" width="266" height="410"></canvas><figcaption>法线</figcaption></figure>
+  <figure><canvas id="rough" class="map" width="266" height="410"></canvas><figcaption>粗糙度</figcaption></figure>
+</div>
+<button id="export-thumb" disabled>导出成卡缩略图</button><button id="export-report" disabled>导出 QC 数据</button>
+<pre id="log"></pre>
+<script src="js/heroes-data-wow.js"></script><script src="js/card-art.js"></script>
+<script src="js/card-lighting.js"></script><script src="test/wow-qc.js"></script>
+</body></html>

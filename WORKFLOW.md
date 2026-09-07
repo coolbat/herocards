@@ -1,5 +1,8 @@
 # herocards · 高质量英雄卡牌生产工作流
 
+> 2026-09-07 增量：魔兽 ImageGen 批次已新增吉安娜、萨尔、阿尔萨斯、伊利丹，
+> 全幅卡现为 5/24。该批次按文末「ImageGen 原生卡面」记录执行；下文 v7 参数仍为旧卡基准。
+
 > 本文档是给**零上下文 Agent** 看的完整作业手册。读完本文档 + 按 SOP 执行，即可产出与既有基准卡（希尔瓦娜斯 v7）同等质量的卡牌。
 > 文档中的所有参数都是经过多轮迭代验收的**定稿值**，不要凭直觉改动；确需调整时，必须先在测试页对比验证并在「决策日志」中登记。
 
@@ -282,3 +285,42 @@ dreamina image2image --model_version=4.7 --ratio=2:3 --resolution_type=2k \
 - 魔兽数据 `js/heroes-data-wow.js`：24 人重编（旧数据未入 git 已丢失）；23 人走肖像窗降级路径（`assets/portraits/<id>.webp`），希瓦 fullArt 走 v7 全幅管线（运行图 `assets/portraits/wow-runtime/`，禁区用 card-art.js 内置希瓦定稿默认区）；其余 23 张全幅卡量产仍为待办
 - 构建：`npm run build:pages` → `dist/pages/`（约 11.5 MiB，含引用完整性校验）；发布：`gh-pages` 分支根目录 + repo 公开
 - wow-app.js 环境兜底：IntersectionObserver 不派发时 1.2s 全量补渲卡墙；rAF 缺显示链路时 80ms setTimeout 画详情卡
+
+## 2026-09-07 · ImageGen 原生卡面与显示层
+
+本批用户指定内置 ImageGen，实际输出 1024×1536 原画和同尺寸 v2 语义深度图。
+提示词、拒绝样本说明及英雄列表保存在 `production/wow-imagegen-v1.json`。
+不将灰色泥塑/浮雕照片当作深度图；深度贴图必须去除原画光照，保留主体与背景的几何层级。
+
+新四卡使用以下显式字段，希尔瓦娜斯和国风卡继续保持既有默认值：
+
+- `fullArtCropBottom`：萨尔、阿尔萨斯、伊利丹为 0；吉安娜为 0.20，放大取景以使脸部落到固定称号暗底下方。色彩图、深度图共用同一裁剪；金线禁区坐标随取景调整。
+- `fullArtHeightSmoothing: 2`：AI 深度融合前做 2 逻辑像素半径的三轮盒式平滑，抑制硬轮廓法线跳变。
+- 装饰布局统一沿用希尔瓦娜斯 v7 默认：顶部铭牌／称号、中下部绶带、三枚属性圆章、底部双徽章。用户在网页预览后指定以希尔瓦娜斯实施；此前 compact 试验已撤回，不再设置 `fullArtLayout`，后续英雄也沿用同一模板。
+- `goldLineParams`：独立脸部/场景禁区；本批不用程序拟合月环；阿尔萨斯 `minComp: 900`，其余沿用 450。
+- `fullArtThumb`：由已验收成卡导出的 400×616 WebP，卡墙无需现场构建四张大贴图。
+
+原画和深度母版在 `assets/portraits/wow-masters/`。运行图由
+`python3 production/build-wow-runtime.py [hero-id ...]` 从母版一次编码：
+原画 WebP q94，深度灰度无损，不扩大原生尺寸。
+该脚本仅负责编码；金线、布局、字体或原画变更后仍须重新执行成卡 QC 与缩略图导出。
+
+在项目根起本地服务，使用 `test/wow-qc.html?hero=<id>` 做同源 A/B、三光位和原生像素检查；
+`playwright-cli run-code --filename=production/bake-wow-thumbs.cjs` 导出四卡缩略图和数值。
+主材质门槛已通过，但高度梯度仍有已记录偏差，见
+`docs/card-generation-audit-2026-09-07.md`，不能宣称所有历史 QC 指标全部达标。
+
+魔兽详情新增 `js/card-lighting.js`，上传 diffuse/normal/rough/height，沿用 `js/app.js`
+既定 shader 和参数，按指针/尺寸事件绘制，关闭即释放 GPU 资源；支持失去/恢复上下文、
+WebGL 不可用时的 2D 降级和 reduced-motion。此模块未接入国风主站。
+390px 手机端卡面从 210px 调整到 310px，DPR 上限 2.5。
+
+验证：`npm run check`（26 项）、`npm run build:pages`，以及
+`playwright-cli run-code --filename=test/verify-wow-browser.cjs`。
+逐卡证据在 `production/wow-imagegen/`，截图在 `output/playwright/`。
+本次仅本地实现与验证，不代表已部署。
+
+2026-09-07 后续决定：清晰度修正与样式统一分别处理。保留 diffuse 完整纹理采样、
+详情最少 2 倍／最多 2.5 倍采样、未倾斜布局尺寸作为缓冲依据、卡墙按屏幕 DPR 绘制。
+原画无水印的裁剪和逐卡金线禁区继续按具体画面配置，装饰层直接复用希尔瓦娜斯默认路径。
+版式变更后必须重新导出四卡缩略图、刷新清单中的缩略图与渲染器哈希，并在网页检查五卡并排效果。

@@ -1,0 +1,25 @@
+{
+  "pointerLight": true,
+  "desktopSupersampling": {
+    "sum": 516537496,
+    "width": 620,
+    "height": 956,
+    "error": 0
+  },
+  "stableBufferOnTilt": true,
+  "diffuseDetailSampling": true,
+  "contextLossSupported": true,
+  "contextRestored": true,
+  "reducedMotion": true,
+  "escapeClose": true,
+  "factionFilter": true,
+  "allFiveFullArtDetails": true,
+  "mobile390Dpr3": {
+    "sum": 3951019667,
+    "width": 775,
+    "height": 1195,
+    "error": 0
+  },
+  "webglUnavailableFallback": true,
+  "pageErrors": []
+}

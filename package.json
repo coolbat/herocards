@@ -11,6 +11,7 @@
     "build:pages": "node scripts/build-pages.mjs",
     "test:map": "node --test test/atlas-geometry.test.mjs",
     "test:xhs": "node --test test/xhs-bridge.test.mjs test/xhs-package.test.mjs",
-    "check": "node --check js/*.js scripts/*.mjs && npm run test:map && npm run test:xhs"
+    "test:wow": "node --test test/wow-assets.test.mjs",
+    "check": "node --check js/*.js scripts/*.mjs && npm run test:map && npm run test:xhs && npm run test:wow"
   }
 }
