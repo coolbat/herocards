@@ -6,10 +6,10 @@
  * 供 js/card-art.js 直接消费；仅由 wow.html 引入，与国风主站互不影响。
  *
  * 资产路由：
- *   - 23 位英雄走肖像窗降级路径（assets/portraits/<id>.webp 旧版油画肖像）；
+ *   - 19 位英雄走肖像窗降级路径（assets/portraits/<id>.webp 旧版油画肖像）；
  *   - 希尔瓦娜斯带 fullArt / fullArtHeight，走全幅烫金浮雕管线（v7 基准卡，
  *     金线禁区用 card-art.js 内置的希瓦定稿默认区）。
- *   - 其余 23 张全幅卡量产为后续任务（WORKFLOW §11 待办）。
+ *   - 另 4 位接入 ImageGen 全幅原画、语义深度图、独立金线禁区及希瓦同款装饰。
  * ============================================================================ */
 (function (global) {
   'use strict';
@@ -43,6 +43,18 @@
 
     {
       id: 'jaina-proudmoore',
+      fullArt: 'assets/portraits/wow-runtime/jaina-proudmoore-imagegen-v1-full.webp',
+      fullArtThumb: 'assets/portraits/wow-runtime/jaina-proudmoore-imagegen-v1-thumb.webp',
+      fullArtHeight: 'assets/portraits/wow-runtime/jaina-proudmoore-imagegen-v1-aiheight.webp',
+      fullArtCropBottom: 0.20, // keep the face below the shared title's backing (ends at y=226)
+      fullArtHeightSmoothing: 2,
+      goldLineParams: { moonRing: false, skipZones: [
+        { x: 335, y: 269, rx: 95, ry: 94 },
+        { x: 527, y: 460, rx: 69, ry: 60 },
+        { x: 7, y: 563, rx: 110, ry: 350 },
+        { x: 661, y: 700, rx: 144, ry: 375 },
+        { x: 332, y: 1060, rx: 550, ry: 120 }
+      ] },
       name:  { zh: '吉安娜·普罗德摩尔', en: 'Jaina Proudmoore' },
       title: { zh: '海军统帅', en: 'Lord Admiral of Kul Tiras' },
       faction: 'alliance',
@@ -171,6 +183,18 @@
 
     {
       id: 'thrall',
+      fullArt: 'assets/portraits/wow-runtime/thrall-imagegen-v1-full.webp',
+      fullArtThumb: 'assets/portraits/wow-runtime/thrall-imagegen-v1-thumb.webp',
+      fullArtHeight: 'assets/portraits/wow-runtime/thrall-imagegen-v1-aiheight.webp',
+      fullArtCropBottom: 0,
+      fullArtHeightSmoothing: 2,
+      goldLineParams: { moonRing: false, skipZones: [
+        { x: 320, y: 243, rx: 64, ry: 80 },
+        { x: 75, y: 405, rx: 73, ry: 245 },
+        { x: 605, y: 654, rx: 85, ry: 225 },
+        { x: 332, y: 110, rx: 360, ry: 155 },
+        { x: 332, y: 998, rx: 430, ry: 102 }
+      ] },
       name:  { zh: '萨尔', en: 'Thrall' },
       title: { zh: '世界萨满', en: 'The World Shaman' },
       faction: 'horde',
@@ -288,6 +312,20 @@
 
     {
       id: 'illidan-stormrage',
+      fullArt: 'assets/portraits/wow-runtime/illidan-stormrage-imagegen-v1-full.webp',
+      fullArtThumb: 'assets/portraits/wow-runtime/illidan-stormrage-imagegen-v1-thumb.webp',
+      fullArtHeight: 'assets/portraits/wow-runtime/illidan-stormrage-imagegen-v1-aiheight.webp',
+      fullArtCropBottom: 0,
+      fullArtHeightSmoothing: 2,
+      goldLineParams: { moonRing: false, skipZones: [
+        { x: 332, y: 255, rx: 116, ry: 107 },
+        { x: 140, y: 435, rx: 105, ry: 210 },
+        { x: 525, y: 448, rx: 100, ry: 208 },
+        { x: 30, y: 438, rx: 56, ry: 320 },
+        { x: 633, y: 438, rx: 56, ry: 320 },
+        { x: 332, y: 170, rx: 115, ry: 55 },
+        { x: 332, y: 997, rx: 430, ry: 110 }
+      ] },
       name:  { zh: '伊利丹·怒风', en: 'Illidan Stormrage' },
       title: { zh: '背叛者', en: 'The Betrayer' },
       faction: 'neutral',
@@ -302,6 +340,19 @@
 
     {
       id: 'arthas-menethil',
+      fullArt: 'assets/portraits/wow-runtime/arthas-menethil-imagegen-v1-full.webp',
+      fullArtThumb: 'assets/portraits/wow-runtime/arthas-menethil-imagegen-v1-thumb.webp',
+      fullArtHeight: 'assets/portraits/wow-runtime/arthas-menethil-imagegen-v1-aiheight.webp',
+      fullArtCropBottom: 0,
+      fullArtHeightSmoothing: 2,
+      goldLineParams: { moonRing: false, minComp: 900, skipZones: [
+        { x: 330, y: 238, rx: 68, ry: 72 },
+        { x: 65, y: 440, rx: 105, ry: 260 },
+        { x: 575, y: 343, rx: 100, ry: 270 },
+        { x: 332, y: 997, rx: 425, ry: 108 },
+        { x: 90, y: 855, rx: 140, ry: 105 },
+        { x: 590, y: 855, rx: 130, ry: 105 }
+      ] },
       name:  { zh: '阿尔萨斯·米奈希尔', en: 'Arthas Menethil' },
       title: { zh: '巫妖王', en: 'The Lich King' },
       faction: 'neutral',

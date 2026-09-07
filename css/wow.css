@@ -263,6 +263,9 @@ a { color: var(--arcane); text-decoration: none; }
   transition: opacity .2s;
 }
 .tilt:hover .shine { opacity: 1; }
+.card-lighting { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; border-radius: 16px; }
+.card-lighting:not([hidden]) ~ .shine { display: none; }
+@media (prefers-reduced-motion: reduce) { .tilt { transform: none !important; transition: none; } }
 
 .meta { min-width: 0; max-width: 440px; }
 
