@@ -1,0 +1,368 @@
+/* ============================================================================
+   艾泽拉斯英雄志 · 展示页样式（wow.html）
+   暗夜蓝黑底 + 烧金线 + 奥术蓝 accent；阵营三色：联盟蓝 / 部落红 / 中立金。
+   配色沿用 css/style.wow-legacy.css（旧站皮肤备份）的色板。
+   ========================================================================== */
+
+:root {
+  --bg: #0a0d14;
+  --bg-lift: #10141d;
+  --panel: #0e1219;
+  --panel-border: #262b38;
+  --line: rgba(236, 227, 207, 0.14);
+  --cream: #ece3cf;
+  --cream-dim: #c7bda8;
+  --muted: #918a78;
+  --arcane: #69ccf0;
+  --gold: #c8a55a;
+  --alliance: #4a8fdd;
+  --horde: #c41f3b;
+  --neutral: #c8a55a;
+  --serif: 'Cinzel', 'Noto Serif SC', serif;
+  --body: 'Noto Serif SC', serif;
+  --sans: 'Jost', 'Noto Sans SC', sans-serif;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+[hidden] { display: none !important; }
+
+html { background: var(--bg); }
+
+body {
+  min-height: 100vh;
+  background:
+    radial-gradient(1200px 600px at 50% -10%, rgba(105, 204, 240, 0.07), transparent 60%),
+    radial-gradient(900px 500px at 85% 110%, rgba(200, 165, 90, 0.06), transparent 60%),
+    var(--bg);
+  color: var(--cream);
+  font-family: var(--body);
+  -webkit-font-smoothing: antialiased;
+}
+
+a { color: var(--arcane); text-decoration: none; }
+
+/* ------------------------------------------------------------- 页头 */
+.wow-header {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 26px clamp(16px, 5vw, 56px) 18px;
+  border-bottom: 1px solid var(--line);
+}
+
+.wow-home {
+  font-family: var(--sans);
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  color: var(--cream-dim);
+  white-space: nowrap;
+  padding: 6px 10px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  transition: color .2s, border-color .2s;
+}
+.wow-home:hover { color: var(--cream); border-color: var(--gold); }
+
+.wow-brand { flex: 1; text-align: center; }
+
+.wow-brand-en {
+  font-family: var(--serif);
+  font-size: 12px;
+  letter-spacing: 0.42em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
+.wow-brand-zh {
+  font-family: var(--body);
+  font-weight: 700;
+  font-size: clamp(24px, 4vw, 34px);
+  letter-spacing: 0.18em;
+  margin-top: 4px;
+  background: linear-gradient(160deg, #f4e9c8, var(--gold) 55%, #8a6d35);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.wow-brand-sub {
+  margin-top: 4px;
+  font-size: 13px;
+  letter-spacing: 0.28em;
+  color: var(--muted);
+}
+
+.wow-count {
+  font-family: var(--sans);
+  font-size: 13px;
+  letter-spacing: 0.1em;
+  color: var(--cream-dim);
+  white-space: nowrap;
+}
+
+/* ------------------------------------------------------------- 筛选 */
+.wow-chips {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  padding: 18px 16px 6px;
+  flex-wrap: wrap;
+}
+
+.chip {
+  font-family: var(--sans);
+  font-size: 14px;
+  letter-spacing: 0.14em;
+  color: var(--cream-dim);
+  background: var(--panel);
+  border: 1px solid var(--panel-border);
+  border-radius: 999px;
+  padding: 7px 20px;
+  cursor: pointer;
+  transition: color .2s, border-color .2s, box-shadow .2s;
+}
+.chip:hover { color: var(--cream); border-color: var(--gold); }
+.chip.is-active { color: #0a0d14; background: var(--gold); border-color: var(--gold); }
+.chip-alliance.is-active { background: var(--alliance); border-color: var(--alliance); }
+.chip-horde.is-active { background: var(--horde); border-color: var(--horde); color: #fff; }
+.chip-neutral.is-active { background: var(--neutral); border-color: var(--neutral); }
+
+/* ------------------------------------------------------------- 卡墙 */
+.wow-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(168px, 1fr));
+  gap: clamp(14px, 2.4vw, 26px);
+  padding: 26px clamp(16px, 5vw, 56px) 40px;
+  max-width: 1240px;
+  margin: 0 auto;
+}
+
+.wc-card {
+  position: relative;
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  border-radius: 12px;
+  transition: transform .25s ease;
+}
+.wc-card:hover { transform: translateY(-6px); }
+.wc-card:focus-visible { outline: 2px solid var(--arcane); outline-offset: 3px; }
+
+.wc-card canvas {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 300 / 464;
+  border-radius: 12px;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.55);
+}
+
+.wc-card.is-pending canvas { background: var(--bg-lift); }
+
+.wc-card[data-rarity="legendary"] canvas { box-shadow: 0 10px 28px rgba(0,0,0,.55), 0 0 18px rgba(255,128,0,.22); }
+.wc-card[data-rarity="epic"] canvas { box-shadow: 0 10px 28px rgba(0,0,0,.55), 0 0 18px rgba(163,53,238,.20); }
+.wc-card[data-rarity="rare"] canvas { box-shadow: 0 10px 28px rgba(0,0,0,.55), 0 0 18px rgba(0,112,221,.22); }
+
+.wc-faction {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  font-family: var(--sans);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  padding: 3px 9px;
+  border-radius: 999px;
+  color: #0a0d14;
+  pointer-events: none;
+}
+.wc-faction.alliance { background: var(--alliance); }
+.wc-faction.horde { background: var(--horde); color: #fff; }
+.wc-faction.neutral { background: var(--neutral); }
+
+/* ------------------------------------------------------------- 页脚 */
+.wow-footer {
+  border-top: 1px solid var(--line);
+  padding: 22px 16px 34px;
+  text-align: center;
+  font-size: 13px;
+  color: var(--muted);
+  letter-spacing: 0.06em;
+}
+.wow-footer p + p { margin-top: 6px; }
+
+/* ------------------------------------------------------------- 详情浮层 */
+.wow-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(10px, 3vw, 32px);
+}
+
+.wow-overlay-bg {
+  position: absolute;
+  inset: 0;
+  background: rgba(4, 6, 10, 0.82);
+  backdrop-filter: blur(6px);
+}
+
+.wow-detail {
+  position: relative;
+  display: flex;
+  gap: clamp(18px, 3.5vw, 44px);
+  align-items: center;
+  max-width: 900px;
+  max-height: 100%;
+  background: var(--panel);
+  border: 1px solid var(--panel-border);
+  border-radius: 18px;
+  padding: clamp(18px, 3vw, 36px);
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6);
+  overflow: auto;
+}
+
+.wow-close {
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  width: 34px;
+  height: 34px;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  background: none;
+  color: var(--cream-dim);
+  font-size: 20px;
+  line-height: 1;
+  cursor: pointer;
+  transition: color .2s, border-color .2s;
+}
+.wow-close:hover { color: var(--cream); border-color: var(--gold); }
+
+.wow-stage { perspective: 1100px; flex: none; }
+
+.wow-tilt {
+  position: relative;
+  width: clamp(210px, 30vw, 310px);
+  aspect-ratio: 664 / 1024;
+  transform-style: preserve-3d;
+  transition: transform .12s ease-out;
+}
+
+.wow-card-canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: 14px;
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.65);
+}
+
+.wow-shine {
+  position: absolute;
+  inset: 0;
+  border-radius: 14px;
+  pointer-events: none;
+  background: radial-gradient(420px 420px at var(--sx, 50%) var(--sy, 50%),
+              rgba(255, 244, 214, 0.16), transparent 60%);
+  opacity: 0;
+  transition: opacity .2s;
+}
+.wow-tilt:hover .wow-shine { opacity: 1; }
+
+.wow-meta { min-width: 0; max-width: 420px; }
+
+.wm-title-en {
+  font-family: var(--serif);
+  font-size: 12px;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
+.wm-name {
+  font-size: clamp(24px, 3.4vw, 32px);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  margin-top: 6px;
+}
+
+.wm-title-zh {
+  margin-top: 4px;
+  font-size: 15px;
+  color: var(--cream-dim);
+  letter-spacing: 0.2em;
+}
+
+.wm-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 14px;
+}
+
+.wm-badge {
+  font-family: var(--sans);
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  padding: 4px 12px;
+  border-radius: 999px;
+  border: 1px solid var(--panel-border);
+  color: var(--cream-dim);
+}
+
+.wm-quote {
+  margin-top: 18px;
+  padding-left: 14px;
+  border-left: 2px solid var(--gold);
+  font-size: 16px;
+  color: var(--gold);
+  letter-spacing: 0.05em;
+}
+
+.wm-lore {
+  margin-top: 14px;
+  font-size: 14px;
+  line-height: 1.9;
+  color: var(--cream-dim);
+  text-align: justify;
+}
+
+.wm-stats { margin-top: 18px; display: grid; gap: 10px; }
+
+.wm-stat {
+  display: grid;
+  grid-template-columns: 44px 1fr 26px;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--sans);
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  color: var(--cream-dim);
+}
+
+.wm-stat-track {
+  height: 5px;
+  border-radius: 3px;
+  background: rgba(236, 227, 207, 0.1);
+  overflow: hidden;
+}
+
+.wm-stat-fill {
+  display: block;
+  height: 100%;
+  border-radius: 3px;
+  background: var(--gold);
+}
+
+/* ------------------------------------------------------------- 响应式 */
+@media (max-width: 760px) {
+  .wow-header { flex-wrap: wrap; justify-content: center; }
+  .wow-brand { order: -1; flex-basis: 100%; }
+  .wow-detail { flex-direction: column; align-items: center; }
+  .wow-meta { max-width: 100%; }
+  .wow-grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); }
+}

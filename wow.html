@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>艾泽拉斯英雄志 — 魔兽世界英雄收藏卡 · herocards</title>
+<meta name="description" content="魔兽世界 24 位英雄的烫金浮雕收藏卡展示：联盟、部落与中立传说，油画肖像与全幅金线蚀刻卡面。">
+<link rel="icon" href="assets/icon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Jost:wght@400;500&family=Noto+Serif+SC:wght@400;700&family=Noto+Sans+SC:wght@400;500&display=swap">
+<link rel="stylesheet" href="css/wow.css">
+</head>
+<body>
+
+<header class="wow-header">
+  <a class="wow-home" href="index.html" aria-label="返回首页">‹ herocards</a>
+  <div class="wow-brand">
+    <span class="wow-brand-en">Heroes of Azeroth</span>
+    <h1 class="wow-brand-zh">艾泽拉斯英雄志</h1>
+    <p class="wow-brand-sub">二十四位英雄 · 烫金浮雕收藏卡</p>
+  </div>
+  <div class="wow-count" id="wowCount" aria-live="polite">24 位英雄</div>
+</header>
+
+<nav class="wow-chips" id="wowChips" aria-label="阵营筛选">
+  <button class="chip is-active" data-faction="all" type="button">全部</button>
+  <button class="chip chip-alliance" data-faction="alliance" type="button">联盟</button>
+  <button class="chip chip-horde" data-faction="horde" type="button">部落</button>
+  <button class="chip chip-neutral" data-faction="neutral" type="button">中立</button>
+</nav>
+
+<main class="wow-grid" id="wowGrid" aria-label="英雄卡墙"></main>
+
+<footer class="wow-footer">
+  <p>卡牌由 WebGL 烫金浮雕管线实时渲染 · 希尔瓦娜斯为全幅金线蚀刻基准卡</p>
+  <p><a href="app.html">华夏人物图鉴 ›</a></p>
+</footer>
+
+<!-- 英雄详情浮层 -->
+<div class="wow-overlay" id="wowOverlay" hidden>
+  <div class="wow-overlay-bg" id="wowOverlayBg"></div>
+  <div class="wow-detail" role="dialog" aria-modal="true" aria-label="英雄详情">
+    <button class="wow-close" id="wowClose" type="button" aria-label="关闭">×</button>
+    <div class="wow-stage" id="wowStage">
+      <div class="wow-tilt" id="wowTilt">
+        <canvas class="wow-card-canvas" id="wowCardCanvas" width="1329" height="2048"></canvas>
+        <div class="wow-shine" id="wowShine" aria-hidden="true"></div>
+      </div>
+    </div>
+    <aside class="wow-meta">
+      <p class="wm-title-en" id="wmTitleEn"></p>
+      <h2 class="wm-name" id="wmName"></h2>
+      <p class="wm-title-zh" id="wmTitleZh"></p>
+      <div class="wm-badges" id="wmBadges"></div>
+      <blockquote class="wm-quote" id="wmQuote"></blockquote>
+      <p class="wm-lore" id="wmLore"></p>
+      <div class="wm-stats" id="wmStats"></div>
+    </aside>
+  </div>
+</div>
+
+<script src="js/heroes-data-wow.js"></script>
+<script src="js/card-art.js"></script>
+<script src="js/wow-app.js"></script>
+</body>
+</html>

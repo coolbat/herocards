@@ -275,3 +275,10 @@ dreamina image2image --model_version=4.7 --ratio=2:3 --resolution_type=2k \
 - 旧 2.5D 图片保留为校准对照；`test/atlas-calibration.html` 可编辑控制点，三角网外拒绝外推
 - 点位展示 `site/city/region/unknown` 精度和 `high/medium/low` 置信度；路线虚线仅表示生平叙事次序
 - 完整数据约定、校准边界与验证方式见 `docs/atlas.md`，统一检查命令为 `npm run check`
+
+### GitHub Pages 双主题展示站（2026-09-07）
+
+- 落地页 `site/index.html` → 发布为 `index.html`；国风主站 `index.html` 原样发布为 `app.html`（源码侧不动 index.html，XHS 打包链路零影响）；魔兽展示页 `wow.html`
+- 魔兽数据 `js/heroes-data-wow.js`：24 人重编（旧数据未入 git 已丢失）；23 人走肖像窗降级路径（`assets/portraits/<id>.webp`），希瓦 fullArt 走 v7 全幅管线（运行图 `assets/portraits/wow-runtime/`，禁区用 card-art.js 内置希瓦定稿默认区）；其余 23 张全幅卡量产仍为待办
+- 构建：`npm run build:pages` → `dist/pages/`（约 11.5 MiB，含引用完整性校验）；发布：`gh-pages` 分支根目录 + repo 公开
+- wow-app.js 环境兜底：IntersectionObserver 不派发时 1.2s 全量补渲卡墙；rAF 缺显示链路时 80ms setTimeout 画详情卡
