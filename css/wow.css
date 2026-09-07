@@ -1,0 +1,360 @@
+/* ============================================================================
+   艾泽拉斯英雄志 · 展示页样式（wow.html，驱动 js/showcase.js）
+   暗夜蓝黑底 + 烧金线 + 奥术蓝 accent；阵营三色：联盟蓝 / 部落红 / 中立金。
+   配色沿用 css/style.wow-legacy.css（旧站皮肤备份）的色板。
+   ========================================================================== */
+
+:root {
+  --bg: #0a0d14;
+  --bg-lift: #10141d;
+  --panel: #0e1219;
+  --panel-border: #262b38;
+  --line: rgba(236, 227, 207, 0.14);
+  --cream: #ece3cf;
+  --cream-dim: #c7bda8;
+  --muted: #918a78;
+  --arcane: #69ccf0;
+  --gold: #c8a55a;
+  --alliance: #4a8fdd;
+  --horde: #c41f3b;
+  --neutral: #c8a55a;
+  --serif: 'Cinzel', 'Noto Serif SC', serif;
+  --body: 'Noto Serif SC', serif;
+  --sans: 'Jost', 'Noto Sans SC', sans-serif;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+[hidden] { display: none !important; }
+
+html { background: var(--bg); }
+
+body {
+  min-height: 100vh;
+  background:
+    radial-gradient(1200px 600px at 50% -10%, rgba(105, 204, 240, 0.07), transparent 60%),
+    radial-gradient(900px 500px at 85% 110%, rgba(200, 165, 90, 0.06), transparent 60%),
+    var(--bg);
+  color: var(--cream);
+  font-family: var(--body);
+  -webkit-font-smoothing: antialiased;
+}
+
+a { color: var(--arcane); text-decoration: none; }
+
+/* ------------------------------------------------------------- 页头 */
+.wow-header {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 26px clamp(16px, 5vw, 56px) 18px;
+  border-bottom: 1px solid var(--line);
+}
+
+.wow-home {
+  font-family: var(--sans);
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  color: var(--cream-dim);
+  white-space: nowrap;
+  padding: 6px 10px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  transition: color .2s, border-color .2s;
+}
+.wow-home:hover { color: var(--cream); border-color: var(--gold); }
+
+.wow-brand { flex: 1; text-align: center; }
+
+.wow-brand-en {
+  font-family: var(--serif);
+  font-size: 12px;
+  letter-spacing: 0.42em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
+.wow-brand-zh {
+  font-family: var(--body);
+  font-weight: 700;
+  font-size: clamp(24px, 4vw, 34px);
+  letter-spacing: 0.18em;
+  margin-top: 4px;
+  background: linear-gradient(160deg, #f4e9c8, var(--gold) 55%, #8a6d35);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.wow-brand-sub {
+  margin-top: 4px;
+  font-size: 13px;
+  letter-spacing: 0.28em;
+  color: var(--muted);
+}
+
+.wow-count {
+  font-family: var(--sans);
+  font-size: 13px;
+  letter-spacing: 0.1em;
+  color: var(--cream-dim);
+  white-space: nowrap;
+}
+
+/* ------------------------------------------------------------- 筛选 */
+.wow-chips {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  padding: 18px 16px 6px;
+  flex-wrap: wrap;
+}
+
+.chip {
+  font-family: var(--sans);
+  font-size: 14px;
+  letter-spacing: 0.14em;
+  color: var(--cream-dim);
+  background: var(--panel);
+  border: 1px solid var(--panel-border);
+  border-radius: 999px;
+  padding: 7px 20px;
+  cursor: pointer;
+  transition: color .2s, border-color .2s, box-shadow .2s;
+}
+.chip:hover { color: var(--cream); border-color: var(--gold); }
+.chip.is-active { color: #0a0d14; background: var(--gold); border-color: var(--gold); }
+.chip-alliance.is-active { background: var(--alliance); border-color: var(--alliance); }
+.chip-horde.is-active { background: var(--horde); border-color: var(--horde); color: #fff; }
+.chip-neutral.is-active { background: var(--neutral); border-color: var(--neutral); }
+
+/* ------------------------------------------------------------- 卡墙 */
+.wow-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(168px, 1fr));
+  gap: clamp(14px, 2.4vw, 26px);
+  padding: 26px clamp(16px, 5vw, 56px) 40px;
+  max-width: 1240px;
+  margin: 0 auto;
+}
+
+.cell {
+  position: relative;
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  border-radius: 12px;
+  transition: transform .25s ease;
+}
+.cell:hover { transform: translateY(-6px); }
+.cell:focus-visible { outline: 2px solid var(--arcane); outline-offset: 3px; }
+
+.cell canvas {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 300 / 464;
+  border-radius: 12px;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.55);
+}
+
+.cell.is-pending canvas { background: var(--bg-lift); }
+
+.cell[data-rarity="legendary"] canvas { box-shadow: 0 10px 28px rgba(0,0,0,.55), 0 0 18px rgba(255,128,0,.22); }
+.cell[data-rarity="epic"] canvas { box-shadow: 0 10px 28px rgba(0,0,0,.55), 0 0 18px rgba(163,53,238,.20); }
+.cell[data-rarity="rare"] canvas { box-shadow: 0 10px 28px rgba(0,0,0,.55), 0 0 18px rgba(0,112,221,.22); }
+
+.cell-tag {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  font-family: var(--sans);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  padding: 3px 9px;
+  border-radius: 999px;
+  color: #0a0d14;
+  pointer-events: none;
+}
+.cell-tag.t-alliance { background: var(--alliance); }
+.cell-tag.t-horde { background: var(--horde); color: #fff; }
+.cell-tag.t-neutral { background: var(--neutral); }
+
+/* ------------------------------------------------------------- 页脚 */
+.wow-footer {
+  border-top: 1px solid var(--line);
+  padding: 22px 16px 34px;
+  text-align: center;
+  font-size: 13px;
+  color: var(--muted);
+  letter-spacing: 0.06em;
+}
+.wow-footer p + p { margin-top: 6px; }
+
+/* ------------------------------------------------------------- 详情整页视图 */
+.view {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  overflow: auto;
+  background:
+    radial-gradient(1000px 600px at 30% 0%, rgba(105, 204, 240, 0.08), transparent 60%),
+    var(--bg);
+}
+
+.view-back {
+  position: absolute;
+  top: calc(14px + env(safe-area-inset-top, 0px));
+  left: 16px;
+  z-index: 5;
+  padding: 8px 16px;
+  font-family: var(--sans);
+  font-size: 14px;
+  letter-spacing: 0.1em;
+  color: var(--cream-dim);
+  background: var(--panel);
+  border: 1px solid var(--panel-border);
+  border-radius: 999px;
+  cursor: pointer;
+  transition: color .2s, border-color .2s;
+}
+.view-back:hover { color: var(--cream); border-color: var(--gold); }
+
+.view-body {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(24px, 4.5vw, 64px);
+  padding: clamp(64px, 9vh, 90px) clamp(18px, 4vw, 56px) clamp(28px, 5vh, 56px);
+  max-width: 1180px;
+  margin: 0 auto;
+}
+
+.stage { perspective: 1200px; flex: none; }
+
+/* 大卡：高度贴视口，比旧弹层大得多 */
+.tilt {
+  position: relative;
+  height: min(84vh, 900px);
+  aspect-ratio: 664 / 1024;
+  transform-style: preserve-3d;
+  transition: transform .12s ease-out;
+}
+
+.card-canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: 16px;
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.7);
+}
+
+.shine {
+  position: absolute;
+  inset: 0;
+  border-radius: 16px;
+  pointer-events: none;
+  background: radial-gradient(420px 420px at var(--sx, 50%) var(--sy, 50%),
+              rgba(255, 244, 214, 0.16), transparent 60%);
+  opacity: 0;
+  transition: opacity .2s;
+}
+.tilt:hover .shine { opacity: 1; }
+
+.meta { min-width: 0; max-width: 440px; }
+
+.m-title-en {
+  font-family: var(--serif);
+  font-size: 13px;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
+.m-name {
+  font-size: clamp(28px, 3.6vw, 40px);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  margin-top: 8px;
+}
+
+.m-title-zh {
+  margin-top: 6px;
+  font-size: 16px;
+  color: var(--cream-dim);
+  letter-spacing: 0.2em;
+}
+
+.m-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.m-badge {
+  font-family: var(--sans);
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  padding: 4px 12px;
+  border-radius: 999px;
+  border: 1px solid var(--panel-border);
+  color: var(--cream-dim);
+}
+
+.m-quote {
+  margin-top: 20px;
+  padding-left: 14px;
+  border-left: 2px solid var(--gold);
+  font-size: 17px;
+  color: var(--gold);
+  letter-spacing: 0.05em;
+}
+
+.m-lore {
+  margin-top: 14px;
+  font-size: 15px;
+  line-height: 1.95;
+  color: var(--cream-dim);
+  text-align: justify;
+}
+
+.m-stats { margin-top: 20px; display: grid; gap: 10px; }
+
+.m-stat {
+  display: grid;
+  grid-template-columns: 44px 1fr 26px;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--sans);
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  color: var(--cream-dim);
+}
+
+.m-stat-track {
+  height: 5px;
+  border-radius: 3px;
+  background: rgba(236, 227, 207, 0.1);
+  overflow: hidden;
+}
+
+.m-stat-fill {
+  display: block;
+  height: 100%;
+  border-radius: 3px;
+  background: var(--gold);
+}
+
+/* ------------------------------------------------------------- 响应式 */
+@media (max-width: 860px) {
+  .wow-header { flex-wrap: wrap; justify-content: center; }
+  .wow-brand { order: -1; flex-basis: 100%; }
+  .view-body { flex-direction: column; justify-content: flex-start; }
+  .tilt { height: auto; width: min(88vw, 420px); }
+  .meta { max-width: min(88vw, 560px); }
+  .wow-grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); }
+}

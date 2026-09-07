@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>herocards — 烫金浮雕收藏卡 · 华夏人物图鉴 × 艾泽拉斯英雄志</title>
+<meta name="description" content="herocards 双主题展示：华夏人物图鉴（二十四先贤掐丝珐琅卡 · 每日一晤）与艾泽拉斯英雄志（魔兽世界英雄烫金浮雕卡）。">
+<link rel="icon" href="assets/icon.svg" type="image/svg+xml">
+<style>
+@font-face {
+  font-family: 'Ma Shan Zheng';
+  src: url('assets/fonts/MaShanZheng-subset.woff2') format('woff2');
+  font-weight: 400;
+  font-display: swap;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { height: 100%; }
+body {
+  font-family: 'Noto Serif SC', 'Songti SC', 'SimSun', serif;
+  background: #0a0d14;
+  color: #ece3cf;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+.brand-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px clamp(18px, 4vw, 44px);
+  font-size: 13px;
+  letter-spacing: 0.22em;
+  color: #918a78;
+}
+.brand-bar .logo { color: #c8a55a; letter-spacing: 0.3em; font-weight: 700; }
+.portal {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2px;
+  background: rgba(236, 227, 207, 0.12);
+  border-top: 1px solid rgba(236, 227, 207, 0.12);
+  border-bottom: 1px solid rgba(236, 227, 207, 0.12);
+}
+.door {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  padding: clamp(28px, 6vw, 64px) clamp(18px, 4vw, 48px);
+  text-decoration: none;
+  overflow: hidden;
+  transition: filter .25s ease;
+  text-align: center;
+}
+.door:hover { filter: brightness(1.08); }
+.door-guofeng {
+  background:
+    radial-gradient(900px 500px at 50% -10%, rgba(157, 34, 34, 0.10), transparent 60%),
+    #f5efe2;
+  color: #3a3128;
+}
+.door-wow {
+  background:
+    radial-gradient(900px 500px at 50% -10%, rgba(105, 204, 240, 0.10), transparent 60%),
+    #0a0d14;
+  color: #ece3cf;
+}
+.door .eyebrow {
+  font-size: 12px;
+  letter-spacing: 0.5em;
+  text-indent: 0.5em;
+}
+.door-guofeng .eyebrow { color: #9d2222; }
+.door-wow .eyebrow {
+  color: #c8a55a;
+  font-family: 'Cinzel', 'Noto Serif SC', serif;
+  text-transform: uppercase;
+}
+.door h2 {
+  font-size: clamp(30px, 5vw, 52px);
+  letter-spacing: 0.16em;
+  font-weight: 700;
+}
+.door-guofeng h2 {
+  font-family: 'Ma Shan Zheng', 'Noto Serif SC', serif;
+  font-weight: 400;
+  color: #2c2620;
+}
+.door-wow h2 {
+  background: linear-gradient(160deg, #f4e9c8, #c8a55a 55%, #8a6d35);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.door .desc {
+  font-size: 14px;
+  line-height: 2;
+  letter-spacing: 0.1em;
+  max-width: 30em;
+}
+.door-guofeng .desc { color: #6b5f4e; }
+.door-wow .desc { color: #918a78; }
+.door .enter {
+  margin-top: 10px;
+  font-size: 13px;
+  letter-spacing: 0.3em;
+  text-indent: 0.3em;
+  padding: 10px 26px;
+  border-radius: 999px;
+  transition: transform .25s ease;
+}
+.door:hover .enter { transform: translateX(4px); }
+.door-guofeng .enter {
+  color: #f5efe2;
+  background: #9d2222;
+  box-shadow: 0 6px 18px rgba(157, 34, 34, 0.35);
+}
+.door-wow .enter {
+  color: #0a0d14;
+  background: #c8a55a;
+  box-shadow: 0 6px 18px rgba(200, 165, 90, 0.3);
+}
+.door .seal {
+  width: 54px;
+  height: 54px;
+  display: grid;
+  place-items: center;
+  font-size: 26px;
+  border-radius: 8px;
+}
+.door-guofeng .seal {
+  font-family: 'Ma Shan Zheng', serif;
+  color: #f5efe2;
+  background: #9d2222;
+  transform: rotate(-3deg);
+}
+.door-wow .seal {
+  color: #c8a55a;
+  border: 1px solid rgba(200, 165, 90, 0.5);
+  font-family: 'Cinzel', serif;
+}
+.foot {
+  padding: 16px;
+  text-align: center;
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  color: #5d5748;
+}
+.foot a { color: #918a78; text-decoration: none; }
+@media (max-width: 720px) {
+  .portal { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+<header class="brand-bar">
+  <span class="logo">HEROCARDS</span>
+  <span>烫金浮雕收藏卡</span>
+</header>
+
+<main class="portal">
+  <a class="door door-guofeng" href="app.html">
+    <span class="seal">签</span>
+    <p class="eyebrow">一卡一传</p>
+    <h2>华夏人物图鉴</h2>
+    <p class="desc">二十四先贤掐丝珐琅收藏卡：帝王将相、文人奇士，每张卡附生平行旅图，可在 2.5D 山河地图上重走其人生路。</p>
+    <span class="enter">进入图鉴</span>
+  </a>
+  <a class="door door-wow" href="wow.html">
+    <span class="seal">A</span>
+    <p class="eyebrow">Heroes of Azeroth</p>
+    <h2>艾泽拉斯英雄志</h2>
+    <p class="desc">魔兽世界二十四位英雄的烫金浮雕收藏卡：联盟、部落与中立传说，油画肖像与全幅金线蚀刻卡面。</p>
+    <span class="enter">进入英雄志</span>
+  </a>
+</main>
+
+<footer class="foot">
+  <p>herocards · WebGL 烫金浮雕卡牌实验 <a href="https://github.com/coolbat/herocards">GitHub</a></p>
+</footer>
+</body>
+</html>

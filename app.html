@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>华夏人物图鉴 — 二十四先贤掐丝珐琅收藏卡 · herocards</title>
+<meta name="description" content="华夏人物图鉴：二十四先贤掐丝珐琅收藏卡与生平行旅图，帝王将相文人奇士，一卡一传。">
+<link rel="icon" href="assets/icon.svg" type="image/svg+xml">
+<!-- 国风题款/匾额毛笔体：本地子集（Ma Shan Zheng, SIL OFL），离线可用 -->
+<style>@font-face { font-family: 'Ma Shan Zheng'; src: url('assets/fonts/MaShanZheng-subset.woff2') format('woff2'); font-weight: 400; font-display: swap; }</style>
+<link rel="stylesheet" href="css/guofeng.css">
+</head>
+<body>
+
+<header class="gf-header">
+  <a class="gf-home" href="index.html" aria-label="返回首页">‹ herocards</a>
+  <div class="gf-brand">
+    <span class="gf-plaque">华夏人物图鉴</span>
+    <p class="gf-brand-sub">二十四先贤 · 掐丝珐琅收藏卡</p>
+  </div>
+  <div class="gf-count" id="count" aria-live="polite">24 位先贤</div>
+</header>
+
+<nav class="gf-chips" id="chips" aria-label="门类筛选">
+  <button class="chip is-active" data-f="all" type="button">全部</button>
+  <button class="chip chip-emperor" data-f="emperor" type="button">帝王</button>
+  <button class="chip chip-general" data-f="general" type="button">将相</button>
+  <button class="chip chip-literati" data-f="literati" type="button">文人</button>
+  <button class="chip chip-savant" data-f="savant" type="button">奇士</button>
+</nav>
+
+<main class="gf-grid" id="grid" aria-label="先贤卡墙"></main>
+
+<footer class="gf-footer">
+  <p>掐丝珐琅卡面由 WebGL 烫金浮雕管线实时渲染 · 详情页可探索生平行旅图</p>
+  <p><a href="wow.html">艾泽拉斯英雄志 ›</a></p>
+</footer>
+
+<!-- 先贤详情（整页视图，非弹层）：大卡片 + 列传资料 -->
+<section class="view" id="view" hidden aria-label="先贤详情">
+  <button class="view-back" id="viewBack" type="button">‹ 卡墙</button>
+  <div class="view-body">
+    <div class="stage" id="stage">
+      <div class="tilt" id="tilt">
+        <canvas class="card-canvas" id="cardCanvas" width="1329" height="2048"></canvas>
+        <div class="shine" aria-hidden="true"></div>
+      </div>
+    </div>
+    <aside class="meta">
+      <p class="m-title-en" id="mTitleEn"></p>
+      <h2 class="m-name" id="mName"></h2>
+      <p class="m-title-zh" id="mTitleZh"></p>
+      <div class="m-badges" id="mBadges"></div>
+      <blockquote class="m-quote" id="mQuote"></blockquote>
+      <p class="m-lore" id="mLore"></p>
+      <div class="m-stats" id="mStats"></div>
+      <button class="explore-btn" id="exploreBtn" type="button" hidden>探 索 生 平 行 旅</button>
+    </aside>
+  </div>
+</section>
+
+<!-- 生平行旅图（整页视图）：AtlasMap 统一投影大地图 -->
+<section class="view-map" id="viewMap" hidden aria-label="生平行旅图">
+  <div class="map-head">
+    <button class="view-back view-back-map" id="mapBack" type="button">‹ 返回</button>
+    <span class="map-title" id="mapTitle"></span>
+  </div>
+  <div class="atlas-mount" id="atlasMount"></div>
+</section>
+
+<script>
+/* 展示页驱动配置（js/showcase.js 消费） */
+window.SHOWCASE = {
+  theme: 'guofeng',
+  gridEl: 'grid',
+  chipsEl: 'chips',
+  countEl: 'count',
+  chipField: 'group',
+  countUnit: '位先贤',
+  chipLabels: { emperor: '帝王', general: '将相', literati: '文人', savant: '奇士' },
+  badges: function (hero) {
+    return [
+      [hero.race && hero.race.zh, '#9D2222'],
+      [(window.SHOWCASE.chipLabels)[hero.group], '#8A6D35']
+    ];
+  },
+  subtitle: function (hero) { return hero.title.zh; },
+  titleEn: function (hero) { return hero.title.en; },
+  statLabels: { might: '武力', magic: '才华', resolve: '意志' },
+  statColor: function () { return '#9D2222'; },
+  fonts: [
+    '400 46px "Ma Shan Zheng"',
+    '400 22px "Ma Shan Zheng"',
+    '700 40px "Noto Serif SC"'
+  ],
+  miniMode: 'thumb',
+  thumbSrc: function (hero) {
+    return 'assets/portraits/thumbs/' + hero.id + '-falang-full.webp';
+  },
+  hasMap: true
+};
+</script>
+<script src="js/heroes-data.js"></script>
+<script src="js/card-art.js"></script>
+<script src="js/atlas-data.js"></script>
+<script src="js/map-geometry.js"></script>
+<script src="js/atlas-map.js"></script>
+<script src="js/showcase.js"></script>
+</body>
+</html>
